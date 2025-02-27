@@ -1,5 +1,6 @@
 const AppointmentDB = require('../models/appointmentmodel');
 const WorkoutDB = require('../models/workoutmodel')
+const NutritionDB = require('../models/nutritionmodel')
 
 
 exports.updateBooking= async (req,res)=>{
@@ -82,5 +83,19 @@ exports.deleteWorkout = async(req,res)=>{
     } catch (error) {
         res.status(500).json({message:"Failed to delete workouts", error:error.message})
  
+    }
+}
+
+exports.viewUserNutrition= async(req,res)=>{
+    try {
+       const {userId} = req.params
+       const userNutrition =  await NutritionDB.findOne(userId)
+
+       if(!userNutrition){
+        return res.status(404).json({message:"no nutrion found for the user"})
+       }
+       res.status(200).json({ nutrition: userNutrition });
+    } catch (error) {
+      res.status(500).json({message:"failed fecth nutrition logs"})  
     }
 }

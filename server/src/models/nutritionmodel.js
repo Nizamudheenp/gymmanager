@@ -4,14 +4,16 @@ const nutritionSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "users", required: true },
     meals: [
         {
-            mealType: String,
-            calories: Number,
-            protein: Number,
-            carbs: Number,
-            fats: Number
+            foodName: { type: String, required: true }, 
+            portionSize: { type: String, required: true }, 
+            calories: { type: Number, required: true }, 
+            protein: { type: Number, required: true },  
+            carbs: { type: Number, required: true },  
+            fats: { type: Number, required: true },
+            date: { type: Date, default: Date.now }
         }
     ],
-    date: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("nutritions", nutritionSchema);

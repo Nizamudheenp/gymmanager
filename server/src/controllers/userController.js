@@ -1,5 +1,7 @@
 const AppointmentDB = require('../models/appointmentmodel')
 const WorkoutDB = require('../models/workoutmodel')
+const getNutrition = require('../utilities/nutritionfetch')
+const NutritionDB = require('../models/nutritionmodel')
 
 exports.bookSession = async (req,res)=>{
     try {
@@ -64,5 +66,37 @@ exports.updateStatus = async (req,res)=>{
     } catch (error) {
         res.status(500).json({ message: "Failed to update workout", error: error.message });
 
+    }
+}
+
+exports.logMeal = async (req,res)=>{
+    try {
+        const {foodName, portionSize} = req.body;
+        if(!foodName && !portionSize){
+            return res.status(400).json({message:"foodname and portion size are required"})
+        }
+        const nutritionData = await getNutrition(foodName,portionSize)
+        if(!nutritionData){
+            return res.status(404).json({ message: "Food item not found in USDA database." });
+        }
+        let nutritionLog = await NutritionDB.findOne({ userId: req.user.id });
+        if (!nutritionLog) {
+            nutritionLog = new NutritionDB({ userId: req.user.id, meals: [] });
+        }
+        nutritionLog.meals.push({
+            foodName,
+            portionSize,
+            calories: nutritionData.calories,
+            protein: nutritionData.protein,
+            carbs: nutritionData.carbs,
+            fats: nutritionData.fats
+        });
+
+        await nutritionLog.save();
+        res.status(201).json({  message: "Meal logged successfully", nutrition: nutritionLog });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to log meal", error: error.message });
+  
     }
 }
