@@ -1,6 +1,7 @@
 const AppointmentDB = require('../models/appointmentmodel');
 const WorkoutDB = require('../models/workoutmodel')
 const NutritionDB = require('../models/nutritionmodel')
+const SessionDB = require('../models/sessionmodel')
 
 
 exports.updateBooking= async (req,res)=>{
@@ -97,5 +98,25 @@ exports.viewUserNutrition= async(req,res)=>{
        res.status(200).json({ nutrition: userNutrition });
     } catch (error) {
       res.status(500).json({message:"failed fecth nutrition logs"})  
+    }
+}
+
+exports.createSession = async (req,res)=>{
+    try {
+        const {sessionName, workoutType, date, maxParticipants,workouts }= req.body
+        const trainerId = req.trainer.id;
+        const newSession = await SessionDB.create({
+            trainerId,
+            sessionName,
+            workoutType,
+            date,
+            maxParticipants,
+            workouts 
+        })
+        res.status(201).json({ message: "Session created successfully", session: newSession });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to create session", error: error.message });
+  
     }
 }

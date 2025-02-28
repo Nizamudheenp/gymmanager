@@ -6,9 +6,12 @@ require('dotenv').config()
 
 const userAuth = async (req,res,next) =>{
     try {
-        const token = req.header('Authorization')
+        let token = req.header('Authorization')
         if(!token){
             return res.status(401).json({message: "Access denied. No token provided." });
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.replace("Bearer ", ""); 
         }
         const decoded = JWT.verify(token,process.env.JWT_CODE)
 
@@ -32,9 +35,12 @@ const userAuth = async (req,res,next) =>{
 
 const trainerAuth = async (req,res,next) =>{
     try {
-        const token = req.header('Authorization')
+        let token = req.header('Authorization')
         if(!token){
             return res.status(401).json({message: "Access denied. No token provided." });
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.replace("Bearer ", ""); 
         }
         const decoded = JWT.verify(token,process.env.JWT_CODE)
 
@@ -59,9 +65,12 @@ const trainerAuth = async (req,res,next) =>{
 
 const adminAuth = async (req,res,next) =>{
     try {
-        const token = req.header('Authorization')
+        let token = req.header('Authorization')
         if(!token){
             return res.status(401).json({message: "Access denied. No token provided." });
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.replace("Bearer ", ""); 
         }
         const decoded = JWT.verify(token,process.env.JWT_CODE)
 
@@ -81,8 +90,38 @@ const adminAuth = async (req,res,next) =>{
     }
 }
 
+const userORtrainerAuth = async (req,res,next)=>{
+    try {
+        let token = req.header('Authorization')
+        if(!token){
+            return res.status(401).json({message: "Access denied. No token provided." });
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.replace("Bearer ", ""); 
+        }
+        const decoded = JWT.verify(token,process.env.JWT_CODE)
+
+        const user = await UserDB.findById(decoded.id);
+        if (user) {
+            req.user = user;
+            return next();
+        }
+
+        const trainer = await TrainerDB.findById(decoded.id);
+        if (trainer) {
+            req.trainer = trainer; 
+            return next();
+        }
+
+        return res.status(403).json({ message: "Invalid authentication." });
+    } catch (error) {
+        res.status(500).json({message:'authentication failed', error: error})
+        console.log('server error',error.message);    
+    }
+}
 
 
 
 
-module.exports = {userAuth, trainerAuth,adminAuth}
+
+module.exports = {userAuth, trainerAuth,adminAuth,userORtrainerAuth}
