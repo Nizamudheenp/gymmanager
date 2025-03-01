@@ -2,6 +2,8 @@ const AppointmentDB = require('../models/appointmentmodel');
 const WorkoutDB = require('../models/workoutmodel')
 const NutritionDB = require('../models/nutritionmodel')
 const SessionDB = require('../models/sessionmodel')
+const TrainerDB = require("../models/trainermodel"); 
+const UserDB = require('../models/usermodel')
 
 
 exports.updateBooking= async (req,res)=>{
@@ -120,3 +122,25 @@ exports.createSession = async (req,res)=>{
   
     }
 }
+
+exports.getClientProgress = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const trainerId = req.trainer.id;
+
+        const user = await UserDB.findById(userId).select("progress");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isClient = await TrainerDB.findOne({ _id: trainerId, clients: userId });
+        if (!isClient) {
+            return res.status(403).json({ message: "You are not authorized to view this user's progress." });
+        }
+
+        res.json({ progress: user.progress });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to retrieve progress", error: error.message });
+    }
+};

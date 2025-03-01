@@ -9,6 +9,12 @@ const trainerSchema = new mongoose.Schema({
     certifications: [String], 
     verified: { type: Boolean, default: false }, 
     clients: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+    reviews: [{
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+        rating: { type: Number, required: true, min: 1, max: 5 },
+        comment: { type: String }
+    }],
+    averageRating: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 
