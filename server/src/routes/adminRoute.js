@@ -5,7 +5,7 @@ const { trainerApproval, getAllUsers, getAllTrainers, deleteUser, deleteTrainer,
 
 router.put('/approvetrainer/:id',adminAuth,trainerApproval)
 router.get('/getusers',adminAuth,getAllUsers)
-router.get('/getusers',adminAuth,getAllTrainers)
+router.get('/gettrainers',adminAuth,getAllTrainers)
 router.delete("/deleteuser/:id", adminAuth, deleteUser)
 router.delete("/deletetrainer/:id", adminAuth, deleteTrainer)
 router.get("/user-progress", adminAuth, getAllUserProgress);

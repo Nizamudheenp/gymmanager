@@ -10,6 +10,7 @@ const adminRoute = require('./src/routes/adminRoute')
 const userRoute = require('./src/routes/userRoute')
 const trainerRoute = require('./src/routes/trainerRoute')
 const messageRoute = require('./src/routes/messageRoute')
+
 const connectDB = require('./src/config/db')
 connectDB()
 

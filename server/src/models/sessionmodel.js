@@ -4,6 +4,7 @@ const sessionSchema = new mongoose.Schema({
     trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "trainer", required: true },
     sessionName: { type: String, required: true },
     workoutType: { type: String, required: true },
+    image : {type:String,required:true},
     date: { type: Date, required: true },
     maxParticipants: { type: Number, required: true },
     status: { type: String, enum: ["available", "completed"], default: "available" },

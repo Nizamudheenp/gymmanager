@@ -3,7 +3,8 @@ const WorkoutDB = require('../models/workoutmodel')
 const NutritionDB = require('../models/nutritionmodel')
 const SessionDB = require('../models/sessionmodel')
 const TrainerDB = require("../models/trainermodel"); 
-const UserDB = require('../models/usermodel')
+const UserDB = require('../models/usermodel');
+const uploadCloudinary = require('../utilities/imageupload');
 
 
 exports.updateBooking= async (req,res)=>{
@@ -107,12 +108,17 @@ exports.createSession = async (req,res)=>{
     try {
         const {sessionName, workoutType, date, maxParticipants,workouts }= req.body
         const trainerId = req.trainer.id;
+        if(!req.file){
+            return res.status(404).json({message:"image not found"})
+        }
+        const cloudinaryResponse = await uploadCloudinary(req.file.path)
         const newSession = await SessionDB.create({
             trainerId,
             sessionName,
             workoutType,
             date,
             maxParticipants,
+            image:cloudinaryResponse,
             workouts 
         })
         res.status(201).json({ message: "Session created successfully", session: newSession });
