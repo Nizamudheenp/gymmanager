@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 require('dotenv').config()
 const http = require('http')
 const {Server}= require('socket.io')
@@ -16,11 +17,18 @@ connectDB()
 
 app.use(express.json());
 
+app.use(cors({
+    origin: "http://localhost:5173", 
+    credentials: true
+}));
+
 app.use('/api/auth',authRoute)
 app.use('/api/user', userRoute)
 app.use('/api/trainer', trainerRoute)
 app.use('/api/admin', adminRoute)
 app.use("/api/messages",messageRoute);
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const server = http.createServer(app)
 const io = new Server(server,{

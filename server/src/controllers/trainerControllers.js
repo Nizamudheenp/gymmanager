@@ -4,7 +4,7 @@ const NutritionDB = require('../models/nutritionmodel')
 const SessionDB = require('../models/sessionmodel')
 const TrainerDB = require("../models/trainermodel"); 
 const UserDB = require('../models/usermodel');
-const uploadCloudinary = require('../utilities/imageupload');
+const uploadCloudinary = require('../utilities/uploadCloudinary');
 
 
 exports.updateBooking= async (req,res)=>{

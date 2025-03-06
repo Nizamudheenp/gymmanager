@@ -1,15 +1,15 @@
 const express = require('express')
-const {userRegister, trainerRegister, userLogin, trainerLogin, adminLogin, adminRegister} = require('../controllers/authController')
+const {userRegister, trainerRegister, adminRegister, login} = require('../controllers/authController')
 const router = express.Router()
+const upload = require("../middleware/multer");
+
 
 
 
 router.post('/userRegister',userRegister)
-router.post('/userLogin',userLogin,)
-router.post('/trainerRegister',trainerRegister)
-router.post('/trainerLogin',trainerLogin,)
+router.post('/trainerRegister',upload.single("certifications"), trainerRegister)
 router.post('/adminRegister',adminRegister)
-router.post('/adminLogin',adminLogin,)
+router.post('/login',login)
 
 
 
