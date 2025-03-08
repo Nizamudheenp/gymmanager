@@ -5,17 +5,24 @@ import { loginUser } from "../../redux/slices/AuthSlice";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [unverifiedError, setUnverifiedError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, role, token } = useSelector((state) => state.auth);
+  const { loading, error, role, token ,verified} = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (token && role) {
-      if (role === "user") navigate("/user-dashboard");
-      if (role === "trainer") navigate("/trainer-dashboard");
-      if (role === "admin") navigate("/admin-dashboard");
+      if (role === "user" ) navigate("/user-dashboard");
+      if (role === "trainer"){
+        if (!verified) {
+          setUnverifiedError("Your account is not verified yet. Please wait for admin approval.");
+        } else {
+          navigate("/trainer-dashboard");
+        }
+      }
+      if (role === "admin" ) navigate("/admin-dashboard");
     }
-  }, [role, token, navigate]);
+  }, [role, token,verified, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,7 +36,11 @@ function Login() {
   return (
     <div className="container mt-5">
       <h2 className="text-center">Login</h2>
+
       {error && <p className="text-danger">{error}</p>}
+      
+      {unverifiedError && <p className="text-danger">{unverifiedError}</p>} 
+
       <form onSubmit={handleSubmit} className="mt-4">
         <div className="mb-3">
           <label className="form-label">Email</label>

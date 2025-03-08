@@ -11,15 +11,19 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loginSuccess } from "./redux/slices/AuthSlice";
+import AdminHome from "./pages/AdminDashboard/AdminHome";
+import ManageTrainers from "./pages/AdminDashboard/ManageTrainers";
+import ManageUsers from "./pages/AdminDashboard/ManageUsers";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
+    const verified = localStorage.getItem("verified") === "true";
 
     if (token && role) {
-      dispatch(loginSuccess({ token, role })); 
+      dispatch(loginSuccess({ token, role,verified  })); 
     }
   }, [dispatch]);
   return (
@@ -53,8 +57,12 @@ const App = () => {
             <ProtectedRoute role="admin">
               <AdminDashboard />
             </ProtectedRoute>
-          }
-        />
+          }>
+          <Route index element={<AdminHome />} />
+          <Route path="manage-trainers" element={<ManageTrainers />} />
+          <Route path="manage-users" element={<ManageUsers />} />
+        </Route>
+        
       </Routes>
     </Router>
   )

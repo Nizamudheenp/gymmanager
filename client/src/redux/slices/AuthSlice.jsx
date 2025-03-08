@@ -4,6 +4,7 @@ import axios from "axios"
 const initialState = {
     token: localStorage.getItem("token") || null, 
     role: localStorage.getItem("role") || null, 
+    verified: localStorage.getItem("verified") === "true" || null,
     loading: false, 
     error: null,
 }
@@ -15,19 +16,27 @@ const authSlice = createSlice({
           loginSuccess: (state, action) => {
             state.token = action.payload.token;
             state.role = action.payload.role;
+            state.verified = action.payload.verified || null;
+            if(action.payload.verified === true){
             localStorage.setItem("token", action.payload.token);
             localStorage.setItem("role", action.payload.role);
+            localStorage.setItem("verified", action.payload.verified);
+            }
+            
           },
           loginFailure: (state, action) => {
             state.token = null;
             state.role = null;
+            state.verified = null;
             state.error = action.payload;
           },
           logout: (state) => {
             state.token = null;
             state.role = null;
+            state.verified = null;
             localStorage.removeItem("token");
             localStorage.removeItem("role");
+            localStorage.removeItem("verified");
           }, 
     }
 })

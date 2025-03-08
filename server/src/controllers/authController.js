@@ -108,15 +108,18 @@ const login = async (req, res) => {
   
       let user = await UserDB.findOne({ email });
       let role = "user"; 
+      let verified = true;
   
       if (!user) {
         user = await TrainerDB.findOne({ email });
+        verified = user?.verified || false;
         role = "trainer";
       }
   
       if (!user) {
         user = await AdminDB.findOne({ email });
         role = "admin";
+        verified = true;
       }
   
       if (!user) {
@@ -134,7 +137,7 @@ const login = async (req, res) => {
         { expiresIn: "1d" }
       );
   
-      res.json({ message: "Login successful", token, role });
+      res.json({ message: "Login successful", token, role,verified });
     } catch (error) {
       res.status(500).json({ message: "Login failed", error: error.message });
     }
