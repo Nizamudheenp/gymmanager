@@ -17,7 +17,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },
-      { path: "/trainer-dashboard/manage-workouts", label: "Manage Workouts", icon: <FaDumbbell /> },
+      { path: "/trainer-dashboard/manage-sessions", label: "Manage sessions", icon: <FaDumbbell /> },
     ],
     admin: [
       { path: "/admin-dashboard", label: "Home", icon: <FaHome /> },

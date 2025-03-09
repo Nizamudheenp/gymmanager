@@ -14,6 +14,8 @@ import { loginSuccess } from "./redux/slices/AuthSlice";
 import AdminHome from "./pages/AdminDashboard/AdminHome";
 import ManageTrainers from "./pages/AdminDashboard/ManageTrainers";
 import ManageUsers from "./pages/AdminDashboard/ManageUsers";
+import TrainerHome from "./pages/TrainerDashboard/TrainerHome";
+import ManageSessions from "./pages/TrainerDashboard/ManageSessions";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -49,8 +51,11 @@ const App = () => {
             <ProtectedRoute role="trainer">
               <TrainerDashboard />
             </ProtectedRoute>
-          }
-        />
+          }>
+            <Route index element={<TrainerHome />} />
+            <Route path="manage-sessions" element={<ManageSessions />} />
+          </Route>
+        
         <Route
           path="/admin-dashboard"
           element={

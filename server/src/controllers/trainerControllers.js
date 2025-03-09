@@ -93,25 +93,33 @@ exports.deleteWorkout = async(req,res)=>{
 exports.viewUserNutrition= async(req,res)=>{
     try {
        const {userId} = req.params
-       const userNutrition =  await NutritionDB.findOne(userId)
+       const userNutrition =  await NutritionDB.findOne({userId: userId} )
 
        if(!userNutrition){
         return res.status(404).json({message:"no nutrion found for the user"})
        }
        res.status(200).json({ nutrition: userNutrition });
     } catch (error) {
-      res.status(500).json({message:"failed fecth nutrition logs"})  
+      res.status(500).json({error:error.message})  
     }
 }
 
 exports.createSession = async (req,res)=>{
     try {
-        const {sessionName, workoutType, date, maxParticipants,workouts }= req.body
+        const {sessionName, workoutType, date, maxParticipants }= req.body
         const trainerId = req.trainer.id;
         if(!req.file){
             return res.status(404).json({message:"image not found"})
         }
         const cloudinaryResponse = await uploadCloudinary(req.file.path)
+        let workouts = [];
+        if (req.body.workouts) {
+            try {
+                workouts = JSON.parse(req.body.workouts);
+            } catch (error) {
+                return res.status(400).json({ message: "Invalid workouts format" });
+            }
+        }
         const newSession = await SessionDB.create({
             trainerId,
             sessionName,
@@ -125,6 +133,8 @@ exports.createSession = async (req,res)=>{
 
     } catch (error) {
         res.status(500).json({ message: "Failed to create session", error: error.message });
+        console.error("Failed to create session:", error.message);
+
   
     }
 }

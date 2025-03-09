@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const sessionSchema = new mongoose.Schema({
-    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "trainer", required: true },
+    trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "trainers", required: true },
     sessionName: { type: String, required: true },
     workoutType: { type: String, required: true },
     image : {type:String,required:true},
