@@ -1,0 +1,206 @@
+                                             /* user register css */
+/* User Register Page - Dark Themed Style */
+.user-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("../assets/anastase-maragos-9dzWZQWZMdE-unsplash.jpg") no-repeat center center/cover;
+  }
+  
+  /* Glassmorphism Effect */
+  .user-register-box {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 30px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+  
+  .user-register-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: orange; /* Accent color */
+  }
+  
+  /* Input Fields */
+  .user-register-box .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .user-register-box .form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  /* Labels */
+  .user-register-box .form-label {
+    font-weight: bold;
+  }
+  
+  /* Dropdown */
+  .user-register-box select {
+    cursor: pointer;
+  }
+  
+  /* Register Button */
+  .user-register-box .btn-primary {
+    background: orange;
+    border: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .user-register-box .btn-primary:hover {
+    background: orangered;
+  }
+  
+  /* Placeholder Text */
+  .user-register-box ::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+                     /* trainer register css */
+
+
+  /* Trainer Register Page - Dark Themed Style */
+.trainer-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("../assets/anastase-maragos-9dzWZQWZMdE-unsplash.jpg") no-repeat center center/cover;
+  }
+  
+  /* Glassmorphism Effect */
+  .trainer-register-box {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 30px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+  
+  .trainer-register-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: orange; /* Accent color */
+  }
+  
+  /* Input Fields */
+  .trainer-register-box .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .trainer-register-box .form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  /* Labels */
+  .trainer-register-box .form-label {
+    font-weight: bold;
+  }
+  
+  /* File Upload Input */
+  .trainer-register-box input[type="file"] {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  /* Register Button */
+  .trainer-register-box .btn-primary {
+    background: orange;
+    border: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .trainer-register-box .btn-primary:hover {
+    background: orangered;
+  }
+  
+  /* Placeholder Text */
+  .trainer-register-box ::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+                                                    /* login css */
+
+  /* Login Page - Dark Themed */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("../assets/anastase-maragos-9dzWQWZMdE-unsplash.jpg") no-repeat center center/cover;
+  }
+  
+  /* Glassmorphism Effect */
+  .login-box {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 30px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+  
+  .login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: orange;
+  }
+  
+  /* Input Fields */
+  .login-box .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .login-box .form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  /* Labels */
+  .login-box .form-label {
+    font-weight: bold;
+  }
+  
+  /* Error Messages */
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Login Button */
+  .login-box .btn-primary {
+    background: orange;
+    border: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .login-box .btn-primary:hover {
+    background: orangered;
+  }
+  
+  /* Placeholder Text */
+  .login-box ::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  

@@ -1,27 +1,36 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
+import "./Components.css";
 
 function HomePage() {
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
+
   return (
     <>
-    <Nav fill variant="tabs" defaultActiveKey="/login">
-    <Nav.Item>
-      <Nav.Link href="/login">login</Nav.Link>
-    </Nav.Item>
-    
-  </Nav>
-    <div className="container text-center mt-5">
-      <h1>Welcome to Fitness Management System</h1>
-      <p>Track your fitness, book trainers, and manage your progress.</p>
+      {/* 🔹 Navbar (Fixed at the Top) */}
+      <nav className="navbar-custom" id='homepage-navbar'>
+        <Nav>
+          <Nav.Item>
+            <Nav.Link href="/">Home</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/login">Login</Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </nav>
 
-      <button className="btn btn-primary mt-4" onClick={() => navigate("/what-brings-you-here")}>
-        Get Started
-      </button>
-    </div>
+      {/* 🔹 Main Background Section */}
+      <div className="homapge-mainview">
+        <h1>Welcome to Fitness Management System</h1>
+        <p>Track your fitness, book trainers, and manage your progress.</p>
+
+        <button className="get-started-btn mt-4"  onClick={() => navigate("/what-brings-you-here")}>
+          Get Started
+        </button>
+      </div>
     </>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

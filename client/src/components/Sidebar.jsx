@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FaHome, FaDumbbell, FaClipboardList, FaUsers, FaBars } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/AuthSlice";
+import "./Components.css"
 
 function Sidebar({ isOpen, toggleSidebar }) {
   const location = useLocation();
@@ -27,28 +28,24 @@ function Sidebar({ isOpen, toggleSidebar }) {
   };
 
   return (
-    <>
-      <button className="toggle-btn" onClick={toggleSidebar}>
+    <>  
+    <button className="toggle-btn" onClick={toggleSidebar}>
         <FaBars />
       </button>
 
       <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-        <ul className="nav flex-column">
-          {isOpen &&
-            sidebarLinks[role]?.map((item) => (
-              <li key={item.path} className={`nav-item ${location.pathname === item.path ? "active" : ""}`}>
-                <Link to={item.path} className="nav-link">
-                  {item.icon} <span>{item.label}</span>
-                </Link>
-              </li>
-            ))}
+        <ul className="nav">
+          {sidebarLinks[role]?.map((item) => (
+            <li key={item.path} className={`sidebar-nav-item ${location.pathname === item.path ? "active" : ""}`}>
+              <Link to={item.path}>
+                {item.icon} <span>{item.label}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
-
-        {isOpen && (
-          <button className="btn btn-danger w-100 mt-3" onClick={() => dispatch(logoutUser())}>
-            Logout
-          </button>
-        )}
+        <button id="sidebar-logoutbtn" className="btn btn-danger" onClick={() => dispatch(logoutUser())}>
+          Logout
+        </button>
       </div>
     </>
   );

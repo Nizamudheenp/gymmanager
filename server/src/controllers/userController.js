@@ -9,7 +9,7 @@ const UserDB = require('../models/usermodel')
 
 exports.availableTrainers = async (req,res)=>{
     try {
-        const trainers = await TrainerDB.find({verified:true})
+        const trainers = await TrainerDB.find({verified:true}).select("-password");
         if(!trainers){
            return res.status(404).json({message:"No Trainers Available"})
         }

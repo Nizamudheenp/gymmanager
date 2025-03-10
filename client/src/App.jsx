@@ -16,6 +16,8 @@ import ManageTrainers from "./pages/AdminDashboard/ManageTrainers";
 import ManageUsers from "./pages/AdminDashboard/ManageUsers";
 import TrainerHome from "./pages/TrainerDashboard/TrainerHome";
 import ManageSessions from "./pages/TrainerDashboard/ManageSessions";
+import UserHome from "./pages/UserDashboard/UserHome";
+import AvailableTrainers from "./pages/UserDashboard/Trainers";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -43,8 +45,11 @@ const App = () => {
             <ProtectedRoute role="user">
               <UserDashboard />
             </ProtectedRoute>
-          }
-        />
+          }>
+            <Route index element={<UserHome />} />
+            <Route path="trainers" element={<AvailableTrainers />} />
+
+        </Route>
         <Route
           path="/trainer-dashboard"
           element={
