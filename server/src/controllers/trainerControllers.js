@@ -2,114 +2,148 @@ const AppointmentDB = require('../models/appointmentmodel');
 const WorkoutDB = require('../models/workoutmodel')
 const NutritionDB = require('../models/nutritionmodel')
 const SessionDB = require('../models/sessionmodel')
-const TrainerDB = require("../models/trainermodel"); 
+const TrainerDB = require("../models/trainermodel");
 const UserDB = require('../models/usermodel');
 const uploadCloudinary = require('../utilities/uploadCloudinary');
 
 
-exports.updateBooking= async (req,res)=>{
+exports.updateBooking = async (req, res) => {
     try {
-    const { status } = req.body
-    const appointmentId = req.params.id;
+        const { appointmentId } = req.params;
+        const trainerId = req.trainer.id;
 
-    if(!status){
-        return res.status(400).json({message:"status is required"})
-     }
+        const appointment = await AppointmentDB.findOne({
+            _id: appointmentId,
+            trainerId: trainerId
+        });
 
-    const appointment = await AppointmentDB.findById(appointmentId)
-    if (!appointment){
-        return res.status(404).json({ message: "Appointment not found" });
-    } 
-    if (appointment.trainerId.toString() !== req.trainer.id) {
-        return res.status(403).json({ message: "Not authorized" });
-    }
+        if (!appointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
 
-    appointment.status = status;
-    await appointment.save();
+        appointment.status = "confirmed";
+        await appointment.save();
 
-    res.json({  message: `Session ${status}`, appointment });    
+        res.json({ message: "Appointment approved successfully", appointment });
     } catch (error) {
-        res.status(500).json({message: "booking updation failed", error: error.message });
- 
+        res.status(500).json({ message: "Failed to fetch appointments", error: error.message });
     }
 
 }
 
-exports.getAllBookings = async (req,res)=>{
+exports.getAllBookings = async (req, res) => {
     try {
         const appointments = await AppointmentDB.find({ trainerId: req.trainer.id })
-        .populate("userId", "username email"); 
+            .populate("userId", "username email");
         if (!appointments.length) {
             return res.status(404).json({ message: "No appointments found for this trainer." });
         }
 
-    res.json({  appointments });
+        res.json({ appointments });
     } catch (error) {
-        res.status(500).json({  message: "Failed to get trainer appointments", error: error.message });
+        res.status(500).json({ message: "Failed to get trainer appointments", error: error.message });
 
     }
-    
+
 }
 
-exports.assignWorkouts = async (req,res)=>{
+exports.assignWorkouts = async (req, res) => {
     try {
-        const {userId,exercises} =req.body
+        const { userId, exercises } = req.body
         const trainerId = req.trainer.id
-        if(!userId || !exercises){
-          return  res.status(400).json({message:"user id and exercises are required"})
-        }
-        const newWorkout = await WorkoutDB.create({
-            trainerId,
-            userId,
-            exercises,
-            status:"pending"
-        })
 
-        res.status(201).json({message:"workouts assigned successfully ",workout : newWorkout})
+        if (!userId || !exercises || exercises.length === 0) {
+            return res.status(400).json({ message: "User ID and at least one exercise are required" });
+        }
+
+        let existingWorkout = await WorkoutDB.findOne({ userId, trainerId });
+        if (existingWorkout) {
+            existingWorkout.exercises.push(...exercises);
+            await existingWorkout.save()
+            return res.status(200).json({ message: "Workout updated successfully", workout: existingWorkout });
+
+        } else {
+
+            const newWorkout = await WorkoutDB.create({
+                trainerId,
+                userId,
+                exercises,
+                status: "pending"
+            })
+            return res.status(201).json({ message: "workouts assigned successfully ", workout: newWorkout })
+
+        }
+
+
 
     } catch (error) {
-        res.status(500).json({message:"Failed to assign workouts", error:error.message})
+        res.status(500).json({ message: "Failed to assign workouts", error: error.message })
+
     }
 }
 
-exports.deleteWorkout = async(req,res)=>{
+exports.getUserWorkouts = async (req, res) => {
     try {
-        const workout = await WorkoutDB.findById(req.params.id)
-        if (!workout) {
-            return res.status(404).json({ message: "Workout not found" })
-        }
-        if (workout.trainerId.toString() !== req.trainer.id) {
-            return res.status(403).json({ message: "Not authorized" });
-        }
-        await WorkoutDB.findByIdAndDelete(req.params.id)
-        res.status(201).json({message:"workout deleted successfully"})
-
-    } catch (error) {
-        res.status(500).json({message:"Failed to delete workouts", error:error.message})
- 
-    }
-}
-
-exports.viewUserNutrition= async(req,res)=>{
-    try {
-       const {userId} = req.params
-       const userNutrition =  await NutritionDB.findOne({userId: userId} )
-
-       if(!userNutrition){
-        return res.status(404).json({message:"no nutrion found for the user"})
-       }
-       res.status(200).json({ nutrition: userNutrition });
-    } catch (error) {
-      res.status(500).json({error:error.message})  
-    }
-}
-
-exports.createSession = async (req,res)=>{
-    try {
-        const {sessionName, workoutType, date, maxParticipants }= req.body
+        const userId = req.params.userId;
         const trainerId = req.trainer.id;
-        if(!req.file){
-            return res.status(404).json({message:"image not found"})
+
+        const workouts = await WorkoutDB.find({ trainerId, userId });
+
+        if (!workouts.length) {
+            return res.status(404).json({ message: "No workouts found for this user" });
+        }
+        const formattedWorkouts = workouts.flatMap(workout => workout.exercises);
+
+        res.json({ workouts: formattedWorkouts });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch workouts", error: error.message });
+    }
+};
+
+exports.deleteWorkout = async (req, res) => {
+    try {
+        const { exerciseId } = req.params;
+
+
+        const workout = await WorkoutDB.findOne({ "exercises._id": exerciseId });
+
+        if (!workout) {
+            return res.status(404).json({ message: "Workout not found" });
+        }
+
+        workout.exercises = workout.exercises.filter(ex => ex._id.toString() !== exerciseId);
+        await workout.save();
+
+        res.json({ message: "Exercise deleted successfully", workout });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+
+
+
+
+exports.viewUserNutrition = async (req, res) => {
+    try {
+        const { userId } = req.params
+        const userNutrition = await NutritionDB.findOne({ userId: userId })
+
+        if (!userNutrition) {
+            return res.status(404).json({ message: "no nutrion found for the user" })
+        }
+        res.status(200).json({ nutrition: userNutrition });
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
+exports.createSession = async (req, res) => {
+    try {
+        const { sessionName, workoutType, date, maxParticipants } = req.body
+        const trainerId = req.trainer.id;
+        if (!req.file) {
+            return res.status(404).json({ message: "image not found" })
         }
         const cloudinaryResponse = await uploadCloudinary(req.file.path)
         let workouts = [];
@@ -126,8 +160,8 @@ exports.createSession = async (req,res)=>{
             workoutType,
             date,
             maxParticipants,
-            image:cloudinaryResponse,
-            workouts 
+            image: cloudinaryResponse,
+            workouts
         })
         res.status(201).json({ message: "Session created successfully", session: newSession });
 
@@ -135,7 +169,7 @@ exports.createSession = async (req,res)=>{
         res.status(500).json({ message: "Failed to create session", error: error.message });
         console.error("Failed to create session:", error.message);
 
-  
+
     }
 }
 
@@ -158,5 +192,24 @@ exports.getClientProgress = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ message: "Failed to retrieve progress", error: error.message });
+    }
+};
+
+exports.removeClient = async (req, res) => {
+    try {
+        const trainerId = req.trainer.id;
+        const userId = req.params.userId;
+
+        const appointment = await AppointmentDB.findOneAndDelete({ trainerId, userId });
+
+        if (!appointment) {
+            return res.status(404).json({ message: "Client not found" });
+        }
+
+        await TrainerDB.findByIdAndUpdate(trainerId, { $pull: { clients: userId } });
+
+        res.json({ message: "Client removed successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to remove client", error: error.message });
     }
 };

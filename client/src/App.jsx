@@ -17,7 +17,10 @@ import ManageUsers from "./pages/AdminDashboard/ManageUsers";
 import TrainerHome from "./pages/TrainerDashboard/TrainerHome";
 import ManageSessions from "./pages/TrainerDashboard/ManageSessions";
 import UserHome from "./pages/UserDashboard/UserHome";
-import AvailableTrainers from "./pages/UserDashboard/Trainers";
+import NutritionLog from "./pages/UserDashboard/Nutrition";
+import TrainingDashboard from "./pages/UserDashboard/Training";
+import ClientSession from "./pages/TrainerDashboard/Clientsession";
+import ManageWorkouts from "./pages/TrainerDashboard/ManageWorkouts";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,6 +42,8 @@ const App = () => {
         <Route path="/register/user" element={<UserRegister />} /> 
         <Route path="/register/trainer" element={<TrainerRegister />} />
 
+
+
         <Route
           path="/user-dashboard"
           element={
@@ -47,7 +52,10 @@ const App = () => {
             </ProtectedRoute>
           }>
             <Route index element={<UserHome />} />
-            <Route path="trainers" element={<AvailableTrainers />} />
+            <Route path="/user-dashboard/training" element={<TrainingDashboard />} />
+            <Route path="nutritions" element={<NutritionLog />} />
+
+
 
         </Route>
         <Route
@@ -59,8 +67,12 @@ const App = () => {
           }>
             <Route index element={<TrainerHome />} />
             <Route path="manage-sessions" element={<ManageSessions />} />
+            <Route path="manage-clients" element={<ClientSession />} />
+            <Route path="manage-workouts/:userId" element={<ManageWorkouts />} />
           </Route>
         
+
+
         <Route
           path="/admin-dashboard"
           element={

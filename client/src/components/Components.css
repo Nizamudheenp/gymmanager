@@ -140,24 +140,24 @@
   color: white;
 }
 
-.overlay {
+.what-brings-you-here .overlay {
   background: rgba(0, 0, 0, 0.6); /* Dark overlay for better text visibility */
   padding: 50px;
   border-radius: 10px;
 }
 
-.heading {
+.what-brings-you-here .heading {
   font-size: 2rem;
   margin-bottom: 20px;
   font-weight: bold;
 }
 
-.buttons {
+.what-brings-you-here .buttons {
   display: flex;
   gap: 20px;
 }
 
-.btn-option {
+.what-brings-you-here .btn-option {
   padding: 12px 20px;
   font-size: 1.1rem;
   border: none;
@@ -167,17 +167,17 @@
   font-weight: bold;
 }
 
-.user-btn {
+.what-brings-you-here .user-btn {
   background: #ff9800; /* Orange accent */
   color: black;
 }
 
-.trainer-btn {
+.what-brings-you-here .trainer-btn {
   background: #f44336; /* Reddish accent */
   color: white;
 }
 
-.btn-option:hover {
+.what-brings-you-here .btn-option:hover {
   opacity: 0.8;
   transform: scale(1.05);
 }
@@ -227,7 +227,7 @@
 }
 
 /* Navigation links */
-.nav {
+.sidebar .nav {
   width: 100%;
   padding: 10px;
   margin-top: 20px;
@@ -238,9 +238,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 90%; /* Consistent width */
-  padding: 10px 15px;
-  margin: 10px;
+  width: 100%; /* Consistent width */
+  padding: 15px 15px;
+  margin: 3px;
   transition: background 0.3s ease;
 }
 
@@ -277,7 +277,7 @@
   padding: 10px;
   position: absolute;
   bottom: 5px;
-  margin: 10px;
+  margin: 15px;
   font-size: 14px;
   transition: background 0.3s ease;
 }

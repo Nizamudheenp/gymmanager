@@ -21,13 +21,12 @@ exports.availableTrainers = async (req,res)=>{
 
 exports.bookTraining = async (req,res)=>{
     try {
-    const {trainerId,date}=req.body
+    const {trainerId}=req.body
     const userId = req.user.id
 
     const newAppointment = await AppointmentDB.create({
             userId,
             trainerId,
-            date,
             status: "pending"
     })
     await TrainerDB.findByIdAndUpdate(trainerId, {
@@ -46,7 +45,7 @@ exports.getAllBookings = async (req,res)=>{
         if (!appointments.length) {
             return res.status(404).json({ message: "No bookings found for this user." });
         }
-    res.json({  appointments });
+    res.json({ appointments });
     } catch (error) {
         res.status(500).json({  message: "Failed to get user appointments", error: error.message });
 
@@ -119,6 +118,18 @@ exports.logMeal = async (req,res)=>{
     } catch (error) {
         res.status(500).json({ message: "Failed to log meal", error: error.message });
   
+    }
+}
+
+exports.nutritionhistory = async (req,res)=>{
+    try {
+        const nutrition = await NutritionDB.find({userId:req.user.id})
+        if (nutrition.length === 0) {
+            return res.status(404).json({ message: "No nutrition found" });
+        }
+        res.json({nutrition}) 
+    } catch (error) {
+        res.status(500).json({message: "Failed to get history", error: error.message })
     }
 }
 

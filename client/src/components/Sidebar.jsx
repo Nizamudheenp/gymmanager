@@ -13,12 +13,13 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const sidebarLinks = {
     user: [
       { path: "/user-dashboard", label: "Home", icon: <FaHome /> },
-      { path: "/user-dashboard/workouts", label: "Workouts", icon: <FaDumbbell /> },
-      { path: "/user-dashboard/nutrition", label: "Nutrition", icon: <FaClipboardList /> },
+      { path: "/user-dashboard/training", label: "training", icon: <FaDumbbell /> },
+      { path: "/user-dashboard/nutritions", label: "Nutritions", icon: <FaClipboardList /> },
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },
       { path: "/trainer-dashboard/manage-sessions", label: "Manage sessions", icon: <FaDumbbell /> },
+      { path: "/trainer-dashboard/manage-clients", label: "clients", icon: <FaDumbbell /> },
     ],
     admin: [
       { path: "/admin-dashboard", label: "Home", icon: <FaHome /> },
