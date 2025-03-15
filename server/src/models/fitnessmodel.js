@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const fitnessSchema = new mongoose.Schema({
     userId : {type : mongoose.Schema.Types.ObjectId, ref:"users",required:true},
-    goalType :{type:String,enum:["weight loss", "weight gain","muscle gain",]},
+    goalType :{type:String, required:true},
     targetProgress:{type:Number,required:true},
     currentprogress:{type:Number,default:0},
     startDate: { type: Date, default: Date.now },

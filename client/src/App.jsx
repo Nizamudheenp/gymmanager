@@ -21,6 +21,8 @@ import NutritionLog from "./pages/UserDashboard/Nutrition";
 import TrainingDashboard from "./pages/UserDashboard/Training";
 import ClientSession from "./pages/TrainerDashboard/Clientsession";
 import ManageWorkouts from "./pages/TrainerDashboard/ManageWorkouts";
+import ClientNutrition from "./pages/TrainerDashboard/ClientNutrition";
+import Fitnessgoals from "./pages/UserDashboard/Fitnessgoals";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -54,6 +56,7 @@ const App = () => {
             <Route index element={<UserHome />} />
             <Route path="/user-dashboard/training" element={<TrainingDashboard />} />
             <Route path="nutritions" element={<NutritionLog />} />
+            <Route path="goals" element={<Fitnessgoals />} />
 
 
 
@@ -69,6 +72,7 @@ const App = () => {
             <Route path="manage-sessions" element={<ManageSessions />} />
             <Route path="manage-clients" element={<ClientSession />} />
             <Route path="manage-workouts/:userId" element={<ManageWorkouts />} />
+            <Route path="manage-nutritions/:userId" element={<ClientNutrition />} />
           </Route>
         
 

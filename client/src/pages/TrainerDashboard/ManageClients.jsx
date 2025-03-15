@@ -57,18 +57,24 @@ function ManageClients() {
           {clients
             .filter((client) => client.status === "confirmed")
             .map((client) => (
-              <div key={client._id} className="col-md-4 mb-4">
-                <div className="card shadow-sm p-3">
+              <div key={client._id} className="col-md-4 mb-4 ">
+                <div className="card shadow-sm p-3 ">
                   <h5>{client.userId.username}</h5>
                   <p>{client.userId.email}</p>
 
                   {/* Action Buttons */}
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex justify-content-between g-2">
                     <button
                       className="btn btn-warning btn-sm"
                       onClick={() => navigate(`/trainer-dashboard/manage-workouts/${client.userId._id}`)}
                       >
                       Workouts
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={() => navigate(`/trainer-dashboard/manage-nutritions/${client.userId._id}`)}
+                      >
+                      nutritions
                     </button>
                     <button className="btn btn-danger btn-sm" onClick={() => removeClient(client.userId._id)}>
                       Remove

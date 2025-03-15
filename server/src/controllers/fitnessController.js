@@ -38,7 +38,8 @@ exports.updateCurrentProgress = async (req,res)=>{
         }
         await Progress.save()
 
-        res.json({ message: "Progress updated", Progress });
+        res.json({ message: "Progress updated", Progress })
+        
     } catch (error) {
         res.status(500).json({message:"update progress failed", error:error.message})  
  

@@ -15,6 +15,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
       { path: "/user-dashboard", label: "Home", icon: <FaHome /> },
       { path: "/user-dashboard/training", label: "training", icon: <FaDumbbell /> },
       { path: "/user-dashboard/nutritions", label: "Nutritions", icon: <FaClipboardList /> },
+      { path: "/user-dashboard/goals", label: "goals", icon: <FaClipboardList /> },
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },
@@ -25,6 +26,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
       { path: "/admin-dashboard", label: "Home", icon: <FaHome /> },
       { path: "/admin-dashboard/manage-trainers", label: "manage trainers", icon: <FaUsers /> },
       { path: "/admin-dashboard/manage-users", label: "manage users", icon: <FaUsers /> },
+      
     ]
   };
 

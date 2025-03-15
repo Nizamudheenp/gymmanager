@@ -10,8 +10,8 @@ const router = express.Router()
 router.get('/availabletrainers',userAuth,availableTrainers) //done
 router.post('/booktrainer',userAuth,bookTraining) //done
 router.get('/getbookings',userAuth,getAllBookings) //done
-router.get('/getworkouts',userAuth,getworkouts)
-router.put('/updatestatus/:id',userAuth,updateStatus)
+router.get('/getworkouts',userAuth,getworkouts) //done
+router.put('/updatestatus/:id',userAuth,updateStatus) //done
 router.post('/logmeal',userAuth, logMeal) //done
 router.get('/nutritionhistory',userAuth, nutritionhistory) //done
 router.post('/setgoal',userAuth,setFitnessGoal)

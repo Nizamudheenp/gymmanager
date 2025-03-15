@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BookTraining from "./BookTraining";
 import MyBookings from "./MyBookings";
 import "./Training.css"
+import UserWorkouts from "./Workouts";
 
 
 function TrainingDashboard() {
@@ -27,12 +28,21 @@ function TrainingDashboard() {
               <p>View and manage your booked training sessions.</p>
             </div>
           </div>
+
+          <div className="col-md-6">
+            <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("workouts")}>
+              <h4>📋 My Workouts</h4>
+              <p>Engade with your trainer assigned workoutes.</p>
+            </div>
+          </div>
         </div>
       )}
 
       {/* Display Selected Widget */}
       {selectedWidget === "book" && <BookTraining />}
       {selectedWidget === "bookings" && <MyBookings />}
+      {selectedWidget === "workouts" && <UserWorkouts />}
+
       
     </div>
   );
