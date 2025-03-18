@@ -21,7 +21,7 @@ router.put('/updategoal/:id',userAuth,updateCurrentProgress)  //done
 router.get('/getgoals',userAuth,getUserGoals)  //done
 router.get('/getsessions',userAuth,getAvailableSessions) //done
 router.post('/booksession',userAuth,bookSession) //done
-router.get('/getsessiondetails/:sessionId',userAuth,getsessiondetails)
+router.get('/getsessiondetails/:sessionId',userAuth,getsessiondetails) //done
 router.post('/review/:trainerId',userAuth,addReview)
 router.get('/getreviews/:trainerId',getTrainerReviews)
 router.post('/logprogress' ,userAuth,logProgress)//done

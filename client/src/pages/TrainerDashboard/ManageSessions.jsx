@@ -154,7 +154,7 @@ function ManageSessions() {
                     )}
                   </ListGroup>
 
-                  <AddWorkout sessionId={session._id} refreshSessions={fetchTrainerSessions}/>
+                  <AddWorkout sessionId={session._id} refreshSessions={fetchTrainerSessions} />
                   <h6 className="mt-3">Workouts:</h6>
                   {session.workouts.length === 0 ? (
                     <p>No workouts added yet.</p>
@@ -162,12 +162,18 @@ function ManageSessions() {
                     <ul>
                       {session.workouts.map((w, index) => (
                         <li key={index}>
-                          {w.exercise} - {w.sets} Sets x {w.reps} Reps
+                          <p>{w.exercise} - {w.sets} Sets x {w.reps} Reps</p>
+                          {w.meetingLink && (
+                            <a href={w.meetingLink} target="_blank" rel="noopener noreferrer">
+                              📅 Join Meeting
+                            </a>
+                          )}
                         </li>
                       ))}
                     </ul>
+
                   )}
-                  
+
                 </Card.Body>
               </Card>
             </div>

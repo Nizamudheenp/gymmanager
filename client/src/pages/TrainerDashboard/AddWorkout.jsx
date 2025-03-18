@@ -6,6 +6,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
     const [exercise, setExercise] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
+    const [meetingLink, setMeetingLink] = useState("");
     const [workouts, setWorkouts] = useState([]);
     const token = localStorage.getItem("token");
 
@@ -16,10 +17,11 @@ function AddWorkout({ sessionId, refreshSessions }) {
             return;
         }
 
-        setWorkouts([...workouts, { exercise, sets: Number(sets), reps: Number(reps) }]);
+        setWorkouts([...workouts, { exercise, sets: Number(sets), reps: Number(reps), meetingLink }]);
         setExercise("");
         setSets("");
         setReps("");
+        setMeetingLink("");
     };
 
     // Submit Workouts to Backend
@@ -49,7 +51,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
     return (
         <>
 
-<style>
+            <style>
                 {`
                     .dark-input {
                         background-color: #343a40; 
@@ -64,58 +66,73 @@ function AddWorkout({ sessionId, refreshSessions }) {
                     }
                 `}
             </style>
-        
-        <Card className="bg-dark text-light border-warning shadow-lg p-3">
-            <h4 className="text-warning text-center">Add Workouts</h4>
 
-            <Form className="mt-3">
-                <Form.Group>
-                    <Form.Control
-                        type="text"
-                        placeholder="Exercise Name"
-                        value={exercise}
-                        onChange={(e) => setExercise(e.target.value)}
-                        className="dark-input"                    />
-                </Form.Group>
+            <Card className="bg-dark text-light border-warning shadow-lg p-3">
+                <h4 className="text-warning text-center">Workout Of The Day</h4>
 
-                <div className="d-flex gap-2">
-                    <Form.Control
-                        type="number"
-                        placeholder="Sets"
-                        value={sets}
-                        onChange={(e) => setSets(e.target.value)}
-                        className="dark-input"                    />
-                    <Form.Control
-                        type="number"
-                        placeholder="Reps"
-                        value={reps}
-                        onChange={(e) => setReps(e.target.value)}
-                        className="dark-input"                    />
-                </div>
+                <Form className="mt-3">
+                    <Form.Group>
+                        <Form.Control
+                            type="text"
+                            placeholder="Exercise Name"
+                            value={exercise}
+                            onChange={(e) => setExercise(e.target.value)}
+                            className="dark-input" />
+                    </Form.Group>
 
-                <Button variant="warning" className="mt-3 w-100" onClick={handleAddWorkout}>
-                    Add Workout
+                    <div className="d-flex gap-2">
+                        <Form.Control
+                            type="number"
+                            placeholder="Sets"
+                            value={sets}
+                            onChange={(e) => setSets(e.target.value)}
+                            className="dark-input" />
+                        <Form.Control
+                            type="number"
+                            placeholder="Reps"
+                            value={reps}
+                            onChange={(e) => setReps(e.target.value)}
+                            className="dark-input" />
+                    </div>
+                    <Form.Group>
+                        <Form.Control
+                            type="text"
+                            placeholder="Meeting Link (Zoom, Google Meet, etc.)"
+                            value={meetingLink}
+                            onChange={(e) => setMeetingLink(e.target.value)}
+                            className="dark-input"
+                        />
+                    </Form.Group>
+
+                    <Button variant="warning" className="mt-3 w-100" onClick={handleAddWorkout}>
+                        Add Workout
+                    </Button>
+                </Form>
+
+                {/* Show Added Workouts */}
+                {workouts.length > 0 && (
+                    <>
+                        <h6 className="text-warning mt-3">Workouts Added</h6>
+                        <ListGroup className="mb-3">
+                            {workouts.map((w, index) => (
+                                <div key={index}>
+                                    <p>{w.exercise} - {w.sets} Sets x {w.reps} Reps</p>
+                                    {w.meetingLink && (
+                                        <a href={w.meetingLink} target="_blank" rel="noopener noreferrer">
+                                            📅 Join Meeting
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+
+                        </ListGroup>
+                    </>
+                )}
+
+                <Button variant="warning" className="w-100 mt-2" onClick={handleSubmit}>
+                    Submit Workouts
                 </Button>
-            </Form>
-
-            {/* Show Added Workouts */}
-            {workouts.length > 0 && (
-                <>
-                    <h6 className="text-warning mt-3">Workouts Added</h6>
-                    <ListGroup className="mb-3">
-                        {workouts.map((w, index) => (
-                            <ListGroup.Item key={index} className="bg-dark text-light border-warning">
-                                {w.exercise} - {w.sets} Sets x {w.reps} Reps
-                            </ListGroup.Item>
-                        ))}
-                    </ListGroup>
-                </>
-            )}
-
-            <Button variant="warning" className="w-100 mt-2" onClick={handleSubmit}>
-                Submit Workouts
-            </Button>
-        </Card>
+            </Card>
         </>
     );
 }

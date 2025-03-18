@@ -15,9 +15,9 @@ router.delete('/removeclient/:userId',trainerAuth,removeClient) //done
 router.delete('/deleteworkout/:exerciseId',trainerAuth, deleteWorkout) //done
 router.get('/usernutrition/:userId',trainerAuth,viewUserNutrition) //done
 router.post('/createsession',trainerAuth,upload.single('image'),createSession) //done
-router.get("/mysessions", trainerAuth, getTrainerSessions);
-router.post('/addWorkoutToSession',trainerAuth,addWorkoutToSession)
-router.post('/approveSessionRequest',trainerAuth,approveSessionRequest)
+router.get("/mysessions", trainerAuth, getTrainerSessions);//done
+router.post('/addWorkoutToSession',trainerAuth,addWorkoutToSession) //done
+router.post('/approveSessionRequest',trainerAuth,approveSessionRequest) //done
 router.get('/getclientprogress/:userId',trainerAuth,getClientProgress)
 
 

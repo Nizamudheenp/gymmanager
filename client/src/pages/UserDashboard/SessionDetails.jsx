@@ -37,7 +37,7 @@ function SessionDetails() {
     <Container className="mt-4">
       <Card className="bg-dark text-white shadow-lg p-4">
         <h2 className="text-warning text-center">{session.sessionName}</h2>
-        <p className="text-muted text-center">
+        <p className="text-center">
           <strong>Trainer:</strong> {session.trainerId?.username}
         </p>
 
@@ -47,10 +47,23 @@ function SessionDetails() {
           session.workouts.map((workout) => (
             <Card key={workout._id} className="mb-3 bg-secondary text-white shadow-sm">
               <Card.Body>
-                <Card.Title className="text-warning">{workout.name}</Card.Title>
+                <Card.Title className="text-warning">{workout.exercise}</Card.Title>
                 <Card.Text>
                   <strong>Sets:</strong> {workout.sets} | <strong>Reps:</strong> {workout.reps}
                 </Card.Text>
+
+                {/* Meeting Link (if available) */}
+                {workout.meetingLink && (
+                  <a 
+                    href={workout.meetingLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="btn btn-warning w-100 mb-2"
+                  >
+                    📅 Join Meeting
+                  </a>
+                )}
+
                 <Button variant="outline-warning" className="w-100">
                   Mark as Done
                 </Button>
