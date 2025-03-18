@@ -16,6 +16,8 @@ function Sidebar({ isOpen, toggleSidebar }) {
       { path: "/user-dashboard/training", label: "training", icon: <FaDumbbell /> },
       { path: "/user-dashboard/nutritions", label: "Nutritions", icon: <FaClipboardList /> },
       { path: "/user-dashboard/goals", label: "goals", icon: <FaClipboardList /> },
+      { path: "/user-dashboard/progress", label: "progress", icon: <FaClipboardList /> },
+      { path: "/user-dashboard/session", label: "sessions", icon: <FaClipboardList /> },
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },

@@ -143,17 +143,16 @@ exports.createSession = async (req, res) => {
         const { sessionName, workoutType, date, maxParticipants } = req.body
         const trainerId = req.trainer.id;
         if (!req.file) {
-            return res.status(404).json({ message: "image not found" })
+            return res.status(404).json({ message: "Image is required" })
         }
-        const cloudinaryResponse = await uploadCloudinary(req.file.path)
-        let workouts = [];
-        if (req.body.workouts) {
-            try {
-                workouts = JSON.parse(req.body.workouts);
-            } catch (error) {
-                return res.status(400).json({ message: "Invalid workouts format" });
-            }
+        let cloudinaryResponse;
+        try {
+            cloudinaryResponse = await uploadCloudinary(req.file.path);
+        } catch (error) {
+            console.error("Cloudinary upload failed:", error);
+            return res.status(500).json({ message: "Failed to upload image" });
         }
+
         const newSession = await SessionDB.create({
             trainerId,
             sessionName,
@@ -161,7 +160,8 @@ exports.createSession = async (req, res) => {
             date,
             maxParticipants,
             image: cloudinaryResponse,
-            workouts
+            workouts:[],
+            bookings: []
         })
         res.status(201).json({ message: "Session created successfully", session: newSession });
 
@@ -172,6 +172,84 @@ exports.createSession = async (req, res) => {
 
     }
 }
+exports.approveSessionRequest = async (req, res) => {
+    try {
+        const { sessionId, userId, approvalStatus } = req.body;
+        const trainerId = req.trainer.id;
+
+        const session = await SessionDB.findById(sessionId);
+        if (!session || session.trainerId.toString() !== trainerId) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+
+        const booking = session.bookings.find(b => b.userId.toString() === userId);
+        if (!booking) return res.status(404).json({ message: "Booking request not found" });
+        if (booking.status === approvalStatus) {
+            return res.status(400).json({ message: `User is already ${approvalStatus}` });
+        }
+
+        const approvedCount = session.bookings.filter(b => b.status === "approved").length;
+        if (approvalStatus === "approved" && approvedCount >= session.maxParticipants) {
+            return res.status(400).json({ message: "Session is full. Cannot approve more users." });
+        }
+
+        booking.status = approvalStatus;
+        await session.save();
+
+        res.status(200).json({ message: `User ${approvalStatus} successfully.` });
+    } catch (error) {
+        res.status(500).json({ message: "Approval failed", error: error.message });
+    }
+};
+
+exports.addWorkoutToSession  = async (req,res)=>{
+    try {
+        const {sessionId, workouts}= req.body
+        const trainerId = req.trainer.id
+        const session = await SessionDB.findById(sessionId)
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (session.trainerId.toString() !== trainerId) {
+            return res.status(403).json({ message: "Unauthorized to modify this session" });
+        }
+        const approvedUsers = session.bookings.filter(b => b.status === "approved");
+        if (approvedUsers.length === 0) {
+            return res.status(400).json({ message: "No approved users yet. Cannot add workouts." });
+        }
+
+        if (!Array.isArray(workouts) || workouts.length === 0) {
+            return res.status(400).json({ message: "Invalid workout data. Provide an array of workouts." });
+        }
+        
+        workouts.forEach(workout => {
+            const existingWorkout = session.workouts.find(w => w.exercise.toLowerCase() === workout.exercise.toLowerCase());
+            if (!existingWorkout) {
+                session.workouts.push(workout);
+            }
+        });
+        await session.save();
+        res.status(200).json({ message: "Workouts added successfully", session });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to add workouts", error: error.message });
+
+    }
+}
+exports.getTrainerSessions = async (req, res) => {
+    try {
+        const trainerId = req.trainer.id; 
+
+        const sessions = await SessionDB.find({ trainerId });
+
+
+        res.status(200).json({ sessions });
+    } catch (error) {
+        console.error("Error fetching trainer sessions:", error);
+        res.status(500).json({ message: "Failed to fetch sessions", error: error.message });
+    }
+};
+
 
 exports.getClientProgress = async (req, res) => {
     try {

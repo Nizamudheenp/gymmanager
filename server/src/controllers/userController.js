@@ -148,48 +148,56 @@ exports.getAvailableSessions = async (req, res) => {
     }
 }
 
-exports.bookSession  =  async (req,res)=>{
+exports.bookSession = async (req, res) => {
     try {
-        const { sessionId } = req.body
-        const userId = req.user.id
+        const { sessionId } = req.body;
+        const userId = req.user.id;
 
-        const session = await SessionDB.findById(sessionId)
-        if (!session) {
-            return res.status(404).json({ message: "Session not found" })
+        const session = await SessionDB.findById(sessionId);
+        if (!session) return res.status(404).json({ message: "Session not found" });
+
+        // Check if user already requested this session
+        const existingBooking = session.bookings.find(b => b.userId.toString() === userId);
+        if (existingBooking) {
+            return res.status(400).json({ message: "You have already requested this session" });
         }
 
-        const existingAppointment = await AppointmentDB.findOne({ userId, sessionId })
-        if (existingAppointment) {
-            return res.status(400).json({ message: "You have already booked this session" })
-        }
+        // Add user as "pending" in session bookings
+        session.bookings.push({ userId, status: "pending" });
+        await session.save();
 
-        const newAppointment = await AppointmentDB.create({
-            userId,
-            trainerId: session.trainerId,
-            sessionId,
-            date: session.date,
-            status: "pending"
-        })
-
-        const assignedWorkouts = session.workouts.map(workout => ({
-            userId,
-            trainerId: session.trainerId,
-            exercise: workout.exercise,
-            sets: workout.sets,
-            reps: workout.reps,
-            status: "pending"  
-        }))
-        await WorkoutDB.insertMany(assignedWorkouts)
-        await TrainerDB.findByIdAndUpdate(session.trainerId, {
-            $addToSet: { clients: userId } 
-        });
-
-        res.status(201).json({ message: "Session booked successfully", appointment: newAppointment })  
+        res.status(200).json({ message: "Session request sent. Waiting for trainer approval." });
     } catch (error) {
         res.status(500).json({ message: "Booking failed", error: error.message });
- 
+    }
+};
+
+exports.getsessiondetails = async (req,res)=>{
+    try {
+        const sessionDetails = await SessionDB.findById(req.params.sessionId)
+      .populate("trainerId", "username") // Get trainer's name
+      .populate("workouts"); // Fetch assigned workouts
+
+      if (!sessionDetails) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+  
+      // Check if the user has booked and been approved
+      const userBooking = sessionDetails.bookings.find(
+        (booking) => booking.userId.toString() === req.user.id && booking.status === "approved"
+      );
+  
+      if (!userBooking) {
+        return res.status(403).json({ message: "You are not approved for this session" });
+      }
+  
+      res.json(sessionDetails);
+    } catch (error) {
+        console.error("Error fetching session details:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 }
+
 
 exports.addReview = async (req,res)=>{
     try {
@@ -291,4 +299,21 @@ exports.getTrainerReviews = async (req, res) => {
             res.status(500).json({ message: "Failed to retrieve progress", error: error.message });
         }
     };
+
+    exports.deleteProgress = async(req,res)=>{
+        try {
+            const user = await UserDB.findById(req.user.id);
+            if (!user) {
+              return res.status(404).json({ message: "User not found" });
+            }
+        
+            // Remove the progress entry by filtering the array
+            user.progress = user.progress.filter((entry) => entry._id.toString() !== req.params.progressId);
+        
+            await user.save();
+            res.json({ message: "Progress deleted successfully" });
+          } catch (err) {
+            res.status(500).json({ message: "Failed to delete progress" });
+          }
+    }
     

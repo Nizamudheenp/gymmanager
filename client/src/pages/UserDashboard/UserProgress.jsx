@@ -1,0 +1,143 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Button, Card, Form, Alert, Spinner } from "react-bootstrap";
+
+function UserProgress() {
+  const [progress, setProgress] = useState([]); // Store progress data
+  const [weight, setWeight] = useState("");
+  const [bodyFat, setBodyFat] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(null);
+  const [error, setError] = useState("");
+  const token = localStorage.getItem("token");
+
+  // Fetch progress history on component mount
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/getprogress`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setProgress(response.data.progress);
+      } catch (err) {
+        console.error("Error fetching progress:", err.response?.data?.message || err.message);
+      }
+    };
+    fetchProgress();
+  }, []);
+
+  // Handle form submission to log progress
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/logprogress`,
+        { weight, bodyFat },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Update progress list with the new entry
+      setProgress([...progress, response.data.progress.slice(-1)[0]]);
+      setWeight("");
+      setBodyFat("");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to log progress");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle delete progress entry
+  const handleDelete = async (progressId) => {
+    setDeleteLoading(progressId);
+    try {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/user/deleteprogress/${progressId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Remove deleted item from the local state
+      setProgress(progress.filter((entry) => entry._id !== progressId));
+    } catch (err) {
+      console.error("Failed to delete progress:", err.response?.data?.message || err.message);
+    } finally {
+      setDeleteLoading(null);
+    }
+  };
+
+  return (
+    <div className="container mt-4">
+      <Card className="p-4 shadow-sm bg-dark text-white">
+        <h2 className="text-center text-warning">Track Your Progress</h2>
+
+        {/* Form to Log Progress */}
+        <Form onSubmit={handleSubmit} className="mt-3">
+          <Form.Group className="mb-3">
+            <Form.Label>Weight (kg):</Form.Label>
+            <Form.Control
+              type="number"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              placeholder="Enter your weight"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Body Fat %:</Form.Label>
+            <Form.Control
+              type="number"
+              value={bodyFat}
+              onChange={(e) => setBodyFat(e.target.value)}
+              placeholder="Enter body fat percentage"
+              required
+            />
+          </Form.Group>
+
+          {error && <Alert variant="danger">{error}</Alert>}
+
+          <Button
+            type="submit"
+            variant="warning"
+            className="w-100"
+            disabled={loading}
+          >
+            {loading ? <Spinner animation="border" size="sm" /> : "Log Progress"}
+          </Button>
+        </Form>
+
+        {/* Display Progress History */}
+        <h3 className="mt-4 text-warning">Progress History</h3>
+        {progress.length > 0 ? (
+          <ul className="list-group mt-2">
+            {progress.map((entry) => (
+              <li
+                key={entry._id}
+                className="list-group-item d-flex justify-content-between align-items-center bg-secondary text-white"
+              >
+                <div>
+                  <strong>{entry.weight} kg</strong> - Body Fat: {entry.bodyFat}% - BMI: {entry.bmi} - Muscle Mass: {entry.muscleMass} kg
+                </div>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDelete(entry._id)}
+                  disabled={deleteLoading === entry._id}
+                >
+                  {deleteLoading === entry._id ? <Spinner animation="border" size="sm" /> : "Delete"}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-muted mt-2">No progress logged yet.</p>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+export default UserProgress;

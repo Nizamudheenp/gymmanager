@@ -14,6 +14,12 @@ const sessionSchema = new mongoose.Schema({
             sets: Number,
             reps: Number
         }
+    ],
+    bookings: [
+        {
+            userId : {type: mongoose.Schema.Types.ObjectId, ref: "users"},
+            status : {type: String, enum: ["pending","approved","rejected"], default: "pending"}
+        }
     ]
 });
 

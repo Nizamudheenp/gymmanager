@@ -23,6 +23,9 @@ import ClientSession from "./pages/TrainerDashboard/Clientsession";
 import ManageWorkouts from "./pages/TrainerDashboard/ManageWorkouts";
 import ClientNutrition from "./pages/TrainerDashboard/ClientNutrition";
 import Fitnessgoals from "./pages/UserDashboard/Fitnessgoals";
+import UserProgress from "./pages/UserDashboard/UserProgress";
+import Sessions from "./pages/UserDashboard/Sessions";
+import SessionDetails from "./pages/UserDashboard/SessionDetails";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -57,6 +60,10 @@ const App = () => {
             <Route path="/user-dashboard/training" element={<TrainingDashboard />} />
             <Route path="nutritions" element={<NutritionLog />} />
             <Route path="goals" element={<Fitnessgoals />} />
+            <Route path="progress" element={<UserProgress />} />
+            <Route path="session" element={<Sessions />} />
+            <Route path="sessiondetailes/:sessionId" element={<SessionDetails />} />
+
 
 
 
