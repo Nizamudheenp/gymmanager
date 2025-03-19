@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Card, Form, Alert, Spinner } from "react-bootstrap";
 
 function UserProgress() {
-  const [progress, setProgress] = useState([]); // Store progress data
+  const [progress, setProgress] = useState([]);
   const [weight, setWeight] = useState("");
   const [bodyFat, setBodyFat] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,7 @@ function UserProgress() {
   const [error, setError] = useState("");
   const token = localStorage.getItem("token");
 
-  // Fetch progress history on component mount
+  // Fetch progress history 
   useEffect(() => {
     const fetchProgress = async () => {
       try {
@@ -27,7 +27,6 @@ function UserProgress() {
     fetchProgress();
   }, []);
 
-  // Handle form submission to log progress
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -40,7 +39,6 @@ function UserProgress() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Update progress list with the new entry
       setProgress([...progress, response.data.progress.slice(-1)[0]]);
       setWeight("");
       setBodyFat("");
@@ -51,7 +49,6 @@ function UserProgress() {
     }
   };
 
-  // Handle delete progress entry
   const handleDelete = async (progressId) => {
     setDeleteLoading(progressId);
     try {
@@ -59,7 +56,6 @@ function UserProgress() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Remove deleted item from the local state
       setProgress(progress.filter((entry) => entry._id !== progressId));
     } catch (err) {
       console.error("Failed to delete progress:", err.response?.data?.message || err.message);

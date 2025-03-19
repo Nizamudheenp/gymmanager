@@ -31,7 +31,6 @@ function NutritionLog() {
     fetchMeals();
   }, [token]);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -44,7 +43,6 @@ function NutritionLog() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Update UI immediately after logging meal
       const newMeal = response.data.nutrition.meals.slice(-1)[0];
       setMeals((prevMeals) => [...prevMeals, newMeal]);
 
@@ -60,7 +58,6 @@ function NutritionLog() {
     <div className="container mt-4">
       <h2 className="text-center">Log Your Meals</h2>
 
-      {/* Error Message */}
       {error && <div className="alert alert-danger">{error}</div>}
 
       {/* Meal Logging Form */}

@@ -10,7 +10,6 @@ function AddWorkout({ sessionId, refreshSessions }) {
     const [workouts, setWorkouts] = useState([]);
     const token = localStorage.getItem("token");
 
-    // Add Workout to List
     const handleAddWorkout = () => {
         if (!exercise.trim() || !sets || !reps) {
             alert("Please fill all fields.");
@@ -24,7 +23,6 @@ function AddWorkout({ sessionId, refreshSessions }) {
         setMeetingLink("");
     };
 
-    // Submit Workouts to Backend
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (workouts.length === 0) {
@@ -40,8 +38,8 @@ function AddWorkout({ sessionId, refreshSessions }) {
             );
 
             alert(response.data.message);
-            setWorkouts([]); // Clear list after submission
-            refreshSessions(); // Refresh session data in ManageSessions
+            setWorkouts([]); 
+            refreshSessions(); 
         } catch (error) {
             console.error("Error adding workouts:", error);
             alert("Failed to add workouts.");

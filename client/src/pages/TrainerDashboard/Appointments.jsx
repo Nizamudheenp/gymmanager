@@ -42,48 +42,47 @@ function Appointments() {
     };
 
     return (
-            <div className="container mt-4">
-                {loading && <p>Loading appointments...</p>}
-                {error && <p className="text-danger">{error}</p>}
-    
-                {/* Pending Appointments Section */}
-                <div className="mt-4">
-                    <h4>Pending Approvals</h4>
-                    {appointments.filter((app) => app.status === "paid").length === 0 ? (
-                        <p>No pending approvals.</p>
-                    ) : (
-                        <ul className="list-group">
-                            {appointments
-                                .filter((app) => app.status === "paid")
-                                .map((appointment) => (
-                                    <li key={appointment._id} className="list-group-item d-flex justify-content-between align-items-center">
-                                        {appointment.userId.username} - {appointment.userId.email}
-                                        <button className="btn btn-success btn-sm" onClick={() => approveAppointment(appointment._id)}>
-                                            Approve
-                                        </button>
-                                    </li>
-                                ))}
-                        </ul>
-                    )}
-                </div>
-    
-                <div className="mt-4">
-                    <h4>My Clients</h4>
-                    {appointments.filter((app) => app.status === "confirmed").length === 0 ? (
-                        <p>No confirmed clients yet.</p>
-                    ) : (
-                        <ul className="list-group">
-                            {appointments
-                                .filter((app) => app.status === "confirmed")
-                                .map((appointment) => (
-                                    <li key={appointment._id} className="list-group-item">
-                                        {appointment.userId.username} - {appointment.userId.email}
-                                    </li>
-                                ))}
-                        </ul>
-                    )}
-                </div>
+        <div className="container mt-4">
+            {loading && <p>Loading appointments...</p>}
+            {error && <p className="text-danger">{error}</p>}
+
+            <div className="mt-4">
+                <h4>Pending Approvals</h4>
+                {appointments.filter((app) => app.status === "paid").length === 0 ? (
+                    <p>No pending approvals.</p>
+                ) : (
+                    <ul className="list-group">
+                        {appointments
+                            .filter((app) => app.status === "paid")
+                            .map((appointment) => (
+                                <li key={appointment._id} className="list-group-item d-flex justify-content-between align-items-center">
+                                    {appointment.userId.username} - {appointment.userId.email}
+                                    <button className="btn btn-success btn-sm" onClick={() => approveAppointment(appointment._id)}>
+                                        Approve
+                                    </button>
+                                </li>
+                            ))}
+                    </ul>
+                )}
             </div>
+
+            <div className="mt-4">
+                <h4>My Clients</h4>
+                {appointments.filter((app) => app.status === "confirmed").length === 0 ? (
+                    <p>No confirmed clients yet.</p>
+                ) : (
+                    <ul className="list-group">
+                        {appointments
+                            .filter((app) => app.status === "confirmed")
+                            .map((appointment) => (
+                                <li key={appointment._id} className="list-group-item">
+                                    {appointment.userId.username} - {appointment.userId.email}
+                                </li>
+                            ))}
+                    </ul>
+                )}
+            </div>
+        </div>
     );
 }
 

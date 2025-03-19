@@ -2,55 +2,55 @@ const AppointmentDB = require('../models/appointmentmodel')
 const WorkoutDB = require('../models/workoutmodel')
 const getNutrition = require('../utilities/nutritionfetch')
 const NutritionDB = require('../models/nutritionmodel')
-const TrainerDB = require("../models/trainermodel"); 
+const TrainerDB = require("../models/trainermodel");
 const SessionDB = require('../models/sessionmodel')
 const UserDB = require('../models/usermodel')
 
 
-exports.availableTrainers = async (req,res)=>{
+exports.availableTrainers = async (req, res) => {
     try {
-        const trainers = await TrainerDB.find({verified:true}).select("-password");
-        if(!trainers){
-           return res.status(404).json({message:"No Trainers Available"})
+        const trainers = await TrainerDB.find({ verified: true }).select("-password");
+        if (!trainers) {
+            return res.status(404).json({ message: "No Trainers Available" })
         }
-        res.status(200).json({trainers})
+        res.status(200).json({ trainers })
     } catch (error) {
-        res.status(500).json({ message: "trainers fetching failed", error: error.message });  
+        res.status(500).json({ message: "trainers fetching failed", error: error.message });
     }
 }
 
-exports.bookTraining = async (req,res)=>{
+exports.bookTraining = async (req, res) => {
     try {
-    const {trainerId}=req.body
-    const userId = req.user.id
-    const existingAppointment = await AppointmentDB.findOne({
-        userId,
-        trainerId
-    });
+        const { trainerId } = req.body
+        const userId = req.user.id
+        const existingAppointment = await AppointmentDB.findOne({
+            userId,
+            trainerId
+        });
 
-    if (existingAppointment) {
-        return res.status(400).json({ message: "You have already booked this trainer." });
-    }
-    const newAppointment = await AppointmentDB.create({
+        if (existingAppointment) {
+            return res.status(400).json({ message: "You have already booked this trainer." });
+        }
+        const newAppointment = await AppointmentDB.create({
             userId,
             trainerId,
             status: "pending"
-    })
-    await TrainerDB.findByIdAndUpdate(trainerId, {
-        $addToSet: { clients: userId } 
-    });
+        })
+        await TrainerDB.findByIdAndUpdate(trainerId, {
+            $addToSet: { clients: userId }
+        });
 
-    res.status(201).json({  message: "session booked", appointment: newAppointment });
+        res.status(201).json({ message: "session booked", appointment: newAppointment });
     } catch (error) {
         res.status(500).json({ message: "Booking failed", error: error.message });
 
-    }   
+    }
 }
 exports.getAllBookings = async (req, res) => {
     try {
         const appointments = await AppointmentDB.find({ userId: req.user.id })
             .populate("trainerId", "username email")
-            .lean(); // Improve performance and avoid potential duplication
+            .lean();
 
         if (!appointments.length) {
             return res.status(404).json({ message: "No bookings found for this user." });
@@ -63,35 +63,35 @@ exports.getAllBookings = async (req, res) => {
 };
 
 
-exports.getworkouts = async(req,res)=>{
+exports.getworkouts = async (req, res) => {
     try {
-        const workouts = await WorkoutDB.find({userId:req.user.id}).populate("trainerId", "username email")
+        const workouts = await WorkoutDB.find({ userId: req.user.id }).populate("trainerId", "username email")
         if (workouts.length === 0) {
             return res.status(404).json({ message: "No workouts assigned" });
         }
-        res.json({workouts})
+        res.json({ workouts })
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch workouts", error: error.message });
 
     }
 }
 
-exports.updateStatus = async (req,res)=>{
+exports.updateStatus = async (req, res) => {
     try {
-        const {status} = req.body
-        if(!status){
-           return res.status(400).json({message:"status is required"})
+        const { status } = req.body
+        if (!status) {
+            return res.status(400).json({ message: "status is required" })
         }
-       const workout = await WorkoutDB.findById(req.params.id) 
-       if(!workout){
-        return res.status(404).json({message:"workout not found"})
-       }
-       if(workout.userId.toString() !== req.user.id){
-        return res.status(403).json({ message: "Not authorized" });
-       }
-       workout.status = status
-       await workout.save()
-       res.json({  message: `Workout marked as ${status}`, workout });
+        const workout = await WorkoutDB.findById(req.params.id)
+        if (!workout) {
+            return res.status(404).json({ message: "workout not found" })
+        }
+        if (workout.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+        workout.status = status
+        await workout.save()
+        res.json({ message: `Workout marked as ${status}`, workout });
 
     } catch (error) {
         res.status(500).json({ message: "Failed to update workout", error: error.message });
@@ -99,14 +99,14 @@ exports.updateStatus = async (req,res)=>{
     }
 }
 
-exports.logMeal = async (req,res)=>{
+exports.logMeal = async (req, res) => {
     try {
-        const {foodName, portionSize} = req.body;
-        if(!foodName && !portionSize){
-            return res.status(400).json({message:"foodname and portion size are required"})
+        const { foodName, portionSize } = req.body;
+        if (!foodName && !portionSize) {
+            return res.status(400).json({ message: "foodname and portion size are required" })
         }
-        const nutritionData = await getNutrition(foodName,portionSize)
-        if(!nutritionData){
+        const nutritionData = await getNutrition(foodName, portionSize)
+        if (!nutritionData) {
             return res.status(404).json({ message: "Food item not found in USDA database." });
         }
         let nutritionLog = await NutritionDB.findOne({ userId: req.user.id });
@@ -123,23 +123,23 @@ exports.logMeal = async (req,res)=>{
         });
 
         await nutritionLog.save();
-        res.status(201).json({  message: "Meal logged successfully", nutrition: nutritionLog });
+        res.status(201).json({ message: "Meal logged successfully", nutrition: nutritionLog });
 
     } catch (error) {
         res.status(500).json({ message: "Failed to log meal", error: error.message });
-  
+
     }
 }
 
-exports.nutritionhistory = async (req,res)=>{
+exports.nutritionhistory = async (req, res) => {
     try {
-        const nutrition = await NutritionDB.find({userId:req.user.id})
+        const nutrition = await NutritionDB.find({ userId: req.user.id })
         if (nutrition.length === 0) {
             return res.status(404).json({ message: "No nutrition found" });
         }
-        res.json({nutrition}) 
+        res.json({ nutrition })
     } catch (error) {
-        res.status(500).json({message: "Failed to get history", error: error.message })
+        res.status(500).json({ message: "Failed to get history", error: error.message })
     }
 }
 
@@ -166,13 +166,11 @@ exports.bookSession = async (req, res) => {
         const session = await SessionDB.findById(sessionId);
         if (!session) return res.status(404).json({ message: "Session not found" });
 
-        // Check if user already requested this session
         const existingBooking = session.bookings.find(b => b.userId.toString() === userId);
         if (existingBooking) {
             return res.status(400).json({ message: "You have already requested this session" });
         }
 
-        // Add user as "pending" in session bookings
         session.bookings.push({ userId, status: "pending" });
         await session.save();
 
@@ -182,26 +180,24 @@ exports.bookSession = async (req, res) => {
     }
 };
 
-exports.getsessiondetails = async (req,res)=>{
+exports.getsessiondetails = async (req, res) => {
     try {
         const sessionDetails = await SessionDB.findById(req.params.sessionId)
-      .populate("trainerId", "username") // Get trainer's name
-      .populate("workouts"); // Fetch assigned workouts
+            .populate("trainerId", "username")
+            .populate("workouts");
+        if (!sessionDetails) {
+            return res.status(404).json({ message: "Session not found" });
+        }
 
-      if (!sessionDetails) {
-        return res.status(404).json({ message: "Session not found" });
-      }
-  
-      // Check if the user has booked and been approved
-      const userBooking = sessionDetails.bookings.find(
-        (booking) => booking.userId.toString() === req.user.id && booking.status === "approved"
-      );
-  
-      if (!userBooking) {
-        return res.status(403).json({ message: "You are not approved for this session" });
-      }
-  
-      res.json(sessionDetails);
+        const userBooking = sessionDetails.bookings.find(
+            (booking) => booking.userId.toString() === req.user.id && booking.status === "approved"
+        );
+
+        if (!userBooking) {
+            return res.status(403).json({ message: "You are not approved for this session" });
+        }
+
+        res.json(sessionDetails);
     } catch (error) {
         console.error("Error fetching session details:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -209,15 +205,15 @@ exports.getsessiondetails = async (req,res)=>{
 }
 
 
-exports.addReview = async (req,res)=>{
+exports.addReview = async (req, res) => {
     try {
         const { trainerId } = req.params
         const { rating, comment } = req.body
         const userId = req.user.id
 
         const sessionCompleted = await AppointmentDB.findOne({
-            userId, 
-            trainerId, 
+            userId,
+            trainerId,
             status: "completed"
         })
         if (!sessionCompleted) {
@@ -238,7 +234,7 @@ exports.addReview = async (req,res)=>{
         res.status(201).json({ message: "Review added successfully", trainer })
 
     } catch (error) {
-      res.status(500).json({message:"Failed to add review",error:error.message})  
+        res.status(500).json({ message: "Failed to add review", error: error.message })
     }
 }
 
@@ -251,7 +247,7 @@ exports.getTrainerReviews = async (req, res) => {
             return res.status(404).json({ message: "Trainer not found" })
         }
 
-        res.json({ 
+        res.json({
             averageRating: trainer.averageRating,
             totalReviews: trainer.reviews.length,
             reviews: trainer.reviews
@@ -260,70 +256,69 @@ exports.getTrainerReviews = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch reviews", error: error.message })
 
-    }}
-
-    exports.logProgress = async (req, res) => {
-        try {
-            const { weight, bodyFat } = req.body;  
-            const userId = req.user.id;  
-    
-            const user = await UserDB.findById(userId);
-            if (!user) {
-                return res.status(404).json({ message: "User not found" });
-            }
-    
-            const height = user.fitnessData.height;
-            if (!height) {
-                return res.status(400).json({ message: "Please set your height in profile before logging progress." });
-            }
-    
-            const bmi = (weight / ((height / 100) * (height / 100))).toFixed(2);
-    
-            const muscleMass = ((weight * (100 - bodyFat)) / 100).toFixed(2);
-    
-            user.progress.push({ weight, bodyFat, bmi, muscleMass });
-            await user.save();
-    
-            res.status(201).json({ 
-                message: "Progress logged successfully", 
-                progress: user.progress 
-            });
-    
-        } catch (error) {
-            res.status(500).json({ message: "Failed to log progress", error: error.message });
-        }
-    };
-      
-    exports.getProgress = async (req, res) => {
-        try {
-            const userId = req.user.id;
-            const user = await UserDB.findById(userId).select("progress");
-    
-            if (!user) {
-                return res.status(404).json({ message: "User not found" });
-            }
-    
-            res.json({ progress: user.progress });
-    
-        } catch (error) {
-            res.status(500).json({ message: "Failed to retrieve progress", error: error.message });
-        }
-    };
-
-    exports.deleteProgress = async(req,res)=>{
-        try {
-            const user = await UserDB.findById(req.user.id);
-            if (!user) {
-              return res.status(404).json({ message: "User not found" });
-            }
-        
-            // Remove the progress entry by filtering the array
-            user.progress = user.progress.filter((entry) => entry._id.toString() !== req.params.progressId);
-        
-            await user.save();
-            res.json({ message: "Progress deleted successfully" });
-          } catch (err) {
-            res.status(500).json({ message: "Failed to delete progress" });
-          }
     }
-    
+}
+
+exports.logProgress = async (req, res) => {
+    try {
+        const { weight, bodyFat } = req.body;
+        const userId = req.user.id;
+
+        const user = await UserDB.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const height = user.fitnessData.height;
+        if (!height) {
+            return res.status(400).json({ message: "Please set your height in profile before logging progress." });
+        }
+
+        const bmi = (weight / ((height / 100) * (height / 100))).toFixed(2);
+
+        const muscleMass = ((weight * (100 - bodyFat)) / 100).toFixed(2);
+
+        user.progress.push({ weight, bodyFat, bmi, muscleMass });
+        await user.save();
+
+        res.status(201).json({
+            message: "Progress logged successfully",
+            progress: user.progress
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to log progress", error: error.message });
+    }
+};
+
+exports.getProgress = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await UserDB.findById(userId).select("progress");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({ progress: user.progress });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to retrieve progress", error: error.message });
+    }
+};
+
+exports.deleteProgress = async (req, res) => {
+    try {
+        const user = await UserDB.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        user.progress = user.progress.filter((entry) => entry._id.toString() !== req.params.progressId);
+
+        await user.save();
+        res.json({ message: "Progress deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Failed to delete progress" });
+    }
+}

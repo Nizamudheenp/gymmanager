@@ -125,7 +125,6 @@ function ManageSessions() {
         </Card.Body>
       </Card>
 
-      {/* Display Existing Sessions */}
       {sessions.length === 0 ? (
         <p className="text-light text-center">No sessions created.</p>
       ) : (

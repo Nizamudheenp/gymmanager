@@ -12,7 +12,7 @@ function TrainingDashboard() {
     <div className="container mt-4 training-section">
       <h2 className="text-center">Training Section</h2>
 
-      {/* Training Widgets (Cards) */}
+      {/* Training Widgets  */}
       {!selectedWidget && (
         <div className="row mt-4">
           <div className="col-md-6">
@@ -43,7 +43,7 @@ function TrainingDashboard() {
       {selectedWidget === "bookings" && <MyBookings />}
       {selectedWidget === "workouts" && <UserWorkouts />}
 
-      
+
     </div>
   );
 }

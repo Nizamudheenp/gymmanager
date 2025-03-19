@@ -7,7 +7,7 @@ function Sessions() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookingStatus, setBookingStatus] = useState({});
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
 
@@ -106,7 +106,7 @@ function Sessions() {
                       {bookingStatusText}
                     </Badge>
                     {canJoin ? (
-                      <Button variant="success" className="mt-2 w-100" onClick={()=> navigate(`/user-dashboard/sessiondetailes/${session._id}`)}>
+                      <Button variant="success" className="mt-2 w-100" onClick={() => navigate(`/user-dashboard/sessiondetailes/${session._id}`)}>
                         Join Session
                       </Button>
                     ) : (

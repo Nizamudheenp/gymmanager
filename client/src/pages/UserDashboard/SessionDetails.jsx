@@ -52,11 +52,11 @@ function SessionDetails() {
                   <strong>Sets:</strong> {workout.sets} | <strong>Reps:</strong> {workout.reps}
                 </Card.Text>
 
-                {/* Meeting Link (if available) */}
+                {/* Meeting Link  */}
                 {workout.meetingLink && (
-                  <a 
-                    href={workout.meetingLink} 
-                    target="_blank" 
+                  <a
+                    href={workout.meetingLink}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-warning w-100 mb-2"
                   >

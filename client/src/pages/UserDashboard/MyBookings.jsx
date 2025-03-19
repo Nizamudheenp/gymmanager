@@ -12,10 +12,10 @@ function MyBookings() {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/getbookings`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setBookings(response.data.appointments || []);        
+        setBookings(response.data.appointments || []);
       } catch (error) {
         setError("Failed to fetch bookings.");
-        setBookings([]); 
+        setBookings([]);
       }
     };
     fetchBookings();

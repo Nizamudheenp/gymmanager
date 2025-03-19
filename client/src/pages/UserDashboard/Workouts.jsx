@@ -39,35 +39,35 @@ function UserWorkouts() {
   }
   return (
     <div className="container mt-4">
-            <h4>My Workouts</h4>
-            {workouts.length === 0 ? (
-                <p>No workouts assigned yet.</p>
-            ) : (
-                <ul className="list-group">
-                    {workouts.map((workout) => (
-                        <li key={workout._id} className="list-group-item">
-                            <strong>Assigned by: {workout.trainerId.username}</strong>
-                            <p>Status: <span className={workout.status === "completed" ? "text-success" : "text-warning"}>{workout.status}</span></p>
-                            <ul>
-                                {workout.exercises.map((exercise, idx) => (
-                                    <li key={exercise._id || idx}>
-                                        {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
-                                    </li>
-                                ))}
-                            </ul>
-                            {workout.status !== "completed" && (
-                                <button
-                                    className="btn btn-sm btn-success mt-2"
-                                    onClick={() => markAsCompleted(workout._id)}
-                                >
-                                    Mark as Completed
-                                </button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
+      <h4>My Workouts</h4>
+      {workouts.length === 0 ? (
+        <p>No workouts assigned yet.</p>
+      ) : (
+        <ul className="list-group">
+          {workouts.map((workout) => (
+            <li key={workout._id} className="list-group-item">
+              <strong>Assigned by: {workout.trainerId.username}</strong>
+              <p>Status: <span className={workout.status === "completed" ? "text-success" : "text-warning"}>{workout.status}</span></p>
+              <ul>
+                {workout.exercises.map((exercise, idx) => (
+                  <li key={exercise._id || idx}>
+                    {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
+                  </li>
+                ))}
+              </ul>
+              {workout.status !== "completed" && (
+                <button
+                  className="btn btn-sm btn-success mt-2"
+                  onClick={() => markAsCompleted(workout._id)}
+                >
+                  Mark as Completed
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }
 

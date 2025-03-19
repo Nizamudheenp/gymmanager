@@ -3,33 +3,32 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 
 function ClientNutrition() {
-    const [nutritions, setNutritions] = useState([])
+  const [nutritions, setNutritions] = useState([])
 
 
-    const token = localStorage.getItem("token")
-    const { userId } = useParams()
+  const token = localStorage.getItem("token")
+  const { userId } = useParams()
 
-    useEffect(() => {
-        const fetchUserNutritions = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/trainer/usernutrition/${userId}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                )
-                setNutritions(response.data.nutrition?.meals || []);
+  useEffect(() => {
+    const fetchUserNutritions = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/trainer/usernutrition/${userId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        setNutritions(response.data.nutrition?.meals || []);
 
-                console.log("Fetched Nutritions:", response.data);
+        console.log("Fetched Nutritions:", response.data);
 
-            } catch (error) {
-               console.error(error);
-               setNutritions([]);   
-            }
+      } catch (error) {
+        console.error(error);
+        setNutritions([]);
+      }
 
-        }
-        fetchUserNutritions()
-    },  [userId, token])
-    return (
-        <div>
-            {/* Display Logged Meals */}
+    }
+    fetchUserNutritions()
+  }, [userId, token])
+  return (
+    <div>
       <h3 className="mt-4">Nutrition Details</h3>
       {nutritions.length === 0 ? (
         <p className="text-muted">No meals user logged yet.</p>
@@ -59,8 +58,8 @@ function ClientNutrition() {
           </tbody>
         </table>
       )}
-        </div>
-    )
+    </div>
+  )
 }
 
 export default ClientNutrition

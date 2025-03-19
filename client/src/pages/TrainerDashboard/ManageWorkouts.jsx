@@ -20,7 +20,7 @@ function ManageWorkouts() {
     } catch (error) {
     }
   };
-  
+
   useEffect(() => {
     fetchWorkouts();
   }, [userId, token]);
@@ -38,7 +38,7 @@ function ManageWorkouts() {
       setSets("");
       setReps("");
 
-      fetchWorkouts(); // Refresh the list after assignment
+      fetchWorkouts();
     } catch (error) {
       console.error("Error assigning workout:", error.response?.data?.message || error.message);
     }
@@ -52,7 +52,7 @@ function ManageWorkouts() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      fetchWorkouts(); // Refresh the list after deletion
+      fetchWorkouts();
     } catch (error) {
       console.error("Error deleting exercise:", error.response?.data?.message || error.message);
     }
@@ -92,20 +92,20 @@ function ManageWorkouts() {
       </div>
 
       <h5 className="mt-4">Current Workouts</h5>
-{workouts.length === 0 ? (
-  <p>No workouts assigned yet.</p>
-) : (
-  <ul className="list-group">
-    {workouts.map((exercise) => (  // No need to check for exercises array, it's a flat structure
-      <li key={exercise._id} className="list-group-item d-flex justify-content-between">
-        {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
-        <button className="btn btn-danger btn-sm" onClick={() => deleteWorkout(exercise._id)}>
-          Delete
-        </button>
-      </li>
-    ))}
-  </ul>
-)}
+      {workouts.length === 0 ? (
+        <p>No workouts assigned yet.</p>
+      ) : (
+        <ul className="list-group">
+          {workouts.map((exercise) => (
+            <li key={exercise._id} className="list-group-item d-flex justify-content-between">
+              {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
+              <button className="btn btn-danger btn-sm" onClick={() => deleteWorkout(exercise._id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
 
     </div>
   );

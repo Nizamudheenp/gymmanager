@@ -21,7 +21,7 @@ function ManageClients() {
       setError("Failed to fetch clients.");
       setClients([]);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -29,18 +29,18 @@ function ManageClients() {
     fetchClients();
   }, [token]);
 
-  const removeClient = async (userId) =>{
+  const removeClient = async (userId) => {
     try {
-      
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/trainer/removeclient/${userId}`, 
-        { headers: { Authorization: `Bearer ${token}` } }
-     );
-     console.log("Removing client with userId:", userId);
 
-     setClients((prevClients) => prevClients.filter((client) => client.userId._id !== userId));
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/trainer/removeclient/${userId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log("Removing client with userId:", userId);
+
+      setClients((prevClients) => prevClients.filter((client) => client.userId._id !== userId));
     } catch (error) {
       console.error("API request failed:", error.message);
-      
+
     }
   }
 
@@ -62,18 +62,17 @@ function ManageClients() {
                   <h5>{client.userId.username}</h5>
                   <p>{client.userId.email}</p>
 
-                  {/* Action Buttons */}
                   <div className="d-flex justify-content-between g-2">
                     <button
                       className="btn btn-warning btn-sm"
                       onClick={() => navigate(`/trainer-dashboard/manage-workouts/${client.userId._id}`)}
-                      >
+                    >
                       Workouts
                     </button>
                     <button
                       className="btn btn-info btn-sm"
                       onClick={() => navigate(`/trainer-dashboard/manage-nutritions/${client.userId._id}`)}
-                      >
+                    >
                       nutritions
                     </button>
                     <button className="btn btn-danger btn-sm" onClick={() => removeClient(client.userId._id)}>

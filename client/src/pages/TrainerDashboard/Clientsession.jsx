@@ -30,7 +30,7 @@ function ClientSession() {
 
       {selectedWidget === "appointments" && <Appointments />}
       {selectedWidget === "clients" && <ManageClients />}
-      
+
     </div>
   );
 }

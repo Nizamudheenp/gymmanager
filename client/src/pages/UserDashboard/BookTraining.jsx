@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 function BookTraining() {
   const [trainers, setTrainers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [bookingMessage, setBookingMessage] = useState("");
-  const navigate = useNavigate(); // ✅ Initialize navigate
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function BookTraining() {
 
       const newAppointmentId = appointmentResponse.data.appointment._id;
 
-      // Step 2: Create Payment Intent
+      //Create Payment Intent
       const paymentResponse = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/payments/create-payment-intent`,
         {
@@ -61,7 +61,7 @@ function BookTraining() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // ✅ Redirect to the Updated Payment Page URL
+      //  Redirect to the Updated Payment Page URL
       navigate(`/user-dashboard/payment/${newAppointmentId}`, {
         state: { clientSecret: paymentResponse.data.clientSecret },
       });
@@ -101,7 +101,7 @@ function BookTraining() {
         </div>
       )}
 
-      
+
     </div>
   );
 }
