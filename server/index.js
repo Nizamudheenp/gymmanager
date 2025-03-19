@@ -11,6 +11,7 @@ const adminRoute = require('./src/routes/adminRoute')
 const userRoute = require('./src/routes/userRoute')
 const trainerRoute = require('./src/routes/trainerRoute')
 const messageRoute = require('./src/routes/messageRoute')
+const paymentRoutes = require('./src/routes/paymentsRoute')
 
 const connectDB = require('./src/config/db')
 connectDB()
@@ -27,6 +28,7 @@ app.use('/api/user', userRoute)
 app.use('/api/trainer', trainerRoute)
 app.use('/api/admin', adminRoute)
 app.use("/api/messages",messageRoute);
+app.use('/api/payments',paymentRoutes)
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

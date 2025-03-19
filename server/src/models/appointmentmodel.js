@@ -5,7 +5,7 @@ const appointmentSchema = new mongoose.Schema({
     trainerId: { type: mongoose.Schema.Types.ObjectId, ref: "trainers", required: true },
     status: { 
         type: String, 
-        enum: ["pending", "confirmed", "completed", "cancelled"], 
+        enum: ["pending", "confirmed", "paid", "cancelled"], 
         default: "pending" 
     },
     createdAt: { type: Date, default: Date.now }

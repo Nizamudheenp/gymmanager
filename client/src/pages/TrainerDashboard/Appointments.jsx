@@ -17,7 +17,7 @@ function Appointments() {
             setAppointments(response.data.appointments || []);
             setLoading(false);
         } catch (error) {
-            setError("Failed to fetch appointments.");
+            setError("Failed to fetch appointmensts.");
             setAppointments([]);
             setLoading(false);
         }
@@ -49,12 +49,12 @@ function Appointments() {
                 {/* Pending Appointments Section */}
                 <div className="mt-4">
                     <h4>Pending Approvals</h4>
-                    {appointments.filter((app) => app.status === "pending").length === 0 ? (
+                    {appointments.filter((app) => app.status === "paid").length === 0 ? (
                         <p>No pending approvals.</p>
                     ) : (
                         <ul className="list-group">
                             {appointments
-                                .filter((app) => app.status === "pending")
+                                .filter((app) => app.status === "paid")
                                 .map((appointment) => (
                                     <li key={appointment._id} className="list-group-item d-flex justify-content-between align-items-center">
                                         {appointment.userId.username} - {appointment.userId.email}

@@ -26,6 +26,8 @@ import Fitnessgoals from "./pages/UserDashboard/Fitnessgoals";
 import UserProgress from "./pages/UserDashboard/UserProgress";
 import Sessions from "./pages/UserDashboard/Sessions";
 import SessionDetails from "./pages/UserDashboard/SessionDetails";
+import PaymentPage from "./components/PaymentPage";
+import PaymentSuccess from "./components/PaymentSuccess";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -57,12 +59,15 @@ const App = () => {
             </ProtectedRoute>
           }>
             <Route index element={<UserHome />} />
-            <Route path="/user-dashboard/training" element={<TrainingDashboard />} />
+            <Route path="training" element={<TrainingDashboard />} />
             <Route path="nutritions" element={<NutritionLog />} />
             <Route path="goals" element={<Fitnessgoals />} />
             <Route path="progress" element={<UserProgress />} />
             <Route path="session" element={<Sessions />} />
             <Route path="sessiondetailes/:sessionId" element={<SessionDetails />} />
+            <Route path="payment/:appointmentId" element={<PaymentPage />} />
+            <Route path="payment-success" element={<PaymentSuccess />} />
+
 
 
 
@@ -95,6 +100,7 @@ const App = () => {
           <Route path="manage-trainers" element={<ManageTrainers />} />
           <Route path="manage-users" element={<ManageUsers />} />
         </Route>
+        
         
       </Routes>
     </Router>

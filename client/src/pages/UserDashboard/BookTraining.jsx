@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 
 function BookTraining() {
   const [trainers, setTrainers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [bookingMessage,setBookingMessage] = useState("")
+  const [bookingMessage, setBookingMessage] = useState("");
+  const navigate = useNavigate(); // ✅ Initialize navigate
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -25,21 +28,54 @@ function BookTraining() {
     fetchTrainers();
   }, [token]);
 
-  const bookTrainer = async (trainerId) =>{
+  const handleBooking = async (trainerId) => {
     try {
-       const response = await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/user/booktrainer`,
+      if (!token) throw new Error("No token found. Please log in.");
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      if (!userId) throw new Error("Invalid token. User ID missing.");
+
+      // Step 1: Book the Trainer
+      const appointmentResponse = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/booktrainer`,
         { trainerId },
-        { headers: { Authorization: `Bearer ${token}` } }) 
-        setBookingMessage(response.data.message);
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (!appointmentResponse.data.appointment?._id) {
+        throw new Error("Appointment creation failed.");
+      }
+
+      const newAppointmentId = appointmentResponse.data.appointment._id;
+
+      // Step 2: Create Payment Intent
+      const paymentResponse = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/payments/create-payment-intent`,
+        {
+          amount: 2000,
+          userId,
+          trainerId,
+          appointmentId: newAppointmentId,
+          method: "Stripe",
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // ✅ Redirect to the Updated Payment Page URL
+      navigate(`/user-dashboard/payment/${newAppointmentId}`, {
+        state: { clientSecret: paymentResponse.data.clientSecret },
+      });
     } catch (error) {
-        setBookingMessage(error.response?.data?.message || "Booking failed."); 
+      console.error("Booking Error:", error.response?.data || error.message);
+      setBookingMessage(error.response?.data?.message || "Booking failed.");
     }
-  }
+  };
 
   return (
     <div>
       <h3>Available Trainers</h3>
-      
+      {bookingMessage && <p className="mt-3 text-center text-danger">{bookingMessage}</p>}
+
       {loading ? (
         <p>Loading trainers...</p>
       ) : error ? (
@@ -53,15 +89,19 @@ function BookTraining() {
               <div className="card shadow-sm p-3 mb-3">
                 <h5>{trainer.username}</h5>
                 <p>Specialization: {trainer.specialization}</p>
-                <button className="btn btn-success btn-sm w-100" onClick={()=>{
-                    bookTrainer(trainer._id)
-                }}>Book</button>
+                <button
+                  className="btn btn-success btn-sm w-100"
+                  onClick={() => handleBooking(trainer._id)}
+                >
+                  Book & Pay
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
-      {bookingMessage && <p className="mt-3 text-center">{bookingMessage}</p>}
+
+      
     </div>
   );
 }
