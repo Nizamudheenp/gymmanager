@@ -39,35 +39,42 @@ function UserWorkouts() {
   }
   return (
     <div className="container mt-4">
-      <h4>My Workouts</h4>
-      {workouts.length === 0 ? (
-        <p>No workouts assigned yet.</p>
-      ) : (
-        <ul className="list-group">
-          {workouts.map((workout) => (
-            <li key={workout._id} className="list-group-item">
-              <strong>Assigned by: {workout.trainerId.username}</strong>
-              <p>Status: <span className={workout.status === "completed" ? "text-success" : "text-warning"}>{workout.status}</span></p>
-              <ul>
-                {workout.exercises.map((exercise, idx) => (
-                  <li key={exercise._id || idx}>
-                    {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
-                  </li>
-                ))}
-              </ul>
-              {workout.status !== "completed" && (
-                <button
-                  className="btn btn-sm btn-success mt-2"
-                  onClick={() => markAsCompleted(workout._id)}
-                >
-                  Mark as Completed
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+  <h4 className="text-dark">My Workouts</h4>
+  
+  {workouts.length === 0 ? (
+    <p className="text-secondary">No workouts assigned yet.</p>
+  ) : (
+    <ul className="list-group">
+      {workouts.map((workout) => (
+        <li key={workout._id} className="list-group-item bg-dark text-light border-secondary">
+          <strong className="text-warning">Assigned by: {workout.trainerId.username}</strong>
+          <p>
+            Status:{" "}
+            <span className={workout.status === "completed" ? "text-success fw-bold" : "text-warning fw-bold"}>
+              {workout.status}
+            </span>
+          </p>
+          <ul className="ps-3">
+            {workout.exercises.map((exercise, idx) => (
+              <li key={exercise._id || idx} className="text-light">
+                {exercise.name} - <span className="text-warning">{exercise.sets} sets x {exercise.reps} reps</span>
+              </li>
+            ))}
+          </ul>
+          {workout.status !== "completed" && (
+            <button
+              className="btn btn-warning btn-sm mt-2 fw-bold text-dark"
+              onClick={() => markAsCompleted(workout._id)}
+            >
+              Mark as Completed
+            </button>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
   )
 }
 

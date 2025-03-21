@@ -56,31 +56,58 @@ function Fitnessgoals() {
     }
 
     return (
-        <div className='container mt-4'>
-            <h3>Fitness Goals</h3>
-            <div className='card p-3'>
-                <h5>set new goal</h5>
-                <input type="text" className='form-controll mb-2' placeholder='Goal Type' value={goalType} onChange={(e) => setGoalType(e.target.value)} />
-                <input type="number" className='form-controll mb-2' placeholder='Target Progress' value={targetProgress} onChange={(e) => setTargetProgress(e.target.value)} />
-                <input type="date" className='form-controll mb-2' value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-                <button className='btn btn-primary w-100' onClick={setGoal} >set goal</button>
+        <div className="container mt-4">
+            <h3 className="text-dark text-center">Fitness Goals</h3>
+
+            <div className="card p-3 shadow-sm bg-dark text-light">
+                <h5 className="text-warning">Set New Goal</h5>
+                <input
+                    type="text"
+                    className="form-control mb-2 bg-secondary text-light border-0"
+                    placeholder="Goal Type"
+                    value={goalType}
+                    onChange={(e) => setGoalType(e.target.value)}
+                />
+                <input
+                    type="number"
+                    className="form-control mb-2 bg-secondary text-light border-0"
+                    placeholder="Target Progress"
+                    value={targetProgress}
+                    onChange={(e) => setTargetProgress(e.target.value)}
+                />
+                <input
+                    type="date"
+                    className="form-control mb-2 bg-secondary text-light border-0"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                />
+                <button className="btn btn-warning w-100">Set Goal</button>
             </div>
 
-            <h5 className='mt-4'>My Goals</h5>
-            {goals.length === 0 ? (<p>No fitness goals set yet.</p>) :
-                (
-                    <ul className='list-group'>
-                        {goals.map((goal) => (
-                            <li key={goal._id} className="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <strong>{goal.goalType}</strong> -  - Progress: {goal.currentprogress || 0}/{goal.targetProgress} - Status: {goal.status || "In Progress"}
-                                </div>
-                                <button className="btn btn-primary btn-sm" onClick={() => updateProgress(goal._id, goal.currentprogress + 1)} disabled={goal.currentprogress >= goal.targetProgress}> + Progress</button>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+            <h5 className="mt-4 text-light">My Goals</h5>
+
+            {goals.length === 0 ? (
+                <p className="text-secondary">No fitness goals set yet.</p>
+            ) : (
+                <ul className="list-group">
+                    {goals.map((goal) => (
+                        <li key={goal._id} className="list-group-item bg-dark text-light d-flex justify-content-between align-items-center border-secondary">
+                            <div>
+                                <strong className="text-warning">{goal.goalType}</strong> - Progress: {goal.currentprogress || 0}/{goal.targetProgress} - Status: {goal.status || "In Progress"}
+                            </div>
+                            <button
+                                className="btn btn-warning btn-sm"
+                                onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
+                                disabled={goal.currentprogress >= goal.targetProgress}
+                            >
+                                + Progress
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
+
     )
 }
 

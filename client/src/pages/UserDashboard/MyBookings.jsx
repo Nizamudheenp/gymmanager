@@ -22,26 +22,30 @@ function MyBookings() {
   }, [token]);
 
   return (
-    <div>
-      <h3>My Trainer Bookings</h3>
-      {error ? (
-        <p className="text-danger">{error}</p>
-      ) : bookings.length === 0 ? (
-        <p>No bookings found.</p>
-      ) : (
-        <ul className="list-group mt-3">
-          {bookings.map((booking) => (
-            <li key={booking._id} className="list-group-item d-flex justify-content-between align-items-center">
-              <span>
-                <strong>Trainer:</strong> {booking.trainerId.username} <br />
-                <strong>Email:</strong> {booking.trainerId.email}
-              </span>
-              <span className="badge bg-primary">{booking.status}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <div className="container mt-4">
+  <h3 className="text-dark">My Trainer Bookings</h3>
+  
+  {error ? (
+    <p className="text-danger">{error}</p>
+  ) : bookings.length === 0 ? (
+    <p className="text-secondary">No bookings found.</p>
+  ) : (
+    <ul className="list-group mt-3">
+      {bookings.map((booking) => (
+        <li key={booking._id} className="list-group-item d-flex justify-content-between align-items-center bg-dark text-light border-secondary">
+          <span>
+            <strong className="text-warning">Trainer:</strong> {booking.trainerId.username} <br />
+            <strong className="text-warning">Email:</strong> {booking.trainerId.email}
+          </span>
+          <span className={`btn btn-sm ${booking.status === "Pending" ? "bg-warning text-dark" : "bg-success"}`}>
+            {booking.status}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
 
   );

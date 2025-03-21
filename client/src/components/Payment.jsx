@@ -7,7 +7,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 function Payment({ clientSecret }) {
   const options = {
     clientSecret,
-    appearance: { theme: "night" }, // Stripe UI theme
+    appearance: { theme: "night" }, 
   };
 
   return (

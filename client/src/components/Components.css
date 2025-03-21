@@ -1,21 +1,21 @@
                                                                  /* home page css */
 
 #homepage-navbar {
-    position: fixed; /* Stays at the top */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+    background: rgba(0, 0, 0, 0.6); 
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1000; /* Ensure it stays above everything */
+    z-index: 1000; 
   }
   
-  /* 🔹 Navbar Links */
+
   #homepage-navbar  .nav-link {
-    color: white !important; /* Ensure visibility */
+    color: white !important; 
     font-size: 18px;
     font-weight: bold;
     padding: 8px 15px;
@@ -23,10 +23,9 @@
   }
   
   #homepage-navbar  .nav-link:hover {
-    color: #f0a500 !important; /* Highlight effect */
+    color: #f0a500 !important; 
   }
   
-  /* 🔹 HomePage Background */
   .homapge-mainview {
     background-image: url('../assets/sven-mieke-jO6vBWX9h9Y-unsplash.jpg'); 
     background-size: cover;
@@ -41,10 +40,10 @@
     text-align: center;
     color: white;
     position: relative;
-    padding-top: 80px; /* Adjust padding for navbar */
+    padding-top: 80px; 
   }
   
-  /* 🔹 Dark Overlay for Better Readability */
+
   .homapge-mainview::before {
     content: "";
     position: absolute;
@@ -52,11 +51,10 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    background: rgba(0, 0, 0, 0.5); 
     z-index: 1;
   }
   
-  /* 🔹 Ensure Text is Above Overlay */
   .homapge-mainview h1, 
   .homapge-mainview p, 
   .homapge-mainview button {
@@ -64,9 +62,8 @@
     z-index: 2;
   }
 
-  /* 🔹 Improved Get Started Button */
 .get-started-btn {
-    background: linear-gradient(135deg, #f0a500, #ff6600); /* Gold to Orange Gradient */
+    background: linear-gradient(135deg, #f0a500, #ff6600); 
     border: none;
     padding: 12px 24px;
     font-size: 20px;
@@ -81,14 +78,12 @@
     box-shadow: 0 5px 15px rgba(255, 105, 0, 0.3);
   }
   
-  /* 🔹 Hover Effect */
   .get-started-btn:hover {
     background: linear-gradient(135deg, #ff6600, #f0a500);
     transform: scale(1.05);
     box-shadow: 0 8px 20px rgba(255, 105, 0, 0.5);
   }
   
-  /* 🔹 Button Animation (Subtle Glow) */
   .get-started-btn::before {
     content: "";
     position: absolute;
@@ -106,7 +101,6 @@
     opacity: 1;
   }
   
-  /* 🔹 Responsive Design */
   @media (max-width: 768px) {
     .get-started-btn {
       font-size: 18px;
@@ -115,14 +109,13 @@
   }
   
   
-  /* 🔹 Mobile Responsiveness */
   @media (max-width: 768px) {
     .homapge-mainview {
-      height: 75vh; /* Adjust height for mobile */
+      height: 75vh; 
     }
   
     #homepage-navbar  {
-      padding: 10px; /* Adjust padding for small screens */
+      padding: 10px; 
     }
   }
 
@@ -141,7 +134,7 @@
 }
 
 .what-brings-you-here .overlay {
-  background: rgba(0, 0, 0, 0.6); /* Dark overlay for better text visibility */
+  background: rgba(0, 0, 0, 0.6); 
   padding: 50px;
   border-radius: 10px;
 }
@@ -168,12 +161,12 @@
 }
 
 .what-brings-you-here .user-btn {
-  background: #ff9800; /* Orange accent */
+  background: #ff9800;
   color: black;
 }
 
 .what-brings-you-here .trainer-btn {
-  background: #f44336; /* Reddish accent */
+  background: #f44336; 
   color: white;
 }
 
@@ -185,7 +178,6 @@
 
                                             /* dashboard sidebar css*/
 
-/* Sidebar container */
 .sidebar {
   width: 0; 
   height: 100vh;
@@ -202,14 +194,12 @@
   z-index: 1000;
 }
 
-/* Open state */
 .sidebar.open {
-  width: 250px; /* Fixed width for sidebar */
+  width: 250px; 
 }
 
-/* Toggle button (always visible & positioned correctly) */
 .toggle-btn {
-  background: #ff8c00; /* Orange accent */
+  background: #ff8c00; 
   border: none;
   color: white;
   font-size: 1.8rem;
@@ -219,14 +209,13 @@
   left: 10px;
   top: 15px;
   transition: transform 0.3s ease;
-  z-index: 1100; /* Ensure it's on top */
+  z-index: 1100; 
 }
 
 .toggle-btn:hover {
   transform: scale(1.1);
 }
 
-/* Navigation links */
 .sidebar .nav {
   width: 100%;
   padding: 10px;
@@ -238,7 +227,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 100%; /* Consistent width */
+  width: 100%; 
   padding: 15px 15px;
   margin: 3px;
   transition: background 0.3s ease;
@@ -255,11 +244,10 @@
 
 .sidebar-nav-item:hover,
 .sidebar-nav-item.active {
-  background: #ff8c00; /* Orange accent */
+  background: #ff8c00; 
   border-radius: 5px;
 }
 
-/* Main content shifts right when sidebar opens */
 .main-content {
   transition: margin-left 0.3s ease-in-out;
   margin-left: 0;
@@ -268,10 +256,9 @@
 }
 
 .sidebar.open ~ .main-content {
-  margin-left: 250px; /* Move content when sidebar is open */
+  margin-left: 250px; 
 }
 
-/* Logout button */
 #sidebar-logoutbtn {
   width: 83.5%;
   padding: 10px;

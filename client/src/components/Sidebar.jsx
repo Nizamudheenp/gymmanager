@@ -18,11 +18,14 @@ function Sidebar({ isOpen, toggleSidebar }) {
       { path: "/user-dashboard/goals", label: "goals", icon: <FaClipboardList /> },
       { path: "/user-dashboard/progress", label: "progress", icon: <FaClipboardList /> },
       { path: "/user-dashboard/session", label: "sessions", icon: <FaClipboardList /> },
+      { path: "/user-dashboard/messages", label: "messages", icon: <FaClipboardList /> },
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },
       { path: "/trainer-dashboard/manage-sessions", label: "Manage sessions", icon: <FaDumbbell /> },
       { path: "/trainer-dashboard/manage-clients", label: "clients", icon: <FaDumbbell /> },
+      { path: "/trainer-dashboard/messages", label: "messages", icon: <FaClipboardList /> },
+
     ],
     admin: [
       { path: "/admin-dashboard", label: "Home", icon: <FaHome /> },
@@ -42,7 +45,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
         <ul className="nav">
           {sidebarLinks[role]?.map((item) => (
             <li key={item.path} className={`sidebar-nav-item ${location.pathname === item.path ? "active" : ""}`}>
-              <Link to={item.path}>
+              <Link to={item.path} onClick={toggleSidebar}>
                 {item.icon} <span>{item.label}</span>
               </Link>
             </li>

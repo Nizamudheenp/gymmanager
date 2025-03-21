@@ -35,7 +35,6 @@ function BookTraining() {
       const userId = decodedToken.id;
       if (!userId) throw new Error("Invalid token. User ID missing.");
 
-      // Step 1: Book the Trainer
       const appointmentResponse = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/booktrainer`,
         { trainerId },
@@ -61,7 +60,7 @@ function BookTraining() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      //  Redirect to the Updated Payment Page URL
+  
       navigate(`/user-dashboard/payment/${newAppointmentId}`, {
         state: { clientSecret: paymentResponse.data.clientSecret },
       });
@@ -72,25 +71,25 @@ function BookTraining() {
   };
 
   return (
-    <div>
-      <h3>Available Trainers</h3>
+    <div className="container mt-4">
+      <h3 className="text-dark">Available Trainers</h3>
       {bookingMessage && <p className="mt-3 text-center text-danger">{bookingMessage}</p>}
 
       {loading ? (
-        <p>Loading trainers...</p>
+        <p className="text-warning">Loading trainers...</p>
       ) : error ? (
         <p className="text-danger">{error}</p>
       ) : trainers.length === 0 ? (
-        <p>No trainers available.</p>
+        <p className="text-secondary">No trainers available.</p>
       ) : (
-        <div className="row mt-3">
+        <div className="row mt-3 g-3"> 
           {trainers.map((trainer) => (
-            <div key={trainer._id} className="col-md-6">
-              <div className="card shadow-sm p-3 mb-3">
-                <h5>{trainer.username}</h5>
-                <p>Specialization: {trainer.specialization}</p>
+            <div key={trainer._id} className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+          <div className="card bg-dark text-light shadow-sm p-3 w-100 d-flex flex-column justify-content-between border-secondary" style={{ minHeight: "170px" }}>
+          <h5  className="text-warning" >{trainer.username}</h5>
+                <p className="text-light"> {trainer.specialization}</p>
                 <button
-                  className="btn btn-success btn-sm w-100"
+                  className="btn btn-warning btn-sm w-100 fw-bold text-dark"
                   onClick={() => handleBooking(trainer._id)}
                 >
                   Book & Pay

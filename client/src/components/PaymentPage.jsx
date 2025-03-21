@@ -10,7 +10,6 @@ function PaymentPage() {
   const [clientSecret, setClientSecret] = useState(location.state?.clientSecret || "");
 
   useEffect(() => {
-    // ✅ If clientSecret is missing, fetch it from backend using appointmentId
     if (!clientSecret) {
       const token = localStorage.getItem("token");
       axios
@@ -18,7 +17,7 @@ function PaymentPage() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => setClientSecret(response.data.clientSecret))
-        .catch(() => navigate("/user-dashboard")); // Redirect if error
+        .catch(() => navigate("/user-dashboard")); 
     }
   }, [appointmentId, clientSecret, navigate]);
 

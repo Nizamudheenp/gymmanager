@@ -112,7 +112,6 @@ const userORtrainerAuth = async (req,res,next)=>{
             req.trainer = trainer; 
             return next();
         }
-
         return res.status(403).json({ message: "Invalid authentication." });
     } catch (error) {
         res.status(500).json({message:'authentication failed', error: error})

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate(); // ✅ React Router navigation
+  const navigate = useNavigate(); 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !elements) return;
