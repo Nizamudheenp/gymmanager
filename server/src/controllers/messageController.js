@@ -56,17 +56,12 @@ exports.getMessages = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized request." });
         }
 
-        console.log("Fetching messages...");
-        console.log("Sender ID:", senderId);
-        console.log("Sender Type:", senderType);
-        console.log("Receiver ID:", receiverId);
-
         const messages = await MessageDB.find({
             $or: [
                 { senderId, receiverId, senderType, receiverType: senderType === "User" ? "Trainer" : "User" },
                 { senderId: receiverId, receiverId: senderId, senderType: senderType === "User" ? "Trainer" : "User" }
             ]
-        }).sort({ createdAt: 1 }); // ✅ Fix sorting field
+        }).sort({ createdAt: 1 }); 
 
         return res.status(200).json({ success: true, messages });
 
@@ -81,7 +76,6 @@ exports.getContacts = async (req, res) => {
         let contacts = [];
 
         if (req.user) {
-            // Fetch contacts from messages
             const messages = await MessageDB.find({
                 $or: [{ senderId: req.user.id }, { receiverId: req.user.id }]
             }).distinct("receiverId");
@@ -92,7 +86,6 @@ exports.getContacts = async (req, res) => {
 
             const uniqueContacts = [...new Set([...messages, ...sentMessages])];
 
-            // 🔹 If no messages, fetch assigned trainer
             if (uniqueContacts.length === 0) {
                 const trainer = await TrainerDB.findOne({ clients: req.user.id }, "username _id");
                 if (trainer) contacts.push(trainer);
@@ -101,7 +94,6 @@ exports.getContacts = async (req, res) => {
             }
 
         } else if (req.trainer) {
-            // Fetch contacts from messages
             const messages = await MessageDB.find({
                 $or: [{ senderId: req.trainer.id }, { receiverId: req.trainer.id }]
             }).distinct("receiverId");
@@ -112,7 +104,6 @@ exports.getContacts = async (req, res) => {
 
             const uniqueContacts = [...new Set([...messages, ...sentMessages])];
 
-            // 🔹 If no messages, fetch assigned users
             if (uniqueContacts.length === 0) {
                 contacts = await UserDB.find({ _id: { $in: req.trainer.clients } }, "username _id");
             } else {

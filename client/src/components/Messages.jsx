@@ -4,11 +4,14 @@ import io from "socket.io-client";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const socket = io(import.meta.env.VITE_BACKEND_URL);
+const socket = io(import.meta.env.VITE_BACKEND_URL, {
+    transports: ["websocket", "polling"]
+})
+
 
 function Messages() {
     const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role"); // Get role from localStorage
+    const role = localStorage.getItem("role"); 
     const userId = token ? jwtDecode(token)?.id : null;
 
     const [contacts, setContacts] = useState([]);
@@ -71,9 +74,8 @@ function Messages() {
             return;
         }
 
-        // Determine receiverType dynamically
         const receiverType = role === "trainer" ? "User" : "Trainer";
-        const senderType = role.charAt(0).toUpperCase() + role.slice(1); // Converts "user" -> "User", "trainer" -> "Trainer"
+        const senderType = role.charAt(0).toUpperCase() + role.slice(1);
 
         const messageData = {
             senderId: userId,
@@ -89,7 +91,7 @@ function Messages() {
             });
             setMessages((prev) => [...prev, res.data.data]);
             socket.emit("send_message", messageData);
-            setNewMessage(""); // Clear input after sending
+            setNewMessage(""); 
         } catch (error) {
             console.error("Error sending message", error);
         }
