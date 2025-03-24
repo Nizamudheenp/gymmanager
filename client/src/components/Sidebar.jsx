@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaDumbbell, FaClipboardList, FaUsers, FaBars } from "react-icons/fa";
+import { FaHome, FaDumbbell, FaAppleAlt , FaComments , FaCalendarCheck , FaChartLine ,FaBullseye, FaBars, FaUsers ,} from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/AuthSlice";
 import "./Components.css"
@@ -14,17 +14,17 @@ function Sidebar({ isOpen, toggleSidebar }) {
     user: [
       { path: "/user-dashboard", label: "Home", icon: <FaHome /> },
       { path: "/user-dashboard/training", label: "training", icon: <FaDumbbell /> },
-      { path: "/user-dashboard/nutritions", label: "Nutritions", icon: <FaClipboardList /> },
-      { path: "/user-dashboard/goals", label: "goals", icon: <FaClipboardList /> },
-      { path: "/user-dashboard/progress", label: "progress", icon: <FaClipboardList /> },
-      { path: "/user-dashboard/session", label: "sessions", icon: <FaClipboardList /> },
-      { path: "/user-dashboard/messages", label: "messages", icon: <FaClipboardList /> },
+      { path: "/user-dashboard/nutritions", label: "Nutritions", icon: <FaAppleAlt  /> },
+      { path: "/user-dashboard/goals", label: "goals", icon: <FaBullseye /> },
+      { path: "/user-dashboard/progress", label: "progress", icon: <FaChartLine /> },
+      { path: "/user-dashboard/session", label: "sessions", icon: <FaCalendarCheck /> },
+      { path: "/user-dashboard/messages", label: "messages", icon: <FaComments /> },
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },
-      { path: "/trainer-dashboard/manage-sessions", label: "Manage sessions", icon: <FaDumbbell /> },
-      { path: "/trainer-dashboard/manage-clients", label: "clients", icon: <FaDumbbell /> },
-      { path: "/trainer-dashboard/messages", label: "messages", icon: <FaClipboardList /> },
+      { path: "/trainer-dashboard/manage-sessions", label: "Manage sessions", icon: <FaCalendarCheck /> },
+      { path: "/trainer-dashboard/manage-clients", label: "clients", icon: <FaUsers /> },
+      { path: "/trainer-dashboard/messages", label: "messages", icon: <FaComments /> },
 
     ],
     admin: [

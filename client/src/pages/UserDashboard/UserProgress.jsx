@@ -18,8 +18,9 @@ function UserProgress() {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/user/getprogress`,
           { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setProgress(response.data.progress);
+        );        
+       const sortedResponse = response.data.progress.sort((a,b)=> new Date(b.loggedAt) - new Date(a.loggedAt))
+        setProgress(sortedResponse.slice(0,5));
       } catch (err) {
         console.error("Error fetching progress:", err.response?.data?.message || err.message);
       }
@@ -39,8 +40,11 @@ function UserProgress() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setProgress([...progress, response.data.progress.slice(-1)[0]]);
-      setWeight("");
+      setProgress(prevProgress => {
+        const updatedProgress = [response.data.progress.slice(-1)[0], ...prevProgress]; 
+        return updatedProgress.slice(0, 5); 
+      });
+            setWeight("");
       setBodyFat("");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to log progress");
@@ -115,7 +119,7 @@ function UserProgress() {
                 className="list-group-item d-flex justify-content-between align-items-center bg-secondary text-white"
               >
                 <div>
-                  <strong>{entry.weight} kg</strong> - Body Fat: {entry.bodyFat}% - BMI: {entry.bmi} - Muscle Mass: {entry.muscleMass} kg
+                  <strong>{entry.weight} kg</strong> | Body Fat: {entry.bodyFat}% | BMI: {entry.bmi} | Muscle Mass: {entry.muscleMass} kg
                 </div>
                 <Button
                   variant="danger"

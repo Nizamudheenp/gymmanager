@@ -115,11 +115,12 @@ function Messages() {
         <Container fluid>
             <Row>
                 <Col md={4} className="border-end">
-                    <h4>Messages</h4>
+                    <h4 className="text-dark text-center">Messages</h4>
                     {loading && <p>Loading contacts...</p>}
                     <ListGroup>
                         {contacts.map((contact) => (
                             <ListGroup.Item
+                            style={{padding:"10px",marginBottom:"8px"}}
                                 key={contact._id}
                                 action
                                 onClick={() => handleSelectContact(contact)}
@@ -133,7 +134,7 @@ function Messages() {
                 <Col md={8}>
                     {selectedContact ? (
                         <Card>
-                            <Card.Header>
+                            <Card.Header className="bg-dark text-light">
                                 Chat with {selectedContact.username}
                             </Card.Header>
                             <Card.Body>
@@ -155,7 +156,7 @@ function Messages() {
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         placeholder="Type a message..."
                                     />
-                                    <Button type="submit" variant="primary" className="mt-2">Send</Button>
+                                    <Button type="submit" variant="warning" className="mt-2 p-1 px-4">Send</Button>
                                 </Form>
                             </Card.Body>
                         </Card>

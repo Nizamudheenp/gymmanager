@@ -14,17 +14,25 @@ function Fitnessgoals() {
 
     const fetchGoals = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/getgoals`,
+            const response = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/api/user/getgoals`,
                 { headers: { Authorization: `Bearer ${token}` } }
-            )
-            setGoals(response.data.goals || [])
+            );
+    
+            const sortedGoals = response.data.goals.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+            setGoals(sortedGoals.slice(0, 5)); 
         } catch (error) {
             console.log("Error fetching goals", error.message);
         }
-    }
+    };
+    
 
     const setGoal = async () => {
         try {
+            if (!goalType || !targetProgress || !endDate) {
+                alert("All fields are required!");
+                return;
+            }
             await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/user/setgoal`,
                 { goalType, targetProgress, endDate },
@@ -81,7 +89,7 @@ function Fitnessgoals() {
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                 />
-                <button className="btn btn-warning w-100">Set Goal</button>
+                <button className="btn btn-warning w-100"onClick={setGoal}>Set Goal</button>
             </div>
 
             <h5 className="mt-4 text-light">My Goals</h5>
@@ -93,7 +101,7 @@ function Fitnessgoals() {
                     {goals.map((goal) => (
                         <li key={goal._id} className="list-group-item bg-dark text-light d-flex justify-content-between align-items-center border-secondary">
                             <div>
-                                <strong className="text-warning">{goal.goalType}</strong> - Progress: {goal.currentprogress || 0}/{goal.targetProgress} - Status: {goal.status || "In Progress"}
+                                <strong className="text-warning">{goal.goalType}</strong>  |  Progress: {goal.currentprogress || 0}/{goal.targetProgress}  |  Status: {goal.status || "In Progress"}
                             </div>
                             <button
                                 className="btn btn-warning btn-sm"

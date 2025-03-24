@@ -1,0 +1,32 @@
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 100%;
+}
+
+.dashboard-widget {
+    background: #222;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(255, 165, 0, 0.3);
+    min-height: 150px;
+    
+}
+
+.dashboard-widget:hover {
+    background: #333;
+    transform: scale(1.05);
+}
+
+
+
