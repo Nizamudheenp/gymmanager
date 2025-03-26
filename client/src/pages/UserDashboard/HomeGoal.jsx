@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 
 function UserGoalsWidget() {
     const [goals, setGoals] = useState([]);
     const token = localStorage.getItem("token");
-    const navigate = useNavigate();
 
     useEffect(() => {
         fetchGoals();

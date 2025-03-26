@@ -61,7 +61,7 @@ const ProgressChart = ({ progress }) => {
     }
   };
 
-  return <div style={{ width: "100%", height: "230px",width:"500px" }}> 
+  return <div style={{ height: "230px",width:"500px" }}> 
   <Line data={data} options={options} />
 </div>
 };

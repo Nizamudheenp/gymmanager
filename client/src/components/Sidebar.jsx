@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaDumbbell, FaAppleAlt , FaComments , FaCalendarCheck , FaChartLine ,FaBullseye, FaBars, FaUsers ,} from "react-icons/fa";
+import { FaHome, FaDumbbell, FaAppleAlt , FaComments , FaCalendarCheck , FaChartLine ,FaBullseye, FaBars, FaUsers, FaCommentDots ,} from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/AuthSlice";
 import "./Components.css"
@@ -22,9 +22,10 @@ function Sidebar({ isOpen, toggleSidebar }) {
     ],
     trainer: [
       { path: "/trainer-dashboard", label: "Home", icon: <FaHome /> },
-      { path: "/trainer-dashboard/manage-sessions", label: "Manage sessions", icon: <FaCalendarCheck /> },
+      { path: "/trainer-dashboard/manage-sessions", label: "sessions", icon: <FaCalendarCheck /> },
       { path: "/trainer-dashboard/manage-clients", label: "clients", icon: <FaUsers /> },
       { path: "/trainer-dashboard/messages", label: "messages", icon: <FaComments /> },
+      { path: "/trainer-dashboard/myreviews", label: "Reviews", icon: <FaCommentDots /> },
 
     ],
     admin: [

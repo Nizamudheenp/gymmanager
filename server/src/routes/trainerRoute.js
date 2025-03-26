@@ -3,7 +3,8 @@ const { trainerAuth } = require('../middleware/auth')
 const { getAllBookings, updateBooking, assignWorkouts, deleteWorkout, viewUserNutrition, 
     createSession, getClientProgress, removeClient, getUserWorkouts, addWorkoutToSession, 
     approveSessionRequest,
-    getTrainerSessions} = require('../controllers/trainerControllers')
+    getTrainerSessions,
+    myReviews} = require('../controllers/trainerControllers')
 const upload = require('../middleware/multer')
 const router = express.Router()
 
@@ -19,6 +20,7 @@ router.get("/mysessions", trainerAuth, getTrainerSessions);
 router.post('/addWorkoutToSession',trainerAuth,addWorkoutToSession) 
 router.post('/approveSessionRequest',trainerAuth,approveSessionRequest) 
 router.get('/getclientprogress/:userId',trainerAuth,getClientProgress)
+router.get("/myreviews",trainerAuth,myReviews)
 
 
 module.exports = router

@@ -2,12 +2,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Button, Card, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 function SessionDetails() {
   const { sessionId } = useParams();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchSessionDetails();
@@ -40,8 +44,20 @@ function SessionDetails() {
         <p className="text-center">
           <strong>Trainer:</strong> {session.trainerId?.username}
         </p>
+        <div className="d-flex justify-content-between">
+          <h4 className="text-warning mt-4">Assigned Workouts</h4>
+          <Button
+            variant="outline-warning"
+            style={{ width: "25%", margin: "5px" }}
+            onClick={() => {
+              navigate(`/user-dashboard/review-trainer/${session.trainerId?._id}`);
+            }}
+          >
+            Review The Trainer
+          </Button>
 
-        <h4 className="text-warning mt-4">Assigned Workouts</h4>
+
+        </div>
 
         {session.workouts.length > 0 ? (
           session.workouts.map((workout) => (

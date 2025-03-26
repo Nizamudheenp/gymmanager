@@ -291,3 +291,31 @@ exports.removeClient = async (req, res) => {
         res.status(500).json({ message: "Failed to remove client", error: error.message });
     }
 };
+
+exports.myReviews = async (req, res) => {
+    try {
+        const trainerId = req.trainer.id;  
+        const trainer = await TrainerDB.findById(trainerId)
+            .populate({
+                path: "reviews",  
+                populate: {
+                    path: "userId", 
+                    select: "username email" 
+                }
+            });
+
+        if (!trainer) {
+            return res.status(404).json({ message: "Trainer not found" });
+        }
+
+        res.json({
+            averageRating: trainer.averageRating,
+            totalReviews: trainer.reviews.length,
+            reviews: trainer.reviews
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch reviews", error: error.message });
+    }
+};
+

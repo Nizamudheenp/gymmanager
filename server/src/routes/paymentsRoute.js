@@ -3,6 +3,8 @@ const Stripe = require("stripe");
 require("dotenv").config();
 const PaymentDB = require("../models/paymentmodel");
 const AppointmentDB = require("../models/appointmentmodel");
+const { trainerAuth } = require('../middleware/auth')
+
 
 const router = express.Router();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
@@ -84,6 +86,32 @@ router.get("/get-client-secret/:appointmentId", async (req, res) => {
     } catch (error) {
         console.error("Error fetching client secret:", error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+
+
+// Fetch Trainer Earnings
+router.get("/trainer-earnings", trainerAuth, async (req, res) => {
+    try {
+        const trainerId = req.trainer.id; 
+        
+        const payments = await PaymentDB.find({ trainerId, status: "completed" });
+
+        const totalEarnings = payments.reduce((sum, payment) => sum + payment.amount, 0);
+
+        res.status(200).json({
+            totalEarnings,
+            sessions: payments.map(payment => ({
+                appointmentId: payment.appointmentId,
+                amount: payment.amount,
+                method: payment.method,
+                date: payment.createdAt
+            }))
+        });
+    } catch (error) {
+        console.error("Error fetching trainer earnings:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 });
 

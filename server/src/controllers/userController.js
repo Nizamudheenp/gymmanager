@@ -204,39 +204,47 @@ exports.getsessiondetails = async (req, res) => {
     }
 }
 
-
 exports.addReview = async (req, res) => {
     try {
-        const { trainerId } = req.params
-        const { rating, comment } = req.body
-        const userId = req.user.id
+        const { trainerId } = req.params;
+        const { rating, comment } = req.body;
+        const userId = req.user.id;
 
-        const sessionCompleted = await AppointmentDB.findOne({
-            userId,
+        const sessionAttended = await SessionDB.findOne({
             trainerId,
-            status: "completed"
-        })
-        if (!sessionCompleted) {
-            return res.status(403).json({ message: "You can only review trainers after completing a session." })
+            "bookings.userId": userId,
+            "bookings.status": "approved", 
+                });
+
+        if (!sessionAttended) {
+            return res.status(403).json({ message: "You can only review trainers after attending an approved session." });
         }
+
         const trainer = await TrainerDB.findById(trainerId);
-        const existingReview = trainer.reviews.find(review => review.userId.toString() === userId)
-        if (existingReview) {
-            return res.status(400).json({ message: "You have already reviewed this trainer." })
+        if (!trainer) {
+            return res.status(404).json({ message: "Trainer not found." });
         }
-        trainer.reviews.push({ userId, rating, comment })
+
+        const existingReview = trainer.reviews.find(review => review.userId.toString() === userId);
+        if (existingReview) {
+            return res.status(400).json({ message: "You have already reviewed this trainer." });
+        }
+
+        trainer.reviews.push({ userId, rating, comment });
 
         const totalRatings = trainer.reviews.length;
         const averageRating = trainer.reviews.reduce((sum, r) => sum + r.rating, 0) / totalRatings;
-        trainer.averageRating = averageRating.toFixed(1)
+        trainer.averageRating = averageRating.toFixed(1);
 
         await trainer.save();
-        res.status(201).json({ message: "Review added successfully", trainer })
+        res.status(201).json({ message: "Review added successfully", trainer });
 
     } catch (error) {
-        res.status(500).json({ message: "Failed to add review", error: error.message })
+        console.error("Error adding review:", error);
+        res.status(500).json({ message: "Failed to add review", error: error.message });
     }
-}
+};
+
 
 exports.getTrainerReviews = async (req, res) => {
     try {

@@ -29,6 +29,8 @@ import SessionDetails from "./pages/UserDashboard/SessionDetails";
 import PaymentPage from "./components/PaymentPage";
 import PaymentSuccess from "./components/PaymentSuccess";
 import Messages from "./components/Messages";
+import TrainerReviews from "./pages/UserDashboard/ReviewTrainer";
+import MyReviews from "./pages/TrainerDashboard/MyReviews";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -69,6 +71,8 @@ const App = () => {
             <Route path="payment/:appointmentId" element={<PaymentPage />} />
             <Route path="payment-success" element={<PaymentSuccess />} />
             <Route path="messages" element={<Messages />} /> 
+            <Route path="review-trainer/:trainerId" element={<TrainerReviews />} />
+
 
 
 
@@ -87,6 +91,7 @@ const App = () => {
             <Route path="manage-workouts/:userId" element={<ManageWorkouts />} />
             <Route path="manage-nutritions/:userId" element={<ClientNutrition />} />
             <Route path="messages" element={<Messages />} /> 
+            <Route path="myreviews" element={<MyReviews />} /> 
           </Route>
         
 
