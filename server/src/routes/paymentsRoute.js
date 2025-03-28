@@ -4,7 +4,7 @@ require("dotenv").config();
 const PaymentDB = require("../models/paymentmodel");
 const AppointmentDB = require("../models/appointmentmodel");
 const { trainerAuth } = require('../middleware/auth')
-
+const { adminAuth } = require("../middleware/auth");
 
 const router = express.Router();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
@@ -112,6 +112,23 @@ router.get("/trainer-earnings", trainerAuth, async (req, res) => {
     } catch (error) {
         console.error("Error fetching trainer earnings:", error);
         res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.get("/admin-payment-report", adminAuth, async (req, res) => {
+    try {
+        const payments = await PaymentDB.find({ status: "completed" });
+
+        const dailyReport = payments.reduce((acc, payment) => {
+            const date = new Date(payment.createdAt).toISOString().split("T")[0]; 
+            acc[date] = (acc[date] || 0) + payment.amount;
+            return acc;
+        }, {});
+
+        res.status(200).json(dailyReport);
+    } catch (error) {
+        console.error("Error fetching payment report:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
 

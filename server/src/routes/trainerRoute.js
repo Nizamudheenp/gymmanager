@@ -4,7 +4,9 @@ const { getAllBookings, updateBooking, assignWorkouts, deleteWorkout, viewUserNu
     createSession, getClientProgress, removeClient, getUserWorkouts, addWorkoutToSession, 
     approveSessionRequest,
     getTrainerSessions,
-    myReviews} = require('../controllers/trainerControllers')
+    myReviews,
+    deleteWorkoutFromSession,
+    deleteSession} = require('../controllers/trainerControllers')
 const upload = require('../middleware/multer')
 const router = express.Router()
 
@@ -19,6 +21,8 @@ router.post('/createsession',trainerAuth,upload.single('image'),createSession)
 router.get("/mysessions", trainerAuth, getTrainerSessions);
 router.post('/addWorkoutToSession',trainerAuth,addWorkoutToSession) 
 router.post('/approveSessionRequest',trainerAuth,approveSessionRequest) 
+router.post("/deleteWorkoutFromSession", trainerAuth, deleteWorkoutFromSession);
+router.delete("/deleteSession/:sessionId", trainerAuth, deleteSession);
 router.get('/getclientprogress/:userId',trainerAuth,getClientProgress)
 router.get("/myreviews",trainerAuth,myReviews)
 

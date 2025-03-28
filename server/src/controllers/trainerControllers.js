@@ -250,6 +250,68 @@ exports.getTrainerSessions = async (req, res) => {
     }
 };
 
+exports.deleteWorkoutFromSession = async (req, res) => {
+    try {
+        const { sessionId, workoutIndex } = req.body;
+        const trainerId = req.trainer.id;
+
+        const session = await SessionDB.findById(sessionId);
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (session.trainerId.toString() !== trainerId) {
+            return res.status(403).json({ message: "Unauthorized to modify this session" });
+        }
+
+        if (workoutIndex < 0 || workoutIndex >= session.workouts.length) {
+            return res.status(400).json({ message: "Invalid workout index" });
+        }
+
+        session.workouts.splice(workoutIndex, 1);  
+        await session.save();
+
+        res.status(200).json({ message: "Workout deleted successfully", session });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to delete workout", error: error.message });
+    }
+};
+
+exports.deleteSession = async (req, res) => {
+    try {
+        const { sessionId } = req.params;
+        const trainerId = req.trainer.id;
+
+        const session = await SessionDB.findById(sessionId);
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (session.trainerId.toString() !== trainerId) {
+            return res.status(403).json({ message: "Unauthorized to delete this session" });
+        }
+
+        await SessionDB.findByIdAndDelete(sessionId);
+        res.status(200).json({ message: "Session deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to delete session", error: error.message });
+    }
+};
+
+exports.getTrainerSessions = async (req, res) => {
+    try {
+        const trainerId = req.trainer.id;
+        const currentDate = new Date();
+
+        await SessionDB.deleteMany({ trainerId, date: { $lt: new Date(currentDate.setDate(currentDate.getDate() - 1)) } });
+
+        const sessions = await SessionDB.find({ trainerId });
+        res.status(200).json({ sessions });
+    } catch (error) {
+        console.error("Error fetching trainer sessions:", error);
+        res.status(500).json({ message: "Failed to fetch sessions", error: error.message });
+    }
+};
+
+
 
 exports.getClientProgress = async (req, res) => {
     try {

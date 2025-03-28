@@ -32,8 +32,8 @@ import Messages from "./components/Messages";
 import TrainerReviews from "./pages/UserDashboard/ReviewTrainer";
 import MyReviews from "./pages/TrainerDashboard/MyReviews";
 import AdminManageSessions from "./pages/AdminDashboard/ManageSessions";
-import AdminPayment from "./pages/AdminDashboard/AdminPayment";
 import ManageFeedbacks from "./pages/AdminDashboard/ManageFeedbacks";
+import AdminPayment from "./pages/AdminDashboard/AdminPaymentsGraph";
 
 const App = () => {
   const dispatch = useDispatch();

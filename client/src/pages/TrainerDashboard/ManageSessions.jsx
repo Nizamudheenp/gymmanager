@@ -82,6 +82,39 @@ function ManageSessions() {
       alert("Failed to create session.");
     }
   };
+
+  const handleDeleteSession = async (sessionId) => {
+    if (!window.confirm("Are you sure you want to delete this session?")) return;
+
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/trainer/deleteSession/${sessionId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert("Session deleted successfully!");
+      fetchTrainerSessions();
+    } catch (error) {
+      console.error("Error deleting session:", error);
+      alert("Failed to delete session.");
+    }
+  };
+
+  const handleDeleteWorkout = async (sessionId, workoutIndex) => {
+    if (!window.confirm("Are you sure you want to delete this workout?")) return;
+
+    try {
+        const response = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/api/trainer/deleteWorkoutFromSession`,
+            { sessionId, workoutIndex },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );        
+        alert(response.data.message);
+        fetchTrainerSessions(); 
+    } catch (error) {
+        console.error("Error deleting workout:", error);
+        alert("Failed to delete workout.");
+    }
+};
   if (loading) return <Spinner animation="border" className="d-block mx-auto mt-4 text-warning" />;
 
   return (
@@ -154,26 +187,38 @@ function ManageSessions() {
                   </ListGroup>
 
                   <AddWorkout sessionId={session._id} refreshSessions={fetchTrainerSessions} />
-                  <h6 className="mt-3">Workouts:</h6>
-                  {session.workouts.length === 0 ? (
-                    <p>No workouts added yet.</p>
-                  ) : (
-                    <ul>
-                      {session.workouts.map((w, index) => (
-                        <li key={index}>
-                          <p>{w.exercise} - {w.sets} Sets x {w.reps} Reps</p>
-                          {w.meetingLink && (
-                            <a href={w.meetingLink} target="_blank" rel="noopener noreferrer">
-                              📅 Join Meeting
-                            </a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+                  <h6 className="mt-3 text-warning">Workouts:</h6>
+{session.workouts.length === 0 ? (
+    <p>No workouts added yet.</p>
+) : (
+    <ul>
+        {session.workouts.map((w, index) => (
+            <li key={index} className="d-flex justify-content-between align-items-center">
+                <div>
+                    <p className="m-0">{w.exercise} - {w.sets} Sets x {w.reps} Reps</p>
+                    {w.meetingLink && (
+                        <a href={w.meetingLink} target="_blank" rel="noopener noreferrer">
+                            📅 Join Meeting
+                        </a>
+                    )}
+                </div>
+                <Button 
+                    variant="danger" 
+                    size="sm" 
+                    onClick={() => handleDeleteWorkout(session._id, index)}
+                >
+                    delete
+                </Button>
+            </li>
+        ))}
+    </ul>
+)}
 
-                  )}
-
+                  <Button variant="danger" className="mt-3 w-100" onClick={() => handleDeleteSession(session._id)}>
+                    Delete Session
+                  </Button>
                 </Card.Body>
+
               </Card>
             </div>
           ))}
