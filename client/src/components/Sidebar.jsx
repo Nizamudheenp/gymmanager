@@ -32,6 +32,9 @@ function Sidebar({ isOpen, toggleSidebar }) {
       { path: "/admin-dashboard", label: "Home", icon: <FaHome /> },
       { path: "/admin-dashboard/manage-trainers", label: "manage trainers", icon: <FaUsers /> },
       { path: "/admin-dashboard/manage-users", label: "manage users", icon: <FaUsers /> },
+      { path: "/admin-dashboard/admin-manage-sessions", label: "manage sessions", icon: <FaCalendarCheck /> },
+      { path: "/admin-dashboard/manage-payments", label: "manage payments", icon: <FaCalendarCheck /> },
+      { path: "/admin-dashboard/manage-feedbacks", label: "manage feedbacks", icon: <FaCalendarCheck /> },
       
     ]
   };

@@ -31,6 +31,9 @@ import PaymentSuccess from "./components/PaymentSuccess";
 import Messages from "./components/Messages";
 import TrainerReviews from "./pages/UserDashboard/ReviewTrainer";
 import MyReviews from "./pages/TrainerDashboard/MyReviews";
+import AdminManageSessions from "./pages/AdminDashboard/ManageSessions";
+import AdminPayment from "./pages/AdminDashboard/AdminPayment";
+import ManageFeedbacks from "./pages/AdminDashboard/ManageFeedbacks";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -106,6 +109,10 @@ const App = () => {
           <Route index element={<AdminHome />} />
           <Route path="manage-trainers" element={<ManageTrainers />} />
           <Route path="manage-users" element={<ManageUsers />} />
+          <Route path="admin-manage-sessions" element={<AdminManageSessions />} />
+          <Route path="manage-payments" element={<AdminPayment />} />
+          <Route path="manage-feedbacks" element={<ManageFeedbacks />} />
+
         </Route>
         
         
