@@ -54,6 +54,19 @@ function NutritionLog() {
     setLoading(false);
   };
 
+  const handleDeleteMeal = async (mealId) => {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/deletemeal/${mealId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
+    } catch (error) {
+      setError("Failed to delete meal.");
+    }
+  };
+
   return (
     <div className="container mt-4">
   <h2 className="text-center text-dark">Log  Meals</h2>
@@ -102,6 +115,7 @@ function NutritionLog() {
           <th>Protein</th>
           <th>Carbs</th>
           <th>Fats</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody className="bg-dark text-light">
@@ -113,6 +127,11 @@ function NutritionLog() {
             <td>{meal.protein}g</td>
             <td>{meal.carbs}g</td>
             <td>{meal.fats}g</td>
+            <td>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDeleteMeal(meal._id)}>
+                    Delete
+                  </button>
+                </td>
           </tr>
         ))}
       </tbody>

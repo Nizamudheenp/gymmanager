@@ -54,3 +54,20 @@ exports.getUserGoals = async (req, res) => {
         res.status(500).json({ message: "Failed to get fitness goals", error: error.message });
     }
 };
+exports.deleteGoals = async (req, res) => {
+    try {
+        const { goalId } = req.params;
+        const userId = req.user.id; 
+
+        const deletedGoal = await FitnessDB.findOneAndDelete({ _id: goalId, userId });
+
+        if (!deletedGoal) {
+            return res.status(404).json({ message: "Goal not found or already deleted" });
+        }
+
+        res.json({ message: "Goal deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting goal:", error);
+        res.status(500).json({ error: "Failed to delete goal" });
+    }
+};

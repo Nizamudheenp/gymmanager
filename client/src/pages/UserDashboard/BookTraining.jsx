@@ -28,6 +28,25 @@ function BookTraining() {
     fetchTrainers();
   }, [token]);
 
+  useEffect(() => {
+    const deleteUnpaidAppointments = async () => {
+      try {
+        if (!token) return;
+  
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/user/cleanup`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+  
+        console.log("Pending and canceled appointments deleted.");
+      } catch (error) {
+        console.error("Error deleting unpaid appointments:", error);
+      }
+    };
+  
+    deleteUnpaidAppointments();
+  }, [token]);
+  
+
   const handleBooking = async (trainerId) => {
     try {
       if (!token) throw new Error("No token found. Please log in.");

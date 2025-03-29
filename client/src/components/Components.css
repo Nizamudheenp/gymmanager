@@ -1,66 +1,111 @@
-                                                                 /* home page css */
+/* 🔹 Home Page CSS */
 
 #homepage-navbar {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.6); 
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000; 
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
 
-  #homepage-navbar  .nav-link {
-    color: white !important; 
-    font-size: 18px;
-    font-weight: bold;
-    padding: 8px 15px;
-    transition: color 0.3s;
-  }
-  
-  #homepage-navbar  .nav-link:hover {
-    color: #f0a500 !important; 
-  }
-  
-  .homapge-mainview {
-    background-image: url('../assets/sven-mieke-jO6vBWX9h9Y-unsplash.jpg'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    position: relative;
-    padding-top: 80px; 
-  }
-  
+#homepage-navbar .nav-link {
+  color: white !important;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 15px;
+  transition: color 0.3s, transform 0.2s;
+}
 
-  .homapge-mainview::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    z-index: 1;
+#homepage-navbar .nav-link:hover {
+  color: #f0a500 !important;
+  transform: scale(1.1);
+}
+
+.homepage-mainview {  
+  background-image: url('../assets/sven-mieke-jO6vBWX9h9Y-unsplash.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  padding-top: 80px;
+}
+
+.homepage-mainview::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); 
+  z-index: 1;
+}
+
+.homepage-mainview h1,
+.homepage-mainview p,
+.homepage-mainview button {
+  position: relative;
+  z-index: 2;
+}
+
+.homepage-mainview h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.homepage-mainview p {
+  font-size: 1.2rem;
+  max-width: 600px;
+}
+
+.get-started-btn {
+  background: #f0a500;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.get-started-btn:hover {
+  background: #ffbe00;
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .homepage-mainview h1 {
+      font-size: 2rem;
   }
-  
-  .homapge-mainview h1, 
-  .homapge-mainview p, 
-  .homapge-mainview button {
-    position: relative;
-    z-index: 2;
+
+  .homepage-mainview p {
+      font-size: 1rem;
+      padding: 0 15px;
   }
+
+  .get-started-btn {
+      font-size: 16px;
+      padding: 10px 20px;
+  }
+}
+
 
 .get-started-btn {
     background: linear-gradient(135deg, #f0a500, #ff6600); 
@@ -118,6 +163,87 @@
       padding: 10px; 
     }
   }
+
+  /* 🔹 About Section */
+.about-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: #121212;
+  color: white;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.about-section p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* 🔹 Features Section */
+.features-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: #1a1a1a;
+  color: white;
+}
+
+.features-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.feature-box {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  width: 250px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.feature-box:hover {
+  transform: scale(1.05);
+}
+
+/* 🔹 Testimonials Section */
+.testimonials-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: #0d0d0d;
+  color: white;
+}
+
+.testimonial {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  width: 50%;
+  margin: 20px auto;
+}
+
+/* 🔹 Footer */
+.footer {
+  background: black;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer a {
+  color: #f0a500;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
 
  
                                               /*what brings you here page css */

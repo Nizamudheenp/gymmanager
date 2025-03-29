@@ -8,6 +8,7 @@ function PaymentPage() {
   const navigate = useNavigate();
   const { appointmentId } = useParams();
   const [clientSecret, setClientSecret] = useState(location.state?.clientSecret || "");
+  const amount = 2000; 
 
   useEffect(() => {
     if (!clientSecret) {
@@ -17,22 +18,29 @@ function PaymentPage() {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => setClientSecret(response.data.clientSecret))
-        .catch(() => navigate("/user-dashboard")); 
+        .catch(() => navigate("/user-dashboard"));
     }
   }, [appointmentId, clientSecret, navigate]);
 
   if (!clientSecret) {
     return (
-      <div>
-        <h2>Loading Payment Details...</h2>
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <h2 className="text-warning">Loading Payment Details...</h2>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2>Complete Payment</h2>
-      <Payment clientSecret={clientSecret} appointmentId={appointmentId} />
+    <div className="container mt-5">
+      <div className="card p-4 bg-dark text-light shadow-sm">
+        <h2 className="text-center text-warning mb-4">Complete Your Payment</h2>
+        <div className="text-center">
+          <p className="fs-4">
+            Amount to Pay: <span className="fw-bold text-success">${(amount / 100).toFixed(2)}</span>
+          </p>
+        </div>
+        <Payment clientSecret={clientSecret} />
+      </div>
     </div>
   );
 }

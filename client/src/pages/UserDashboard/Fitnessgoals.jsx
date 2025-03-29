@@ -50,6 +50,19 @@ function Fitnessgoals() {
         }
     }
 
+    const deleteGoal = async (goalId) => {
+        try {
+            await axios.delete(
+                `${import.meta.env.VITE_BACKEND_URL}/api/user/deletegoal/${goalId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            setGoals((prevGoals) => prevGoals.filter((goal) => goal._id !== goalId));
+        } catch (error) {
+            console.log("Error deleting goal", error.message);
+        }
+    };
+
     const updateProgress = async (goalId, currentProgress) => {
         try {
             await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/updategoal/${goalId}`,
@@ -92,7 +105,7 @@ function Fitnessgoals() {
                 <button className="btn btn-warning w-100"onClick={setGoal}>Set Goal</button>
             </div>
 
-            <h5 className="mt-4 text-light">My Goals</h5>
+            <h5 className="mt-4 text-dark">My Goals</h5>
 
             {goals.length === 0 ? (
                 <p className="text-secondary">No fitness goals set yet.</p>
@@ -103,13 +116,22 @@ function Fitnessgoals() {
                             <div>
                                 <strong className="text-warning">{goal.goalType}</strong>  |  Progress: {goal.currentprogress || 0}/{goal.targetProgress}  |  Status: {goal.status || "In Progress"}
                             </div>
+                            <div className='p-2'>
                             <button
-                                className="btn btn-warning btn-sm"
+                                className="btn btn-warning btn-sm me-3"
                                 onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
                                 disabled={goal.currentprogress >= goal.targetProgress}
                             >
                                 + Progress
                             </button>
+                            <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => deleteGoal(goal._id)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                            
                         </li>
                     ))}
                 </ul>

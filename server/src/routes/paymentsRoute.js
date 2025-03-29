@@ -22,7 +22,7 @@ router.post("/create-payment-intent", async (req, res) => {
             amount,
             currency: "usd",
             automatic_payment_methods: { enabled: true },
-            metadata: { appointmentId } //  Store appointmentId in Stripe metadata
+            metadata: { appointmentId } 
         });
 
         await PaymentDB.create({

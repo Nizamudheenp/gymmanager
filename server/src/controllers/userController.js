@@ -18,7 +18,15 @@ exports.availableTrainers = async (req, res) => {
         res.status(500).json({ message: "trainers fetching failed", error: error.message });
     }
 }
-
+exports.cleanup = async (req, res) => {
+    try {
+      await AppointmentDB.deleteMany({ status: { $in: ["pending", "cancelled"] } });
+  
+      res.json({ message: "Pending and canceled appointments deleted successfully." });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting appointments", error });
+    }
+  };
 exports.bookTraining = async (req, res) => {
     try {
         const { trainerId } = req.body
@@ -142,6 +150,29 @@ exports.nutritionhistory = async (req, res) => {
         res.status(500).json({ message: "Failed to get history", error: error.message })
     }
 }
+
+exports.deleteMeal = async (req, res) => {
+    try {
+        const { mealId } = req.params;
+        const userId = req.user.id; 
+
+        const updatedNutrition = await NutritionDB.findOneAndUpdate(
+            { userId },
+            { $pull: { meals: { _id: mealId } } },
+            { new: true }
+        );
+
+        if (!updatedNutrition) {
+            return res.status(404).json({ message: "Meal not found or already deleted" });
+        }
+
+        res.json({ message: "Meal deleted successfully", updatedMeals: updatedNutrition.meals });
+    } catch (error) {
+        console.error("Error deleting meal:", error);
+        res.status(500).json({ error: "Failed to delete meal" });
+    }
+};
+
 
 exports.getAvailableSessions = async (req, res) => {
     try {
