@@ -37,11 +37,15 @@ const authSlice = createSlice({
             localStorage.removeItem("token");
             localStorage.removeItem("role");
             localStorage.removeItem("verified");
-          }, 
+          },
+          clearError: (state) => {
+            state.error = null;
+          }
+           
     }
 })
 
-export const {loginSuccess, loginFailure, logout} = authSlice.actions
+export const {loginSuccess, loginFailure, logout,clearError} = authSlice.actions
 
 export const loginUser = (formData) => async (dispatch) => {
     try {

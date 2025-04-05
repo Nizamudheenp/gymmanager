@@ -5,6 +5,10 @@ import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
 const ProgressChart = ({ progress }) => {
+  if (!progress || progress.length === 0) {
+    return <p className="text-white text-center">No progress data available yet.</p>;
+  }
+  
   const sortedProgress = progress
     .sort((a, b) => new Date(a.loggedAt) - new Date(b.loggedAt))
     .slice(-5);
@@ -44,7 +48,7 @@ const ProgressChart = ({ progress }) => {
         labels: {
           color: "white", 
         },
-        position: "right",
+        position: "bottom",
       },
     },
     scales: {
@@ -61,7 +65,7 @@ const ProgressChart = ({ progress }) => {
     }
   };
 
-  return <div style={{ height: "230px",width:"500px" }}> 
+  return  <div style={{ height: "230px", width: "100%", maxWidth: "600px", margin: "0 auto" }}>
   <Line data={data} options={options} />
 </div>
 };

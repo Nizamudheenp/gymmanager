@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Form,
+  ListGroup,
+} from "react-bootstrap";
 
 function ManageWorkouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -14,10 +23,13 @@ function ManageWorkouts() {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/trainer/getuserworkouts/${userId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       setWorkouts(response.data.workouts || []);
     } catch (error) {
+      console.error("Failed to fetch workouts");
     }
   };
 
@@ -25,89 +37,101 @@ function ManageWorkouts() {
     fetchWorkouts();
   }, [userId, token]);
 
-  // Assign workout
   const assignWorkout = async () => {
     try {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/trainer/assignworkouts`,
-        { userId, exercises: [{ name: exercise, sets, reps }] },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          userId,
+          exercises: [{ name: exercise, sets, reps }],
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-
       setExercise("");
       setSets("");
       setReps("");
-
       fetchWorkouts();
     } catch (error) {
-      console.error("Error assigning workout:", error.response?.data?.message || error.message);
+      console.error("Error assigning workout:", error.message);
     }
   };
 
-  // Delete workout
   const deleteWorkout = async (exerciseId) => {
     try {
       await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/trainer/deleteworkout/${exerciseId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
       fetchWorkouts();
     } catch (error) {
-      console.error("Error deleting exercise:", error.response?.data?.message || error.message);
+      console.error("Error deleting exercise:", error.message);
     }
   };
 
   return (
-    <div className="container mt-4">
-      <h4>Manage Workouts</h4>
+    <Container className="mt-4">
+      <h4 className="text-warning text-center mb-4">Manage Workouts</h4>
 
-      {/* Assign New Workout */}
-      <div className="card p-3">
-        <h5>Assign New Workout</h5>
-        <input
-          type="text"
-          className="form-control mb-2"
-          placeholder="Exercise"
-          value={exercise}
-          onChange={(e) => setExercise(e.target.value)}
-        />
-        <input
-          type="number"
-          className="form-control mb-2"
-          placeholder="Sets"
-          value={sets}
-          onChange={(e) => setSets(e.target.value)}
-        />
-        <input
-          type="number"
-          className="form-control mb-2"
-          placeholder="Reps"
-          value={reps}
-          onChange={(e) => setReps(e.target.value)}
-        />
-        <button className="btn btn-success w-100" onClick={assignWorkout}>
-          Assign Workout
-        </button>
-      </div>
+      <Card className="bg-dark text-light p-4 mb-4 shadow">
+        <Card.Title className="text-warning">Assign New Workout</Card.Title>
+        <Form>
+          <Row>
+            <Col md={4} className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="Exercise"
+                value={exercise}
+                onChange={(e) => setExercise(e.target.value)}
+              />
+            </Col>
+            <Col md={4} className="mb-3">
+              <Form.Control
+                type="number"
+                placeholder="Sets"
+                value={sets}
+                onChange={(e) => setSets(e.target.value)}
+              />
+            </Col>
+            <Col md={4} className="mb-3">
+              <Form.Control
+                type="number"
+                placeholder="Reps"
+                value={reps}
+                onChange={(e) => setReps(e.target.value)}
+              />
+            </Col>
+          </Row>
+          <Button variant="success" className="w-100" onClick={assignWorkout}>
+            Assign Workout
+          </Button>
+        </Form>
+      </Card>
 
-      <h5 className="mt-4">Current Workouts</h5>
+      <h5 className="text-dark">Current Workouts</h5>
       {workouts.length === 0 ? (
-        <p>No workouts assigned yet.</p>
+        <p className="text-secondary">No workouts assigned yet.</p>
       ) : (
-        <ul className="list-group">
+        <ListGroup>
           {workouts.map((exercise) => (
-            <li key={exercise._id} className="list-group-item d-flex justify-content-between">
+            <ListGroup.Item
+              key={exercise._id}
+              className="d-flex justify-content-between align-items-center bg-dark text-light border-warning"
+            >
               {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
-              <button className="btn btn-danger btn-sm" onClick={() => deleteWorkout(exercise._id)}>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => deleteWorkout(exercise._id)}
+              >
                 Delete
-              </button>
-            </li>
+              </Button>
+            </ListGroup.Item>
           ))}
-        </ul>
+        </ListGroup>
       )}
-
-    </div>
+    </Container>
   );
 }
 

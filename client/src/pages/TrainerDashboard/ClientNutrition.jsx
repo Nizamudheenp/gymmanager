@@ -16,9 +16,6 @@ function ClientNutrition() {
           { headers: { Authorization: `Bearer ${token}` } }
         )
         setNutritions(response.data.nutrition?.meals || []);
-
-        console.log("Fetched Nutritions:", response.data);
-
       } catch (error) {
         console.error(error);
         setNutritions([]);

@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 function TrainerReviews() {
-  const { trainerId } = useParams(); 
+  const { trainerId } = useParams();
   const [reviews, setReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fetchingReviews, setFetchingReviews] = useState(true);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchReviews = async () => {
-        
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/getreviews/${trainerId}`,
-            {headers:{Authorization: `Bearer ${token}`}},
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/getreviews/${trainerId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setReviews(response.data.reviews);
         setAverageRating(response.data.averageRating);
       } catch (error) {
         console.error("Error fetching reviews:", error);
+        alert("Failed to fetch reviews");
+      } finally {
+        setFetchingReviews(false);
       }
     };
     fetchReviews();
@@ -30,6 +36,7 @@ function TrainerReviews() {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (rating < 1 || rating > 5) return alert("Rating must be between 1 and 5");
+    if (!comment.trim()) return alert("Comment cannot be empty");
 
     try {
       setLoading(true);
@@ -39,11 +46,14 @@ function TrainerReviews() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      alert("Review submitted successfully!");
+      toast.success("review added");
       setRating(0);
       setComment("");
 
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/getreviews/${trainerId}`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/getreviews/${trainerId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setReviews(response.data.reviews);
       setAverageRating(response.data.averageRating);
     } catch (error) {
@@ -62,11 +72,25 @@ function TrainerReviews() {
       <form onSubmit={handleReviewSubmit} className="mb-4">
         <div className="mb-2">
           <label>Rating (1-5)</label>
-          <input type="number" min="1" max="5" className="form-control" value={rating} onChange={(e) => setRating(e.target.value)} required />
+          <input
+            type="number"
+            min="1"
+            max="5"
+            className="form-control"
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
+            required
+          />
         </div>
         <div className="mb-2">
           <label>Comment</label>
-          <textarea className="form-control" rows="3" value={comment} onChange={(e) => setComment(e.target.value)} required></textarea>
+          <textarea
+            className="form-control"
+            rows="3"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            required
+          ></textarea>
         </div>
         <button type="submit" className="btn btn-warning" disabled={loading}>
           {loading ? "Submitting..." : "Submit Review"}
@@ -74,7 +98,9 @@ function TrainerReviews() {
       </form>
 
       <h5>All Reviews</h5>
-      {reviews.length === 0 ? (
+      {fetchingReviews ? (
+        <p>Loading reviews...</p>
+      ) : reviews.length === 0 ? (
         <p>No reviews yet.</p>
       ) : (
         <ul className="list-group">

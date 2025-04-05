@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { Card, Form, Button, ListGroup } from "react-bootstrap";
+import { toast } from "react-toastify";
+
 
 function AddWorkout({ sessionId, refreshSessions }) {
     const [exercise, setExercise] = useState("");
@@ -12,7 +14,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
 
     const handleAddWorkout = () => {
         if (!exercise.trim() || !sets || !reps) {
-            alert("Please fill all fields.");
+            toast.warning("Please fill all fields.");
             return;
         }
 
@@ -26,7 +28,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (workouts.length === 0) {
-            alert("Please add at least one workout.");
+            toast.error("Please add at least one workout.");
             return;
         }
 
@@ -37,7 +39,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
-            alert(response.data.message);
+            toast.success(response.data.message);
             setWorkouts([]); 
             refreshSessions(); 
         } catch (error) {

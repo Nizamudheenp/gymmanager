@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Card, Button } from "react-bootstrap"; 
 
 function BookTraining() {
   const [trainers, setTrainers] = useState([]);
@@ -32,20 +33,19 @@ function BookTraining() {
     const deleteUnpaidAppointments = async () => {
       try {
         if (!token) return;
-  
+
         await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/user/cleanup`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         console.log("Pending and canceled appointments deleted.");
       } catch (error) {
         console.error("Error deleting unpaid appointments:", error);
       }
     };
-  
+
     deleteUnpaidAppointments();
   }, [token]);
-  
 
   const handleBooking = async (trainerId) => {
     try {
@@ -66,7 +66,7 @@ function BookTraining() {
 
       const newAppointmentId = appointmentResponse.data.appointment._id;
 
-      //Create Payment Intent
+      // Create Payment Intent
       const paymentResponse = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/payments/create-payment-intent`,
         {
@@ -79,7 +79,6 @@ function BookTraining() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-  
       navigate(`/user-dashboard/payment/${newAppointmentId}`, {
         state: { clientSecret: paymentResponse.data.clientSecret },
       });
@@ -90,7 +89,7 @@ function BookTraining() {
   };
 
   return (
-    <div className="container mt-4">
+    <Container className="mt-4"> 
       <h3 className="text-dark">Available Trainers</h3>
       {bookingMessage && <p className="mt-3 text-center text-danger">{bookingMessage}</p>}
 
@@ -101,26 +100,23 @@ function BookTraining() {
       ) : trainers.length === 0 ? (
         <p className="text-secondary">No trainers available.</p>
       ) : (
-        <div className="row mt-3 g-3"> 
+        <Row className="mt-3 g-3"> 
           {trainers.map((trainer) => (
-            <div key={trainer._id} className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div className="card bg-dark text-light shadow-sm p-3 w-100 d-flex flex-column justify-content-between border-secondary" style={{ minHeight: "170px" }}>
-          <h5  className="text-warning" >{trainer.username}</h5>
-                <p className="text-light"> {trainer.specialization}</p>
-                <button
-                  className="btn btn-warning btn-sm w-100 fw-bold text-dark"
-                  onClick={() => handleBooking(trainer._id)}
-                >
+            <Col key={trainer._id} xs={12} sm={6} md={4} lg={3} className="d-flex"> 
+              <Card className="bg-dark text-light shadow-sm p-3 w-100 d-flex flex-column justify-content-between border-secondary" style={{ minHeight: "170px" }}>
+                <Card.Body>
+                  <Card.Title className="text-warning">{trainer.username}</Card.Title>
+                  <Card.Text className="text-light">{trainer.specialization}</Card.Text>
+                </Card.Body>
+                <Button variant="warning" className="fw-bold text-dark w-100" onClick={() => handleBooking(trainer._id)}>
                   Book & Pay
-                </button>
-              </div>
-            </div>
+                </Button>
+              </Card>
+            </Col>
           ))}
-        </div>
+        </Row>
       )}
-
-
-    </div>
+    </Container>
   );
 }
 

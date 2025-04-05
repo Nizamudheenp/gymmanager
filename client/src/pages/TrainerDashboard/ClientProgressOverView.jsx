@@ -66,12 +66,10 @@ function ClientProgressOverview() {
 
   return (
     <div className="container mt-4">
-  <h4 style={{ color: "white" }}>Client Progress Overview</h4>
-  <div className="card p-3 shadow-sm" 
+    <div className="card p-3 shadow-sm" 
        style={{
          backgroundColor: "transparent",
          color: "white",
-         lineHeight: "10px",
          fontSize: "17px",
          border: "1px solid orange" 
        }}>

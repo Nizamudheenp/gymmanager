@@ -19,7 +19,7 @@ function HomePage() {
         </Nav>
       </nav>
 
-      <div className="homepage-mainview">
+      <div className="homepage-mainview p-3">
         <h1>Welcome to Fitness Management System</h1>
         <p>Track your fitness, book trainers, and manage your progress.</p>
 

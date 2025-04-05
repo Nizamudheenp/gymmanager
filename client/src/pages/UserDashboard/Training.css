@@ -11,6 +11,8 @@
   align-items: center;
   justify-content: center;
   display: flex;
+  background-size: cover;
+  background-position: center;
 }
 
 .training-section .training-card:hover {
@@ -24,6 +26,20 @@
   margin-bottom: 8px;
 }
 
-.training-section .row .col-md-6 {
+.training-section .row .col-md-6,
+.training-section .row .col-lg-4 {
   margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+  .training-section .training-card {
+    height: auto; 
+  }
+}
+
+@media (max-width: 576px) {
+  .training-section h2 {
+    font-size: 1.5rem; 
+  }
+}
+

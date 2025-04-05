@@ -1,4 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import HomePage from "./components/HomePage";
 import WhatBringsYouHere from "./components/WhatBringsYouHere";
 import Login from "./pages/auth/Login";
@@ -47,6 +49,8 @@ const App = () => {
     }
   }, [dispatch]);
   return (
+    <>
+    <ToastContainer position="top-right" autoClose={3000} />
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -118,6 +122,7 @@ const App = () => {
         
       </Routes>
     </Router>
+    </>
   )
 };
 

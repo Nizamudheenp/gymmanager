@@ -39,7 +39,6 @@ function PendingAppointments() {
         style={{
           backgroundColor: "transparent",
           color: "white",
-          lineHeight: "10px",
           fontSize: "20px",
           border: "1px solid orange" 
         }}>

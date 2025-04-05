@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../redux/slices/AuthSlice";
-import "./auth.css"; // Import the CSS file
+import { loginUser,clearError  } from "../../redux/slices/AuthSlice";
+import "./auth.css"; 
+import { toast } from "react-toastify";
+
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,6 +13,11 @@ function Login() {
   const navigate = useNavigate();
   const { loading, error, role, token, verified } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    dispatch(clearError());
+    setUnverifiedError("");
+  }, [formData.email, formData.password]);
+  
   useEffect(() => {
     if (token && role) {
       if (role === "user") navigate("/user-dashboard");
@@ -22,6 +29,7 @@ function Login() {
         }
       }
       if (role === "admin") navigate("/admin-dashboard");
+      toast.success("Login Successful!"); 
     }
   }, [role, token, verified, navigate]);
 
@@ -32,14 +40,16 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(loginUser(formData));
-  };
+    };
+  
+  
 
   return (
     <div className="login-container">
-      <div className="login-box">
+      <div className="login-box m-3">
         <h2>Login</h2>
 
-        {error && <p className="error-message">{error}</p>}
+        {error?.message && <p className="error-message">{error.message}</p>}
         {unverifiedError && <p className="error-message">{unverifiedError}</p>}
 
         <form onSubmit={handleSubmit}>
@@ -54,6 +64,15 @@ function Login() {
           <button type="submit" className="btn btn-primary w-100" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
+          <p className="mt-3 text-center">
+            Don't have an account? 
+            <span
+            style={{color:"#007bff", cursor:"pointer", textDecoration:"underline", marginLeft:"5px"}}
+            onClick={()=>navigate("/what-brings-you-here")}
+            >
+              Register
+            </span>
+          </p>
         </form>
       </div>
     </div>

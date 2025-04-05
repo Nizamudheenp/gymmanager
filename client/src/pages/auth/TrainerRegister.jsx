@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./auth.css"; 
+import { toast } from "react-toastify";
+
 
 function TrainerRegister() {
   const navigate = useNavigate();
@@ -35,17 +37,16 @@ function TrainerRegister() {
         formDataToSend,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Registration failed");
-    }
+      toast.error(error.response.message);    }
   };
 
   return (
-    <div className="trainer-register-container">
+    <div className="trainer-register-container p-3">
       <div className="trainer-register-box">
         <h2>Trainer Registration</h2>
         <form onSubmit={handleSubmit}>

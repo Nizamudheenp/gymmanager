@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./auth.css";
+import { toast } from "react-toastify";
+
 
 function UserRegister() {
   const navigate = useNavigate();
@@ -36,17 +38,19 @@ function UserRegister() {
         `${import.meta.env.VITE_BACKEND_URL}/api/auth/userRegister`,
         formData
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
       alert(error.response.message);
+      toast.error(error.response.message);
+      
     }
   };
 
   return (
-    <div className="user-register-container">
+    <div className="user-register-container p-3">
       <div className="user-register-box">
         <h2>User Registration</h2>
         <form onSubmit={handleSubmit}>

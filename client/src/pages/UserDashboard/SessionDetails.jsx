@@ -1,17 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Button, Card, Spinner } from "react-bootstrap";
+import { Container, Button, Card, Spinner, Toast } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
 
 function SessionDetails() {
   const { sessionId } = useParams();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [completedWorkouts, setCompletedWorkouts] = useState([]);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-
 
   useEffect(() => {
     fetchSessionDetails();
@@ -31,6 +31,11 @@ function SessionDetails() {
     }
   };
 
+  const handleMarkAsDone = (workoutId) => {
+    setCompletedWorkouts((prev) => [...prev, workoutId]);
+    setShowToast(true);
+  };
+
   if (loading)
     return <Spinner animation="border" className="d-block mx-auto mt-4 text-warning" />;
 
@@ -44,19 +49,18 @@ function SessionDetails() {
         <p className="text-center">
           <strong>Trainer:</strong> {session.trainerId?.username}
         </p>
-        <div className="d-flex justify-content-between">
+
+        <div className="d-flex justify-content-between align-items-center mb-3">
           <h4 className="text-warning mt-4">Assigned Workouts</h4>
           <Button
             variant="outline-warning"
-            style={{ width: "25%", margin: "5px" }}
+            style={{ width: "30%" }}
             onClick={() => {
               navigate(`/user-dashboard/review-trainer/${session.trainerId?._id}`);
             }}
           >
             Review The Trainer
           </Button>
-
-
         </div>
 
         {session.workouts.length > 0 ? (
@@ -68,7 +72,6 @@ function SessionDetails() {
                   <strong>Sets:</strong> {workout.sets} | <strong>Reps:</strong> {workout.reps}
                 </Card.Text>
 
-                {/* Meeting Link  */}
                 {workout.meetingLink && (
                   <a
                     href={workout.meetingLink}
@@ -80,8 +83,13 @@ function SessionDetails() {
                   </a>
                 )}
 
-                <Button variant="outline-warning" className="w-100">
-                  Mark as Done
+                <Button
+                  variant="outline-warning"
+                  className="w-100"
+                  disabled={completedWorkouts.includes(workout._id)} 
+                  onClick={() => handleMarkAsDone(workout._id)}
+                >
+                  {completedWorkouts.includes(workout._id) ? "Completed" : "Mark as Done"}
                 </Button>
               </Card.Body>
             </Card>
@@ -90,6 +98,16 @@ function SessionDetails() {
           <p className="text-light">No workouts assigned yet...</p>
         )}
       </Card>
+
+      <Toast
+        onClose={() => setShowToast(false)}
+        show={showToast}
+        delay={3000}
+        autohide
+        className="position-fixed bottom-0 end-0 m-3"
+      >
+        <Toast.Body className="text-white bg-success">Workout marked as done!</Toast.Body>
+      </Toast>
     </Container>
   );
 }

@@ -16,6 +16,7 @@ function Home() {
   const navigate = useNavigate();
 
   return (
+    <div className="user-dashboard">
     <div className="dashboard-container">
       {/* Upcoming Sessions Widget */}
       <div className="dashboard-widget" style={{ 
@@ -64,6 +65,7 @@ function Home() {
         <h4>Progress Tracking</h4>
         <HomeProgress />
       </div>
+    </div>
     </div>
   );
 }

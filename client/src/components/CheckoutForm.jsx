@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function CheckoutForm() {
   const stripe = useStripe();
@@ -33,6 +34,7 @@ function CheckoutForm() {
         });
 
         setPaymentSuccess(true);
+        toast.success("Payment Successful!");
 
         setTimeout(() => navigate("/user-dashboard/payment-success"), 3000);
       } catch (updateError) {
@@ -43,12 +45,6 @@ function CheckoutForm() {
 
   return (
     <div>
-      {paymentSuccess && (
-        <div className="alert alert-success text-center" role="alert">
-          Payment Successful! Redirecting...
-        </div>
-      )}
-
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <PaymentElement />

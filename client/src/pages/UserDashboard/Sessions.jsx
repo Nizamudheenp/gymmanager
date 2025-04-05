@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Card, Button, Spinner, Badge, Container, Row, Col } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+
 function Sessions() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookingStatus, setBookingStatus] = useState({});
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
 
   const userId = token ? jwtDecode(token).id : null;
 
@@ -77,9 +77,8 @@ function Sessions() {
 
             const canJoin = userBooking?.status === "approved" && currentTime >= sessionStartTime;
 
-
             return (
-              <Col key={session._id} md={4} className="mb-3">
+              <Col key={session._id} xs={12} sm={6} md={4} lg={3} className="mb-3">
                 <Card className="bg-dark text-white shadow">
                   <Card.Img
                     variant="top"
@@ -119,7 +118,6 @@ function Sessions() {
                         {bookingStatus[session._id]?.loading ? "Requesting..." : "Request to Join"}
                       </Button>
                     )}
-
 
                     {bookingStatus[session._id]?.error && <p className="text-danger mt-2">{bookingStatus[session._id]?.error}</p>}
                   </Card.Body>

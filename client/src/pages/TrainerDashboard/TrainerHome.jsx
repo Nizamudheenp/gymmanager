@@ -17,6 +17,7 @@ function TrainerHome() {
   const navigate = useNavigate();
 
   return (
+    <div className="trainer-dashboard">
     <div className="dashboard-container">
       {/* Earnings Overview Widget */}
       <div className="dashboard-widget" style={{ 
@@ -67,6 +68,7 @@ function TrainerHome() {
         <h4>session bookings</h4>
         <PendingAppointments />
       </div>
+    </div>
     </div>
   );
 }

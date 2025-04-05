@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Button, Spinner, Modal, ListGroup } from "react-bootstrap";
+import { toast } from "react-toastify";
+
 
 function AdminManageSessions() {
   const [sessions, setSessions] = useState([]);
@@ -38,7 +40,7 @@ function AdminManageSessions() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       fetchSessions();
-      alert("Session deleted successfully!");
+      toast.success("Session deleted successfully!");
     } catch (error) {
       console.error("Error deleting session:", error);
       alert("Failed to delete session.");

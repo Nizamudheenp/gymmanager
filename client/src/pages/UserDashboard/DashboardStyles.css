@@ -1,32 +1,63 @@
-.dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 100%;
+.trainer-dashboard .dashboard-container,
+.user-dashboard .dashboard-container , .admin-dashboard .dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .dashboard-widget {
-    background: #222;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(255, 165, 0, 0.3);
-    min-height: 150px;
-    
+  background: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(255, 165, 0, 0.3);
+  min-height: 180px;
+  background-blend-mode: darken;
+  overflow: hidden;
 }
 
 .dashboard-widget:hover {
-    background: #333;
-    transform: scale(1.05);
+  background: #333;
+  transform: scale(1.03);
 }
 
+.dashboard-widget img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
 
+@media (max-width: 768px) {
+  .trainer-dashboard .dashboard-container,
+  .user-dashboard .dashboard-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
 
+@media (max-width: 500px) {
+  .trainer-dashboard .dashboard-container,
+  .user-dashboard .dashboard-container {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .dashboard-widget {
+    min-height: 150px;
+    padding: 15px;
+  }
+
+  .dashboard-widget h4 {
+    font-size: 16px;
+  }
+}

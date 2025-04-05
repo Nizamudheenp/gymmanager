@@ -8,7 +8,6 @@ import trainigbg_1 from "../../assets/240_F_269967154_79LtfDL0RXbErnMLucstEAF64B
 import trainingbg_2 from "../../assets/240_F_538576949_2MaY4QZFTP4ChIuNBlbM97xzecLwS2Un.jpg"
 import trainigbg_3 from "../../assets/240_F_230498348_TD6e54VQLY7fWbcvhGgiFaRk7XuDNqth.jpg"
 
-
 function TrainingDashboard() {
   const [selectedWidget, setSelectedWidget] = useState(null);
 
@@ -16,10 +15,10 @@ function TrainingDashboard() {
     <div className="container mt-4 training-section">
       <h2 className="text-center">Training Section</h2>
 
-      {/* Training Widgets  */}
+      {/* Training Widgets */}
       {!selectedWidget && (
         <div className="row mt-4">
-          <div className="col-md-6">
+          <div className="col-12 col-md-6 col-lg-4 mb-4">
             <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("book")} 
               style={{ 
                 backgroundImage: `url(${trainigbg_1})`, 
@@ -30,7 +29,7 @@ function TrainingDashboard() {
             </div>
           </div>
 
-          <div className="col-md-6">
+          <div className="col-12 col-md-6 col-lg-4 mb-4">
             <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("bookings")}
               style={{ 
                 backgroundImage: `url(${trainingbg_2})`, 
@@ -41,25 +40,23 @@ function TrainingDashboard() {
             </div>
           </div>
 
-          <div className="col-md-6">
+          <div className="col-12 col-md-6 col-lg-4 mb-4">
             <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("workouts")}
               style={{ 
                 backgroundImage: `url(${trainigbg_3})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}}>
               <h4>📋 My Workouts</h4>
-              <p>Engade with your trainer assigned workoutes.</p>
+              <p>Engage with your trainer assigned workouts.</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Display Selected Widget */}
+      {/* Selected Widget */}
       {selectedWidget === "book" && <BookTraining />}
       {selectedWidget === "bookings" && <MyBookings />}
       {selectedWidget === "workouts" && <UserWorkouts />}
-
-
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
 
 function NutritionLog() {
   const [foodName, setFoodName] = useState("");
@@ -44,7 +46,8 @@ function NutritionLog() {
       );
 
       const newMeal = response.data.nutrition.meals.slice(-1)[0];
-      setMeals((prevMeals) => [...prevMeals, newMeal]);
+      setMeals((prevMeals) => [newMeal, ...prevMeals]);
+      toast.success("Meal added successfully");
 
       setFoodName("");
       setPortionSize("");
@@ -69,76 +72,87 @@ function NutritionLog() {
 
   return (
     <div className="container mt-4">
-  <h2 className="text-center text-dark">Log  Meals</h2>
+      <h2 className="text-center text-dark">Log Meals</h2>
 
-  {error && <div className="alert alert-danger">{error}</div>}
+      {error && <Alert variant="danger">{error}</Alert>}
 
-  {/* Meal Logging Form */}
-  <form onSubmit={handleSubmit} className="card p-3 shadow-sm bg-dark text-light">
-    <div className="mb-3">
-      <label className="form-label text-warning">Food Name</label>
-      <input
-        type="text"
-        className="form-control bg-secondary text-light border-0"
-        value={foodName}
-        onChange={(e) => setFoodName(e.target.value)}
-        required
-      />
-    </div>
-    <div className="mb-3">
-      <label className="form-label text-warning">Portion Size (g/ml)</label>
-      <input
-        type="number"
-        className="form-control bg-secondary text-light border-0"
-        value={portionSize}
-        onChange={(e) => setPortionSize(e.target.value)}
-        required
-      />
-    </div>
-    <button type="submit" className="btn btn-warning w-100" disabled={loading}>
-      {loading ? "Logging Meal..." : "Log Meal"}
-    </button>
-  </form>
+      {/* Meal Logging Form */}
+      <Form onSubmit={handleSubmit} className="card p-3 shadow-sm bg-dark text-light">
+        <Row>
+          <Col xs={12} sm={6}>
+            <Form.Group controlId="foodName">
+              <Form.Label className="text-warning">Food Name</Form.Label>
+              <Form.Control
+                type="text"
+                className="bg-secondary text-light border-0"
+                value={foodName}
+                onChange={(e) => setFoodName(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
 
-  {/* Display Logged Meals */}
-  <h3 className="mt-4 text-dark">Nutrition Details</h3>
-  
-  {meals.length === 0 ? (
-    <p className="text-secondary">No meals logged yet.</p>
-  ) : (
-    <table className="table table-bordered mt-3">
-      <thead className="table-dark">
-        <tr className="text-warning">
-          <th>Food</th>
-          <th>Portion Size</th>
-          <th>Calories</th>
-          <th>Protein</th>
-          <th>Carbs</th>
-          <th>Fats</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody className="bg-dark text-light">
-        {meals.map((meal, index) => (
-          <tr key={index}>
-            <td>{meal.foodName}</td>
-            <td>{meal.portionSize}g</td>
-            <td>{meal.calories}</td>
-            <td>{meal.protein}g</td>
-            <td>{meal.carbs}g</td>
-            <td>{meal.fats}g</td>
-            <td>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleDeleteMeal(meal._id)}>
+          <Col xs={12} sm={6}>
+            <Form.Group controlId="portionSize">
+              <Form.Label className="text-warning">Portion Size (g/ml)</Form.Label>
+              <Form.Control
+                type="number"
+                className="bg-secondary text-light border-0"
+                value={portionSize}
+                onChange={(e) => setPortionSize(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Button type="submit" className="btn btn-warning w-100 mt-3" disabled={loading}>
+          {loading ? "Logging Meal..." : "Log Meal"}
+        </Button>
+      </Form>
+
+      {/* Display Logged Meals */}
+      <h3 className="mt-4 text-dark">Nutrition Details</h3>
+
+      {meals.length === 0 ? (
+        <p className="text-secondary">No meals logged yet.</p>
+      ) : (
+        <Table striped bordered hover responsive className="mt-3 bg-dark text-light">
+          <thead className="table-dark">
+            <tr className="text-warning">
+              <th>Food</th>
+              <th>Portion Size</th>
+              <th>Calories</th>
+              <th>Protein</th>
+              <th>Carbs</th>
+              <th>Fats</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {meals.map((meal, index) => (
+              <tr key={index}>
+                <td>{meal.foodName}</td>
+                <td>{meal.portionSize}g</td>
+                <td>{meal.calories}</td>
+                <td>{meal.protein}g</td>
+                <td>{meal.carbs}g</td>
+                <td>{meal.fats}g</td>
+                <td>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDeleteMeal(meal._id)}
+                  >
                     Delete
-                  </button>
+                  </Button>
                 </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )}
-</div>
-
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+    </div>
   );
 }
 

@@ -43,6 +43,7 @@ function AdminHome() {
 
 
   return (
+    <div className="admin-dashboard">
     <div className="dashboard-container">
       <div className="dashboard-widget" style={{ 
         backgroundImage: `url(${userbg})`, 
@@ -94,6 +95,7 @@ function AdminHome() {
       </div>
 
 
+    </div>
     </div>
   );
 }

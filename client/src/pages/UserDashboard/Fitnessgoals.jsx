@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import { Row, Col } from "react-bootstrap";
 
 function Fitnessgoals() {
     const [goals, setGoals] = useState([]);
@@ -102,7 +103,7 @@ function Fitnessgoals() {
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                 />
-                <button className="btn btn-warning w-100"onClick={setGoal}>Set Goal</button>
+                <button className="btn btn-warning w-100" onClick={setGoal}>Set Goal</button>
             </div>
 
             <h5 className="mt-4 text-dark">My Goals</h5>
@@ -112,32 +113,32 @@ function Fitnessgoals() {
             ) : (
                 <ul className="list-group">
                     {goals.map((goal) => (
-                        <li key={goal._id} className="list-group-item bg-dark text-light d-flex justify-content-between align-items-center border-secondary">
-                            <div>
-                                <strong className="text-warning">{goal.goalType}</strong>  |  Progress: {goal.currentprogress || 0}/{goal.targetProgress}  |  Status: {goal.status || "In Progress"}
-                            </div>
-                            <div className='p-2'>
-                            <button
-                                className="btn btn-warning btn-sm me-3"
-                                onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
-                                disabled={goal.currentprogress >= goal.targetProgress}
-                            >
-                                + Progress
-                            </button>
-                            <button
-                                    className="btn btn-danger btn-sm"
-                                    onClick={() => deleteGoal(goal._id)}
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                            
+                        <li key={goal._id} className="list-group-item bg-dark text-light border-secondary">
+                            <Row className="align-items-center">
+                                <Col xs={12} md={8} className="mb-2 mb-md-0">
+                                    <strong className="text-warning">{goal.goalType}</strong>  |  Progress: {goal.currentprogress || 0}/{goal.targetProgress}  |  Status: {goal.status || "In Progress"}
+                                </Col>
+                                <Col xs={12} md={4} className="d-flex justify-content-md-end gap-2">
+                                    <button
+                                        className="btn btn-warning btn-sm"
+                                        onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
+                                        disabled={goal.currentprogress >= goal.targetProgress}
+                                    >
+                                        + Progress
+                                    </button>
+                                    <button
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => deleteGoal(goal._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </Col>
+                            </Row>
                         </li>
                     ))}
                 </ul>
             )}
         </div>
-
     )
 }
 
