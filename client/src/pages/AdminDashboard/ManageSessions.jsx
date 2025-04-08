@@ -88,7 +88,7 @@ function AdminManageSessions() {
                   <Button variant="light" className="m-2" onClick={() => handleViewBookedUsers(session._id)}>
                     View Booked Users
                   </Button>
-                  <Button variant="danger" onClick={() => handleDeleteSession(session._id)}>
+                  <Button variant="danger" className="m-2" onClick={() => handleDeleteSession(session._id)}>
                     Delete Session
                   </Button>
                 </Card.Body>

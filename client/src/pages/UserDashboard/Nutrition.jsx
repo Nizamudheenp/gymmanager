@@ -20,13 +20,13 @@ function NutritionLog() {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        if (response.data.nutrition.length > 0) {
-          setMeals(response.data.nutrition[0].meals);
-        } else {
-          setMeals([]);
-        }
+        const mealsData = response.data?.nutrition?.[0]?.meals || [];
+
+        setMeals(mealsData)
+        setError("")
+
       } catch (error) {
-        setError("Failed to fetch meals.");
+        setError("Something went wrong while fetching meals.");
       }
     };
 

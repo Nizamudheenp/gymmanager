@@ -23,7 +23,7 @@
   
   .user-register-box .form-control {
     border: none;
-    color: white;
+    color: #000;
     transition: 0.3s;
   }
   
@@ -82,7 +82,7 @@
   
   .trainer-register-box .form-control {
     border: none;
-    color: white;
+    color: #000;
     transition: 0.3s;
   }
   
@@ -142,7 +142,7 @@
   
   .login-box .form-control {
     border: none;
-    color: white;
+    color: #000;
     transition: 0.3s;
   }
   

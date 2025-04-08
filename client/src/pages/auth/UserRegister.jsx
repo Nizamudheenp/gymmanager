@@ -120,7 +120,7 @@ function UserRegister() {
           <div className="mb-3">
             <label className="form-label">Exercise Frequency</label>
             <select
-              className="form-control bg-dark"
+              className="form-control bg-dark text-light"
               name="exerciseFrequency"
               value={formData.fitnessData.exerciseFrequency}
               onChange={handleChange}

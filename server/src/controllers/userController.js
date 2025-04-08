@@ -142,9 +142,6 @@ exports.logMeal = async (req, res) => {
 exports.nutritionhistory = async (req, res) => {
     try {
         const nutrition = await NutritionDB.find({ userId: req.user.id })
-        if (nutrition.length === 0) {
-            return res.status(404).json({ message: "No nutrition found" });
-        }
         res.json({ nutrition })
     } catch (error) {
         res.status(500).json({ message: "Failed to get history", error: error.message })

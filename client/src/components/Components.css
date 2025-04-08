@@ -27,8 +27,8 @@
 }
 
 #homepage-navbar .nav-logo img{
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 5px;
 }
 
@@ -113,6 +113,12 @@
   .homepage-mainview p {
       font-size: 1rem;
       padding: 0 15px;
+  }
+
+  #homepage-navbar .nav-logo img{
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
   }
 
   .get-started-btn {
