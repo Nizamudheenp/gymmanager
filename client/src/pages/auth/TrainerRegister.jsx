@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./auth.css"; 
+import "./auth.css";
 import { toast } from "react-toastify";
 
 
@@ -42,13 +42,18 @@ function TrainerRegister() {
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
-      toast.error(error.response.message);    }
+      toast.error(error.response.message);
+    }
   };
 
   return (
-    <div className="trainer-register-container p-3">
+    <div className="trainer-register-container p-3" style={{ background: "rgba(0, 0, 0, 0.8)" }}>
       <div className="trainer-register-box">
-        <h2>Trainer Registration</h2>
+        <h2 style={{ color: '#ff8c00', fontWeight: 'bold', textAlign: 'center' }}>
+          New Trainer Registration
+        </h2>
+       
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Full Name</label>

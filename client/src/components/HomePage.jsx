@@ -9,6 +9,9 @@ function HomePage() {
   return (
     <>
       <nav className="navbar-custom" id='homepage-navbar'>
+        <div className='nav-logo'>
+          <img src="src/assets/gyfit logo.jpg" alt="" />
+        </div>
         <Nav>
           <Nav.Item>
             <Nav.Link href="/">Home</Nav.Link>
@@ -20,7 +23,7 @@ function HomePage() {
       </nav>
 
       <div className="homepage-mainview p-3">
-        <h1>Welcome to Fitness Management System</h1>
+        <h1>Welcome to <span>GYFIT</span> fitness tracker</h1>
         <p>Track your fitness, book trainers, and manage your progress.</p>
 
         <button className="get-started-btn mt-4" onClick={() => navigate("/what-brings-you-here")}>

@@ -17,8 +17,19 @@
   color: white !important;
   font-size: 18px;
   font-weight: bold;
-  padding: 8px 15px;
+  margin: 2px 8px;
   transition: color 0.3s, transform 0.2s;
+}
+
+#homepage-navbar .nav-logo{
+  color: #fff;
+
+}
+
+#homepage-navbar .nav-logo img{
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
 }
 
 #homepage-navbar .nav-link:hover {
@@ -41,6 +52,10 @@
   color: white;
   position: relative;
   padding-top: 80px;
+}
+
+.homepage-mainview  span{
+  color: #f0a500;
 }
 
 .homepage-mainview::before {
@@ -306,7 +321,7 @@
 
 .sidebar {
   width: 0; 
-  height: 100vh;
+  height: 100%;
   background: #222;
   color: white;
   position: fixed;
@@ -379,6 +394,7 @@
   margin-left: 0;
   padding: 20px;
   width: 100%;
+  overflow-y: auto;
 }
 
 .sidebar.open ~ .main-content {

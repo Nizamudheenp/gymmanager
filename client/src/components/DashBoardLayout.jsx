@@ -9,7 +9,7 @@ function DashboardLayout() {
     <div className="d-flex">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
-      <div className="main-content">
+      <div className="main-content" style={{ background: "rgba(177, 179, 168, 0.8)", height:"100%", minHeight:"100vh"}}>
         <div className="container mt-4">
           <Outlet /> 
         </div>

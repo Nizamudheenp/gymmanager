@@ -45,14 +45,16 @@ function UserRegister() {
     } catch (error) {
       alert(error.response.message);
       toast.error(error.response.message);
-      
+
     }
   };
 
   return (
-    <div className="user-register-container p-3">
+    <div className="user-register-container p-3" style={{ background: "rgba(0, 0, 0, 0.8)" }}>
       <div className="user-register-box">
-        <h2>User Registration</h2>
+        <h2 style={{ color: '#ff8c00', fontWeight: 'bold', textAlign: 'center' }}>
+          New User Registration
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">User Name</label>
@@ -118,7 +120,7 @@ function UserRegister() {
           <div className="mb-3">
             <label className="form-label">Exercise Frequency</label>
             <select
-              className="form-control"
+              className="form-control bg-dark"
               name="exerciseFrequency"
               value={formData.fitnessData.exerciseFrequency}
               onChange={handleChange}

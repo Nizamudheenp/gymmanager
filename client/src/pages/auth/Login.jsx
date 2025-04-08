@@ -23,7 +23,7 @@ function Login() {
       if (role === "user") navigate("/user-dashboard");
       if (role === "trainer") {
         if (!verified) {
-          setUnverifiedError("Your account is not verified yet. Please wait for admin approval.");
+         return setUnverifiedError("Your account is not verified yet. Please wait for admin approval.");
         } else {
           navigate("/trainer-dashboard");
         }
@@ -45,7 +45,7 @@ function Login() {
   
 
   return (
-    <div className="login-container">
+    <div className="login-container" style={{ background: "rgba(0, 0, 0, 0.8)"}}>
       <div className="login-box m-3">
         <h2>Login</h2>
 
