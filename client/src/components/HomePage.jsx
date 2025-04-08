@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import "./Components.css";
+import logoimg from "../../src/assets/gyfit-logo.jpg"
+
 
 function HomePage() {
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ function HomePage() {
     <>
       <nav className="navbar-custom" id='homepage-navbar'>
         <div className='nav-logo'>
-          <img src="src/assets/gyfit-logo.jpg" alt="" />
+          <img src={logoimg} alt="GYMFIT" />
         </div>
         <Nav>
           <Nav.Item>
