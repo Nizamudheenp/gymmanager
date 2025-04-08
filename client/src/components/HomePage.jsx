@@ -10,7 +10,7 @@ function HomePage() {
     <>
       <nav className="navbar-custom" id='homepage-navbar'>
         <div className='nav-logo'>
-          <img src="src/assets/gyfit logo.jpg" alt="" />
+          <img src="src/assets/gyfit-logo.jpg" alt="" />
         </div>
         <Nav>
           <Nav.Item>
