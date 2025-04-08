@@ -22,7 +22,6 @@
   justify-content: center;
   box-shadow: 0 4px 8px rgba(255, 165, 0, 0.3);
   min-height: 180px;
-  background-blend-mode: darken;
   overflow: hidden;
 }
 

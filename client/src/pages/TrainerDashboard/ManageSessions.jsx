@@ -120,7 +120,7 @@ function ManageSessions() {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-warning text-center">Manage Sessions</h2>
+      <h2 className="text-dark text-center">Manage Sessions</h2>
 
       {/* Create Session Form */}
       <Card className="mb-4 bg-dark text-light border-warning shadow-lg">

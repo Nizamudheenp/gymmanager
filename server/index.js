@@ -30,8 +30,6 @@ app.use('/api/user', userRoute)
 app.use('/api/trainer', trainerRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/messages', messageRoute)
-
-
 app.use('/api/payments', paymentRoutes)
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))

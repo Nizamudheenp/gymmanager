@@ -66,7 +66,7 @@ function AdminManageSessions() {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-warning text-center">Manage Sessions</h2>
+      <h2 className="text-dark text-center">Manage Sessions</h2>
 
       {sessions.length === 0 ? (
         <p className="text-light text-center">No sessions available.</p>

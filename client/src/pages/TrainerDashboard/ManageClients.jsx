@@ -48,7 +48,7 @@ function ManageClients() {
 
   return (
     <Container className="mt-4">
-      <h4 className="text-warning mb-4 text-center">My Clients</h4>
+      <h4 className="text-dark mb-4 text-center">My Clients</h4>
 
       {loading && (
         <div className="text-center text-light">
