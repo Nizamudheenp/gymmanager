@@ -7,7 +7,8 @@ const fitnessSchema = new mongoose.Schema({
     currentprogress:{type:Number,default:0},
     startDate: { type: Date, default: Date.now },
     endDate: { type: Date },
-    status: { type: String, enum: ["In Progress", "Completed"], default: "In Progress" }
+    status: { type: String, enum: ["In Progress", "Completed"], default: "In Progress" },
+    lastUpdated : {type: Date}
 
 })
 

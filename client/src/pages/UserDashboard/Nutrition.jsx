@@ -52,7 +52,21 @@ function NutritionLog() {
       setFoodName("");
       setPortionSize("");
     } catch (error) {
-      setError("Failed to log meal.");
+      const message =
+        error.response?.data?.message ||
+        "Failed to log meal. Please try again.";
+
+        if (message === "You can only log 3 meals per day.") {
+          setError("Meal limit reached. You can only log 3 meals per day.");
+
+        } else if (message === "No food data found. Please check the meal name.") {
+        setError("Invalid food name. Please check your spelling or try another meal.");
+
+      } else {
+        setError(message);
+      }
+      setFoodName("");
+    setPortionSize("");
     }
     setLoading(false);
   };
@@ -126,6 +140,7 @@ function NutritionLog() {
               <th>Protein</th>
               <th>Carbs</th>
               <th>Fats</th>
+              <th>Time</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -138,6 +153,7 @@ function NutritionLog() {
                 <td>{meal.protein}g</td>
                 <td>{meal.carbs}g</td>
                 <td>{meal.fats}g</td>
+                <td>{new Date(meal.createdAt).toLocaleString()}</td>
                 <td>
                   <Button
                     variant="danger"

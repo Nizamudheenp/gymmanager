@@ -10,7 +10,7 @@ const nutritionSchema = new mongoose.Schema({
             protein: { type: Number, required: true },  
             carbs: { type: Number, required: true },  
             fats: { type: Number, required: true },
-            date: { type: Date, default: Date.now }
+            createdAt: { type: Date, default: Date.now }
         }
     ],
     createdAt: { type: Date, default: Date.now }

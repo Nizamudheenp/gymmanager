@@ -1,4 +1,5 @@
 const FitnessDB = require('../models/fitnessmodel')
+const moment = require('moment');
 
 exports.setFitnessGoal =  async (req,res)=>{
     try {
@@ -32,7 +33,15 @@ exports.updateCurrentProgress = async (req,res)=>{
             return res.status(403).json({ message: "Not authorized" });
         }
 
+        const lastUpdated = Progress.lastUpdated;
+        const today = moment().startOf('day');
+
+        if (lastUpdated && moment(lastUpdated).isSame(today, 'day')) {
+            return res.status(400).json({ message: "You can only update progress once per day." });
+        }
         Progress.currentprogress = currentprogress;
+        Progress.lastUpdated = new Date();
+        
         if (Progress.currentprogress >= Progress.targetProgress) {
             Progress.status = "Completed";
         }

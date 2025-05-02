@@ -44,7 +44,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
             refreshSessions(); 
         } catch (error) {
             console.error("Error adding workouts:", error);
-            alert("Failed to add workouts.");
+            toast.error("Failed to add workouts.");
         }
     };
 

@@ -6,6 +6,8 @@ const TrainerDB = require("../models/trainermodel");
 const SessionDB = require('../models/sessionmodel')
 const UserDB = require('../models/usermodel')
 
+const moment = require("moment");
+
 
 exports.availableTrainers = async (req, res) => {
     try {
@@ -115,12 +117,22 @@ exports.logMeal = async (req, res) => {
         }
         const nutritionData = await getNutrition(foodName, portionSize)
         if (!nutritionData) {
-            return res.status(404).json({ message: "Food item not found in USDA database." });
+            return res.status(404).json({ message: "No food data found. Please check the meal name." });
         }
         let nutritionLog = await NutritionDB.findOne({ userId: req.user.id });
         if (!nutritionLog) {
             nutritionLog = new NutritionDB({ userId: req.user.id, meals: [] });
         }
+
+        const today = moment().startOf("day");
+        const mealsToday = nutritionLog.meals.filter(meal =>
+            moment(meal.createdAt).isSameOrAfter(today)
+        );
+
+        if (mealsToday.length >= 3) {
+            return res.status(403).json({ message: "You can only log 3 meals per day." });
+        }
+
         nutritionLog.meals.push({
             foodName,
             portionSize,

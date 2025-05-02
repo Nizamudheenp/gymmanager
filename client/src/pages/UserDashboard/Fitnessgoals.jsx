@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { Row, Col } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 function Fitnessgoals() {
     const [goals, setGoals] = useState([]);
     const [goalType, setGoalType] = useState("")
     const [targetProgress, setTargetProgress] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const token = localStorage.getItem("token")
 
     useEffect(() => {
@@ -14,44 +17,53 @@ function Fitnessgoals() {
     }, [token])
 
     const fetchGoals = async () => {
+        setLoading(true);
+        setError("");
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_BACKEND_URL}/api/user/getgoals`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-    
+
             const sortedGoals = response.data.goals.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-            setGoals(sortedGoals.slice(0, 5)); 
+            setGoals(sortedGoals.slice(0, 5));
         } catch (error) {
-            console.log("Error fetching goals", error.message);
+            setError("Failed to fetch goals.");
         }
+        setLoading(false);
     };
-    
+
 
     const setGoal = async () => {
+        if (!goalType || !targetProgress || targetProgress <= 0 || !endDate) {
+            setError("All fields are required!");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
         try {
-            if (!goalType || !targetProgress || !endDate) {
-                alert("All fields are required!");
-                return;
-            }
             await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/api/user/setgoal`,
                 { goalType, targetProgress, endDate },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-
-            fetchGoals()
+            fetchGoals();
             setGoalType("");
             setTargetProgress("");
             setEndDate("");
-
+            toast.success("Goal set successfully");
+            setError("")
         } catch (error) {
-            console.log("Error setting goal", error.message);
-
+            setError("Failed to set goal.");
         }
-    }
+        setLoading(false);
+    };
+
 
     const deleteGoal = async (goalId) => {
+        setLoading(true);
+        setError("");
         try {
             await axios.delete(
                 `${import.meta.env.VITE_BACKEND_URL}/api/user/deletegoal/${goalId}`,
@@ -60,11 +72,14 @@ function Fitnessgoals() {
 
             setGoals((prevGoals) => prevGoals.filter((goal) => goal._id !== goalId));
         } catch (error) {
-            console.log("Error deleting goal", error.message);
+            setError("Failed to delete goal.");
         }
+        setLoading(false);
     };
 
     const updateProgress = async (goalId, currentProgress) => {
+        setLoading(true);
+        setError("");
         try {
             await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/updategoal/${goalId}`,
                 { currentprogress: currentProgress },
@@ -72,14 +87,27 @@ function Fitnessgoals() {
             )
             fetchGoals()
         } catch (error) {
-            console.log("Error updating goal ", error.message);
-
+            if (error.response?.data?.message === "You can only update progress once per day.") {
+                toast.error("You can only update progress once per day.");
+            } else {
+                setError("Error updating goal", error.message);
+            }
         }
+        setLoading(false);
+
     }
 
     return (
         <div className="container mt-4">
             <h3 className="text-dark text-center">Fitness Goals</h3>
+            {error && <div className="alert alert-danger">{error}</div>}
+            {loading && (
+                <div className="text-center my-3">
+                    <div className="spinner-border text-warning" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
 
             <div className="card p-3 shadow-sm bg-dark text-light">
                 <h5 className="text-warning">Set New Goal</h5>
@@ -99,6 +127,7 @@ function Fitnessgoals() {
                 />
                 <input
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     className="form-control mb-2 bg-secondary text-light border-0"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
@@ -112,34 +141,63 @@ function Fitnessgoals() {
                 <p className="text-secondary">No fitness goals set yet.</p>
             ) : (
                 <ul className="list-group">
-                    {goals.map((goal) => (
-                        <li key={goal._id} className="list-group-item bg-dark text-light border-secondary">
-                            <Row className="align-items-center">
-                                <Col xs={12} md={8} className="mb-2 mb-md-0">
-                                    <strong className="text-warning">{goal.goalType}</strong>  |  Progress: {goal.currentprogress || 0}/{goal.targetProgress}  |  Status: {goal.status || "In Progress"}
-                                </Col>
-                                <Col xs={12} md={4} className="d-flex justify-content-md-end gap-2">
-                                    <button
-                                        className="btn btn-warning btn-sm"
-                                        onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
-                                        disabled={goal.currentprogress >= goal.targetProgress}
+                    {goals.map((goal) => {
+                        const progressPercentage = Math.round((goal.currentprogress / goal.targetProgress) * 100);
+                        const progressColor =
+                            progressPercentage >= 100 ? 'bg-success' :
+                                progressPercentage >= 50 ? 'bg-warning text-dark' :
+                                    'bg-info text-dark';
+
+                        return (
+                            <li key={goal._id} className="list-group-item bg-dark text-light border-secondary">
+                                <Row className="align-items-center">
+                                    <Col xs={12} md={8}>
+                                        <strong className="text-warning">{goal.goalType}</strong>{" "}
+                                        <span className={`badge ${goal.currentprogress >= goal.targetProgress ? "bg-success" : "bg-info text-dark"}`}>
+                                            {goal.currentprogress >= goal.targetProgress ? "Completed" : "In Progress"}
+                                        </span>
+                                        <br />
+                                        <small className="text-light">Target Date: {new Date(goal.endDate).toLocaleDateString()}</small>
+
+                                    </Col>
+                                    <Col xs={12} md={4} className="d-flex justify-content-md-end gap-2 mt-2 mt-md-0">
+                                        <button
+                                            className="btn btn-warning btn-sm"
+                                            onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
+                                            disabled={goal.currentprogress >= goal.targetProgress}
+                                        >
+                                            + Progress
+                                        </button>
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => deleteGoal(goal._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </Col>
+                                </Row>
+
+                                {/* Progress Bar */}
+                                <div className="progress mt-2" style={{ height: '25px' }}>
+                                    <div
+                                        className={`progress-bar ${progressColor}`}
+                                        role="progressbar"
+                                        style={{ width: `${progressPercentage}%` }}
+                                        aria-valuenow={goal.currentprogress}
+                                        aria-valuemin={0}
+                                        aria-valuemax={goal.targetProgress}
                                     >
-                                        + Progress
-                                    </button>
-                                    <button
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() => deleteGoal(goal._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </Col>
-                            </Row>
-                        </li>
-                    ))}
+                                        {progressPercentage}%
+                                    </div>
+                                </div>
+                            </li>
+                        );
+                    })}
+
                 </ul>
             )}
         </div>
     )
 }
 
-export default Fitnessgoals
+export default Fitnessgoals;

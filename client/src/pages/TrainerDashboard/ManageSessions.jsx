@@ -80,7 +80,7 @@ function ManageSessions() {
       fetchTrainerSessions();
     } catch (error) {
       console.error("Error creating session:", error);
-      alert("Failed to create session.");
+      toast.error("Failed to create session.");
     }
   };
 
@@ -109,7 +109,7 @@ function ManageSessions() {
         { sessionId, workoutIndex },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
       fetchTrainerSessions();
     } catch (error) {
       console.error("Error deleting workout:", error);
