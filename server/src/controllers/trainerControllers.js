@@ -236,19 +236,7 @@ exports.addWorkoutToSession  = async (req,res)=>{
 
     }
 }
-exports.getTrainerSessions = async (req, res) => {
-    try {
-        const trainerId = req.trainer.id; 
 
-        const sessions = await SessionDB.find({ trainerId });
-
-
-        res.status(200).json({ sessions });
-    } catch (error) {
-        console.error("Error fetching trainer sessions:", error);
-        res.status(500).json({ message: "Failed to fetch sessions", error: error.message });
-    }
-};
 
 exports.deleteWorkoutFromSession = async (req, res) => {
     try {
@@ -303,7 +291,7 @@ exports.getTrainerSessions = async (req, res) => {
 
         await SessionDB.deleteMany({ trainerId, date: { $lt: new Date(currentDate.setDate(currentDate.getDate() - 1)) } });
 
-        const sessions = await SessionDB.find({ trainerId });
+        const sessions = await SessionDB.find({ trainerId }).populate('bookings.userId','username').exec()
         res.status(200).json({ sessions });
     } catch (error) {
         console.error("Error fetching trainer sessions:", error);

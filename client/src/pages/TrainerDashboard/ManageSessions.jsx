@@ -178,15 +178,15 @@ function ManageSessions() {
                   <ListGroup className="m-1">
                     {session.bookings.map((booking) =>
                       booking.status === "pending" ? (
-                        <ListGroup.Item key={booking.userId} className="bg-dark text-light">
+                        <ListGroup.Item key={booking.userId_id} className="bg-dark text-light">
                           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-                            <span className="mb-2 mb-md-0 text-break">{booking.userId}</span>
+                            <span className="mb-2 mb-md-0 text-break">{booking.userId.username}</span>
                             <div>
                               <Button
                                 variant="success"
                                 size="sm"
                                 className="me-2 mb-2 mb-md-0"
-                                onClick={() => handleApproval(session._id, booking.userId, "approved")}
+                                onClick={() => handleApproval(session._id, booking.userId._id, "approved")}
                               >
                                 Approve
                               </Button>
@@ -194,7 +194,7 @@ function ManageSessions() {
                                 variant="danger"
                                 size="sm"
                                className="me-2 mb-2 mb-md-0"
-                                onClick={() => handleApproval(session._id, booking.userId, "rejected")}
+                                onClick={() => handleApproval(session._id, booking.userId._id, "rejected")}
                               >
                                 Reject
                               </Button>

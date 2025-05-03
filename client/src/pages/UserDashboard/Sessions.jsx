@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Card, Button, Spinner, Badge, Container, Row, Col } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 function Sessions() {
   const [sessions, setSessions] = useState([]);
@@ -43,7 +45,8 @@ function Sessions() {
       );
 
       setBookingStatus((prev) => ({ ...prev, [sessionId]: { loading: false, error: null } }));
-      alert("Session request sent! Waiting for trainer approval.");
+      toast.success("Session request sent! Waiting for trainer approval");
+      
       fetchSessions();
     } catch (error) {
       setBookingStatus((prev) => ({

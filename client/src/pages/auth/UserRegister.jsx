@@ -43,7 +43,6 @@ function UserRegister() {
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
-      alert(error.response.message);
       toast.error(error.response.message);
 
     }

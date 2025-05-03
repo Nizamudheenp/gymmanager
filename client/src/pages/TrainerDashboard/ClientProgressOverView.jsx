@@ -30,26 +30,35 @@ function ClientProgressOverview() {
         let totalCalories = 0;
 
         for (const client of confirmedClients) {
-          const workoutRes = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/trainer/getuserworkouts/${client.userId._id}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          const workouts = workoutRes.data.workouts || [];
-          totalWorkoutsCount += workouts.length;
-          workouts.forEach((workout) => {
-            totalSets += workout.sets;
-            totalReps += workout.reps;
-          });
+          try {
+            const workoutRes = await axios.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/trainer/getuserworkouts/${client.userId._id}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const workouts = workoutRes.data.workouts || [];
+            totalWorkoutsCount += workouts.length;
+            workouts.forEach((workout) => {
+              totalSets += workout.sets;
+              totalReps += workout.reps;
+            });
+          } catch (err) {
+            console.warn(`No workouts found for ${client.userId._id}`);
+          }
 
-          const nutritionRes = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/trainer/usernutrition/${client.userId._id}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          const meals = nutritionRes.data.nutrition?.meals || [];
-          totalMealsCount += meals.length;
-          meals.forEach((meal) => {
-            totalCalories += meal.calories;
-          });
+
+          try {
+            const nutritionRes = await axios.get(
+              `${import.meta.env.VITE_BACKEND_URL}/api/trainer/usernutrition/${client.userId._id}`,
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const meals = nutritionRes.data.nutrition?.meals || [];
+            totalMealsCount += meals.length;
+            meals.forEach((meal) => {
+              totalCalories += meal.calories;
+            });
+          } catch (err) {
+            console.warn(`No meals found for ${client.userId._id}`);
+          }
         }
 
         setTotalWorkouts(totalWorkoutsCount);
@@ -66,21 +75,21 @@ function ClientProgressOverview() {
 
   return (
     <div className="container mt-4">
-    <div className="card p-3 shadow-sm" 
-       style={{
-         backgroundColor: "transparent",
-         color: "white",
-         fontSize: "17px",
-         border: "1px solid orange" 
-       }}>
-    <p><strong>Total Clients:</strong> {clients.length}</p>
-    <p><strong>Total Workouts Assigned:</strong> {totalWorkouts}</p>
-    <p><strong>Avg. Sets per Workout:</strong> {averageSets}</p>
-    <p><strong>Avg. Reps per Workout:</strong> {averageReps}</p>
-    <p><strong>Total Meals Logged:</strong> {totalMeals}</p>
-    <p><strong>Avg. Calories per Meal:</strong> {averageCalories} kcal</p>
-  </div>
-</div>
+      <div className="card p-3 shadow-sm"
+        style={{
+          backgroundColor: "transparent",
+          color: "white",
+          fontSize: "17px",
+          border: "1px solid orange"
+        }}>
+        <p><strong>Total Clients:</strong> {clients.length}</p>
+        <p><strong>Total Workouts Assigned:</strong> {totalWorkouts}</p>
+        <p><strong>Avg. Sets per Workout:</strong> {averageSets}</p>
+        <p><strong>Avg. Reps per Workout:</strong> {averageReps}</p>
+        <p><strong>Total Meals Logged:</strong> {totalMeals}</p>
+        <p><strong>Avg. Calories per Meal:</strong> {averageCalories} kcal</p>
+      </div>
+    </div>
 
   );
 }

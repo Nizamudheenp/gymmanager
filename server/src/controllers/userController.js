@@ -185,8 +185,16 @@ exports.deleteMeal = async (req, res) => {
 
 exports.getAvailableSessions = async (req, res) => {
     try {
-        const sessions = await SessionDB.find({ status: "available" })
-            .populate("trainerId", "username email");
+        const currentDate = new Date();
+        
+        const pastDate = new Date(currentDate);
+        pastDate.setDate(currentDate.getDate() - 1); 
+
+        const sessions = await SessionDB.find({ 
+            status: "available", 
+            date: { $gte: pastDate }
+        })
+        .populate("trainerId", "username email");
 
         if (!sessions.length) {
             return res.status(404).json({ message: "No available sessions found" });
@@ -196,7 +204,8 @@ exports.getAvailableSessions = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch sessions", error: error.message });
     }
-}
+};
+
 
 exports.bookSession = async (req, res) => {
     try {

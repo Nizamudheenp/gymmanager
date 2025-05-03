@@ -25,7 +25,8 @@ function TrainerReviews() {
         setAverageRating(response.data.averageRating);
       } catch (error) {
         console.error("Error fetching reviews:", error);
-        alert("Failed to fetch reviews");
+        toast.success("Failed to fetch reviews");
+
       } finally {
         setFetchingReviews(false);
       }
@@ -58,7 +59,7 @@ function TrainerReviews() {
       setAverageRating(response.data.averageRating);
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert(error.response?.data?.message || "Failed to submit review");
+      toast.error(error.response?.data?.message)
     } finally {
       setLoading(false);
     }

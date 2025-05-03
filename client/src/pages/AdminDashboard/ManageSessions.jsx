@@ -43,7 +43,7 @@ function AdminManageSessions() {
       toast.success("Session deleted successfully!");
     } catch (error) {
       console.error("Error deleting session:", error);
-      alert("Failed to delete session.");
+      toast.error("Failed to delete session.");
     }
   };
 
@@ -57,8 +57,7 @@ function AdminManageSessions() {
       setSelectedSession(sessionId);
       setShowModal(true);
     } catch (error) {
-      console.error("Error fetching booked users:", error);
-      alert("Failed to fetch booked users.");
+      toast.error("Failed to fetch booked users.");
     }
   };
 
