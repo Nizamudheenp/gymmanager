@@ -11,7 +11,7 @@ const socket = io(import.meta.env.VITE_BACKEND_URL, {
 
 function Messages() {
     const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role"); 
+    const role = localStorage.getItem("role");
     const userId = token ? jwtDecode(token)?.id : null;
 
     const [contacts, setContacts] = useState([]);
@@ -51,7 +51,7 @@ function Messages() {
     const fetchMessages = async (receiverId) => {
         try {
             setLoading(true);
-            setMessages([]); 
+            setMessages([]);
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/${receiverId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -91,7 +91,7 @@ function Messages() {
             });
             setMessages((prev) => [...prev, res.data.data]);
             socket.emit("send_message", messageData);
-            setNewMessage(""); 
+            setNewMessage("");
         } catch (error) {
             console.error("Error sending message", error);
         }
@@ -112,58 +112,76 @@ function Messages() {
     }, [selectedContact]);
 
     return (
-        <Container fluid>
+        <Container fluid >
             <Row>
-                <Col md={4} className="border-end">
-                    <h4 className="text-dark text-center">Messages</h4>
-                    {loading && <p>Loading contacts...</p>}
-                    <ListGroup>
+                <Col md={4} className="border-end bg-light p-3 rounded-3 shadow-sm">
+                    <h5 className="text-center mb-3 fw-bold">Messages</h5>
+                    {loading && <p className="text-muted">Loading contacts...</p>}
+                    <ListGroup variant="flush">
                         {contacts.map((contact) => (
                             <ListGroup.Item
-                            style={{padding:"10px",marginBottom:"8px"}}
                                 key={contact._id}
                                 action
                                 onClick={() => handleSelectContact(contact)}
-                                className={contact.unread ? "fw-bold bg-warning" : ""}
+                                className={`mb-2 rounded ${contact.unread ? "fw-bold bg-warning-subtle" : "bg-white"}`}
+                                style={{ cursor: "pointer", padding: "12px 16px", boxShadow: "0 0 6px rgba(0,0,0,0.05)" }}
                             >
                                 {contact.username} ({role === "trainer" ? "User" : "Trainer"})
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
                 </Col>
-                <Col md={8}>
+
+                <Col md={8} className="p-1">
                     {selectedContact ? (
-                        <Card>
-                            <Card.Header className="bg-dark text-light">
-                                Chat with {selectedContact.username}
+                        <Card className="shadow-sm border-0 rounded-4">
+                            <Card.Header className="bg-dark text-white rounded-top-4">
+                                <strong>Chat with {selectedContact.username}</strong>
                             </Card.Header>
                             <Card.Body>
-                                <div className="chat-messages" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                                <div className="chat-messages mb-3 d-flex flex-column gap-2" style={{ maxHeight: "400px", overflowY: "auto" }}>
                                     {loading ? (
-                                        <p>Loading messages...</p>
+                                        <p className="text-muted">Loading messages...</p>
                                     ) : (
-                                        messages.map((msg, index) => (
-                                            <p key={index} className={msg.senderId === userId ? "text-end text-primary" : "text-start text-secondary"}>
-                                                {msg.message}
-                                            </p>
-                                        ))
+                                        messages.map((msg, index) => {
+                                            const isSender = msg.senderId === userId;
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className={`p-2 px-3 rounded-3 ${isSender ? "align-self-end bg-primary text-white" : "align-self-start bg-secondary text-white"}`}
+                                                    style={{
+                                                        maxWidth: "75%",
+                                                        boxShadow: "0 0 6px rgba(0,0,0,0.1)",
+                                                        wordBreak: "break-word",
+                                                    }}
+                                                >
+                                                    {msg.message}
+                                                </div>
+                                            );
+                                        })
                                     )}
                                 </div>
-                                <Form className="mt-3" onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
+                                <Form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
                                     <Form.Control
                                         type="text"
                                         value={newMessage}
                                         onChange={(e) => setNewMessage(e.target.value)}
-                                        placeholder="Type a message..."
+                                        placeholder="Type your message..."
+                                        className="mb-2"
                                     />
-                                    <Button type="submit" variant="warning" className="mt-2 p-1 px-4">Send</Button>
+                                    <div className="text-end">
+                                        <Button type="submit" variant="warning" className="px-4">Send</Button>
+                                    </div>
                                 </Form>
                             </Card.Body>
                         </Card>
                     ) : (
-                        <p>Select a contact to start chatting</p>
+                        <Card className="text-center shadow-sm p-5">
+                            <p className="text-muted">Select a contact to start chatting</p>
+                        </Card>
                     )}
                 </Col>
+
             </Row>
         </Container>
     );

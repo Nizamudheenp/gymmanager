@@ -35,15 +35,18 @@ function HomePage() {
 
       <section className="about-section">
         <h2>Why Choose Our Fitness Management System?</h2>
-         <p>
+        <p>
           Designed for both beginners and pros, GYFIT simplifies every part of your fitness journey.
         </p>
-        <ul className="about-benefits">
-          <li>✅ Easy-to-use dashboard with real-time updates</li>
-          <li>✅ Access expert trainers and book sessions online</li>
-          <li>✅ Comprehensive tracking for progress and nutrition</li>
-          <li>✅ Affordable plans with premium support</li>
-        </ul>
+        <div className='aboutList'>
+          <ul className="about-benefits">
+            <li>✅ Easy-to-use dashboard with real-time updates</li>
+            <li>✅ Access expert trainers and book sessions online</li>
+            <li>✅ Comprehensive tracking for progress and nutrition</li>
+            <li>✅ Affordable plans with premium support</li>
+          </ul>
+        </div>
+
       </section>
 
       <section className="features-section">
@@ -69,7 +72,7 @@ function HomePage() {
             <h3>📅 Smart Scheduling</h3>
             <p>Sync your trainer sessions with your calendar easily.</p>
           </div>
-           <div className="feature-box">
+          <div className="feature-box">
             <h3>📱 Mobile Friendly</h3>
             <p>Access your dashboard and features from any device on the go.</p>
           </div>
@@ -111,7 +114,7 @@ function HomePage() {
           <p>&copy; {new Date().getFullYear()} Fitness Management System. All rights reserved.</p>
           <nav>
             <a href="/">Home</a> |
-            <a href="/login">Login</a> 
+            <a href="/login">Login</a>
           </nav>
         </div>
       </footer>

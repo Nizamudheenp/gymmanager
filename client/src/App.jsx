@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HomePage from "./components/HomePage";
 import WhatBringsYouHere from "./components/WhatBringsYouHere";
@@ -10,9 +10,6 @@ import UserDashboard from "./pages/UserDashboard/UserDashboard";
 import TrainerDashboard from "./pages/TrainerDashboard/TrainerDashboard";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { loginSuccess, logout } from "./redux/slices/AuthSlice";
 import AdminHome from "./pages/AdminDashboard/AdminHome";
 import ManageTrainers from "./pages/AdminDashboard/ManageTrainers";
 import ManageUsers from "./pages/AdminDashboard/ManageUsers";
@@ -36,43 +33,30 @@ import MyReviews from "./pages/TrainerDashboard/MyReviews";
 import AdminManageSessions from "./pages/AdminDashboard/ManageSessions";
 import ManageFeedbacks from "./pages/AdminDashboard/ManageFeedbacks";
 import AdminPayment from "./pages/AdminDashboard/AdminPaymentsGraph";
-import { isTokenExpired } from "./utils/jwtUtils";
+import SessionManager from "./components/SessionManager";
 
 const App = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    const verified = localStorage.getItem("verified") === "true";
 
-    if (token && role){
-       if (isTokenExpired(token)) {
-      toast.error("Session expired. Please login again.");
-      dispatch(logout()); 
-    } else {
-      dispatch(loginSuccess({ token, role,verified  })); 
-    }
-  }}, [dispatch]);
   return (
     <>
-    <ToastContainer position="top-right" autoClose={3000} />
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/what-brings-you-here" element={<WhatBringsYouHere />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register/user" element={<UserRegister />} /> 
-        <Route path="/register/trainer" element={<TrainerRegister />} />
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Router>
+        <SessionManager />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/what-brings-you-here" element={<WhatBringsYouHere />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register/user" element={<UserRegister />} />
+          <Route path="/register/trainer" element={<TrainerRegister />} />
 
 
-
-        <Route
-          path="/user-dashboard"
-          element={
-            <ProtectedRoute role="user">
-              <UserDashboard />
-            </ProtectedRoute>
-          }>
+          <Route
+            path="/user-dashboard"
+            element={
+              <ProtectedRoute role="user">
+                <UserDashboard />
+              </ProtectedRoute>
+            }>
             <Route index element={<UserHome />} />
             <Route path="training" element={<TrainingDashboard />} />
             <Route path="nutritions" element={<NutritionLog />} />
@@ -82,51 +66,46 @@ const App = () => {
             <Route path="sessiondetailes/:sessionId" element={<SessionDetails />} />
             <Route path="payment/:appointmentId" element={<PaymentPage />} />
             <Route path="payment-success" element={<PaymentSuccess />} />
-            <Route path="messages" element={<Messages />} /> 
+            <Route path="messages" element={<Messages />} />
             <Route path="review-trainer/:trainerId" element={<TrainerReviews />} />
 
 
-
-
-
-        </Route>
-        <Route
-          path="/trainer-dashboard"
-          element={
-            <ProtectedRoute role="trainer">
-              <TrainerDashboard />
-            </ProtectedRoute>
-          }>
+          </Route>
+          <Route
+            path="/trainer-dashboard"
+            element={
+              <ProtectedRoute role="trainer">
+                <TrainerDashboard />
+              </ProtectedRoute>
+            }>
             <Route index element={<TrainerHome />} />
             <Route path="manage-sessions" element={<ManageSessions />} />
             <Route path="manage-clients" element={<ClientSession />} />
             <Route path="manage-workouts/:userId" element={<ManageWorkouts />} />
             <Route path="manage-nutritions/:userId" element={<ClientNutrition />} />
-            <Route path="messages" element={<Messages />} /> 
-            <Route path="myreviews" element={<MyReviews />} /> 
+            <Route path="messages" element={<Messages />} />
+            <Route path="myreviews" element={<MyReviews />} />
           </Route>
-        
 
 
-        <Route
-          path="/admin-dashboard"
-          element={
-            <ProtectedRoute role="admin">
-              <AdminDashboard />
-            </ProtectedRoute>
-          }>
-          <Route index element={<AdminHome />} />
-          <Route path="manage-trainers" element={<ManageTrainers />} />
-          <Route path="manage-users" element={<ManageUsers />} />
-          <Route path="admin-manage-sessions" element={<AdminManageSessions />} />
-          <Route path="manage-payments" element={<AdminPayment />} />
-          <Route path="manage-feedbacks" element={<ManageFeedbacks />} />
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            }>
+            <Route index element={<AdminHome />} />
+            <Route path="manage-trainers" element={<ManageTrainers />} />
+            <Route path="manage-users" element={<ManageUsers />} />
+            <Route path="admin-manage-sessions" element={<AdminManageSessions />} />
+            <Route path="manage-payments" element={<AdminPayment />} />
+            <Route path="manage-feedbacks" element={<ManageFeedbacks />} />
 
-        </Route>
-        
-        
-      </Routes>
-    </Router>
+          </Route>
+
+        </Routes>
+      </Router>
     </>
   )
 };

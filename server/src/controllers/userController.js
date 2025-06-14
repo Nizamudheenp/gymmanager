@@ -196,9 +196,6 @@ exports.getAvailableSessions = async (req, res) => {
         })
         .populate("trainerId", "username email");
 
-        if (!sessions.length) {
-            return res.status(404).json({ message: "No available sessions found" });
-        }
 
         res.json({ sessions });
     } catch (error) {

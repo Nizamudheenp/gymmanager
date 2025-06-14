@@ -13,10 +13,11 @@ function UpcomingSessions({ limit = 1 }) {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/getsessions`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                const upcomingSessions = response.data.sessions
-                    .filter(session => new Date(session.date) >= new Date()) 
-                    .sort((a, b) => new Date(a.date) - new Date(b.date)) 
-                    .slice(0, limit); 
+                const sessionList = response.data.sessions || [];
+                const upcomingSessions = sessionList
+                    .filter(session => new Date(session.date) >= new Date())
+                    .sort((a, b) => new Date(a.date) - new Date(b.date))
+                    .slice(0, limit);
 
                 setSessions(upcomingSessions);
             } catch (error) {
@@ -38,20 +39,20 @@ function UpcomingSessions({ limit = 1 }) {
                             border: "1px solid rgba(255, 165, 0, 0.6)",
                             padding: "10px",
                             borderRadius: "10px",
-                            background: "rgba(0, 0, 0, 0.7)", 
+                            background: "rgba(0, 0, 0, 0.7)",
                             color: "white",
                             textAlign: "center",
                             maxWidth: "100%",
                             boxShadow: "0 4px 6px rgba(255, 165, 0, 0.2)",
                             cursor: "pointer"
-                        }} 
-                     onClick={() => navigate("/user-dashboard/session")}> 
+                        }}
+                        onClick={() => navigate("/user-dashboard/session")}>
                         <div >
-                            <h4  style={{ marginBottom: "5px", fontSize: "1.1rem" }}>{session.sessionName}</h4>
+                            <h4 style={{ marginBottom: "5px", fontSize: "1.1rem" }}>{session.sessionName}</h4>
                             <p style={{ fontSize: "0.9rem", opacity: 0.8 }}>
                                 {new Date(session.date).toLocaleDateString()} <br />
                                 <strong>Trainer:</strong> {session.trainerId?.username || "Unknown"} <br />
-                                 {session.status}
+                                {session.status}
                             </p>
                         </div>
                     </div>

@@ -204,14 +204,24 @@
   margin: 0 auto;
 }
 
+.aboutList{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
 .about-benefits {
   list-style: none;
   padding-left: 0;
+  
 }
 
 .about-benefits li {
   margin: 8px 0;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 

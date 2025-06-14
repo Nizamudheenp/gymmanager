@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
+import { Card, Form, Button, Alert, Spinner } from "react-bootstrap";
 
 function NutritionLog() {
   const [foodName, setFoodName] = useState("");
   const [portionSize, setPortionSize] = useState("");
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(null);
   const [error, setError] = useState("");
 
   const token = localStorage.getItem("token");
@@ -19,19 +20,19 @@ function NutritionLog() {
           `${import.meta.env.VITE_BACKEND_URL}/api/user/nutritionhistory`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-
         const mealsData = response.data?.nutrition?.[0]?.meals || [];
-
-        setMeals(mealsData)
-        setError("")
-
+        const sortedMeals = mealsData.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setMeals(sortedMeals.slice(0, 5)); // show recent 5
+        setError("");
       } catch (error) {
         setError("Something went wrong while fetching meals.");
       }
     };
 
     fetchMeals();
-  }, [token]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,8 +47,8 @@ function NutritionLog() {
       );
 
       const newMeal = response.data.nutrition.meals.slice(-1)[0];
-      setMeals((prevMeals) => [newMeal, ...prevMeals]);
-      toast.success("Meal added successfully");
+      setMeals((prevMeals) => [newMeal, ...prevMeals].slice(0, 5));
+      toast.success("Meal logged successfully");
 
       setFoodName("");
       setPortionSize("");
@@ -56,22 +57,27 @@ function NutritionLog() {
         error.response?.data?.message ||
         "Failed to log meal. Please try again.";
 
-        if (message === "You can only log 3 meals per day.") {
-          setError("Meal limit reached. You can only log 3 meals per day.");
-
-        } else if (message === "No food data found. Please check the meal name.") {
-        setError("Invalid food name. Please check your spelling or try another meal.");
-
+      if (message === "You can only log 3 meals per day.") {
+        setError("Meal limit reached. You can only log 3 meals per day.");
+      } else if (
+        message === "No food data found. Please check the meal name."
+      ) {
+        setError(
+          "Invalid food name. Please check your spelling or try another meal."
+        );
       } else {
         setError(message);
       }
+
       setFoodName("");
-    setPortionSize("");
+      setPortionSize("");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleDeleteMeal = async (mealId) => {
+    setDeleteLoading(mealId);
     try {
       await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/user/deletemeal/${mealId}`,
@@ -81,93 +87,89 @@ function NutritionLog() {
       setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
     } catch (error) {
       setError("Failed to delete meal.");
+    } finally {
+      setDeleteLoading(null);
     }
   };
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center text-dark">Log Meals</h2>
+      <Card className="p-4 shadow-sm bg-dark text-white">
+        <h2 className="text-center text-warning">Log Your Meals</h2>
 
-      {error && <Alert variant="danger">{error}</Alert>}
+        {/* Form */}
+        <Form onSubmit={handleSubmit} className="mt-3">
+          <Form.Group className="mb-3">
+            <Form.Label>Food Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={foodName}
+              onChange={(e) => setFoodName(e.target.value)}
+              placeholder="e.g., Chicken Breast"
+              required
+            />
+          </Form.Group>
 
-      {/* Meal Logging Form */}
-      <Form onSubmit={handleSubmit} className="card p-3 shadow-sm bg-dark text-light">
-        <Row>
-          <Col xs={12} sm={6}>
-            <Form.Group controlId="foodName">
-              <Form.Label className="text-warning">Food Name</Form.Label>
-              <Form.Control
-                type="text"
-                className="bg-secondary text-light border-0"
-                value={foodName}
-                onChange={(e) => setFoodName(e.target.value)}
-                required
-              />
-            </Form.Group>
-          </Col>
+          <Form.Group className="mb-3">
+            <Form.Label>Portion Size (g/ml)</Form.Label>
+            <Form.Control
+              type="number"
+              value={portionSize}
+              onChange={(e) => setPortionSize(e.target.value)}
+              placeholder="e.g., 150"
+              required
+            />
+          </Form.Group>
 
-          <Col xs={12} sm={6}>
-            <Form.Group controlId="portionSize">
-              <Form.Label className="text-warning">Portion Size (g/ml)</Form.Label>
-              <Form.Control
-                type="number"
-                className="bg-secondary text-light border-0"
-                value={portionSize}
-                onChange={(e) => setPortionSize(e.target.value)}
-                required
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+          {error && <Alert variant="danger">{error}</Alert>}
 
-        <Button type="submit" className="btn btn-warning w-100 mt-3" disabled={loading}>
-          {loading ? "Logging Meal..." : "Log Meal"}
-        </Button>
-      </Form>
+          <Button
+            type="submit"
+            variant="warning"
+            className="w-100"
+            disabled={loading}
+          >
+            {loading ? <Spinner animation="border" size="sm" /> : "Log Meal"}
+          </Button>
+        </Form>
 
-      {/* Display Logged Meals */}
-      <h3 className="mt-4 text-dark">Nutrition Details</h3>
-
-      {meals.length === 0 ? (
-        <p className="text-secondary">No meals logged yet.</p>
-      ) : (
-        <Table striped bordered hover responsive className="mt-3 bg-dark text-light">
-          <thead className="table-dark">
-            <tr className="text-warning">
-              <th>Food</th>
-              <th>Portion Size</th>
-              <th>Calories</th>
-              <th>Protein</th>
-              <th>Carbs</th>
-              <th>Fats</th>
-              <th>Time</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {meals.map((meal, index) => (
-              <tr key={index}>
-                <td>{meal.foodName}</td>
-                <td>{meal.portionSize}g</td>
-                <td>{meal.calories}</td>
-                <td>{meal.protein}g</td>
-                <td>{meal.carbs}g</td>
-                <td>{meal.fats}g</td>
-                <td>{new Date(meal.createdAt).toLocaleString()}</td>
-                <td>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDeleteMeal(meal._id)}
-                  >
-                    Delete
-                  </Button>
-                </td>
-              </tr>
+        {/* Display Meals */}
+        <h3 className="mt-4 text-warning">Meal History</h3>
+        {meals.length > 0 ? (
+          <ul className="list-group mt-2">
+            {meals.map((meal) => (
+              <li
+                key={meal._id}
+                className="list-group-item d-flex justify-content-between align-items-start bg-secondary text-white flex-column flex-sm-row gap-2"
+              >
+                <div>
+                  <strong>{meal.foodName}</strong> — {meal.portionSize}g
+                  <br />
+                  <small>
+                    Calories: {meal.calories} kcal | Protein: {meal.protein}g | Carbs: {meal.carbs}g | Fats: {meal.fats}g
+                  </small>
+                  <br />
+                  <small>Logged at: {new Date(meal.createdAt).toLocaleString()}</small>
+                </div>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDeleteMeal(meal._id)}
+                  disabled={deleteLoading === meal._id}
+                >
+                  {deleteLoading === meal._id ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    "Delete"
+                  )}
+                </Button>
+              </li>
             ))}
-          </tbody>
-        </Table>
-      )}
+          </ul>
+        ) : (
+          <p className="text-muted mt-2">No meals logged yet.</p>
+        )}
+      </Card>
     </div>
   );
 }
