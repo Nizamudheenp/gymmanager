@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HomePage from "./components/HomePage";
 import WhatBringsYouHere from "./components/WhatBringsYouHere";
@@ -12,7 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { loginSuccess } from "./redux/slices/AuthSlice";
+import { loginSuccess, logout } from "./redux/slices/AuthSlice";
 import AdminHome from "./pages/AdminDashboard/AdminHome";
 import ManageTrainers from "./pages/AdminDashboard/ManageTrainers";
 import ManageUsers from "./pages/AdminDashboard/ManageUsers";
@@ -36,6 +36,7 @@ import MyReviews from "./pages/TrainerDashboard/MyReviews";
 import AdminManageSessions from "./pages/AdminDashboard/ManageSessions";
 import ManageFeedbacks from "./pages/AdminDashboard/ManageFeedbacks";
 import AdminPayment from "./pages/AdminDashboard/AdminPaymentsGraph";
+import { isTokenExpired } from "./utils/jwtUtils";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,10 +45,14 @@ const App = () => {
     const role = localStorage.getItem("role");
     const verified = localStorage.getItem("verified") === "true";
 
-    if (token && role) {
+    if (token && role){
+       if (isTokenExpired(token)) {
+      toast.error("Session expired. Please login again.");
+      dispatch(logout()); 
+    } else {
       dispatch(loginSuccess({ token, role,verified  })); 
     }
-  }, [dispatch]);
+  }}, [dispatch]);
   return (
     <>
     <ToastContainer position="top-right" autoClose={3000} />
