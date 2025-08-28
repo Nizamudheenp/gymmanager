@@ -1,18 +1,72 @@
                                              /* user register css */
-.user-register-container {
-    display: flex;
+.register-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.register-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+.register-img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.register-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .register-layout {
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background: #000;
   }
+  .register-left {
+    display: none;
+  }
+  .register-right {
+    flex: none;
+    width: 100%;
+  }
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+.field-error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
   
   .user-register-box {
     background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     padding: 30px;
+    margin: 10px;
     width: 400px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     color: white;
+    border: 1px solid ;
   }
   
   .user-register-box h2 {
@@ -58,14 +112,11 @@
                      /* trainer register css */
 
 
-.trainer-register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+
   
   .trainer-register-box {
+      border: 1px solid ;
+      margin: 10px;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     padding: 30px;
@@ -116,61 +167,161 @@
     color: rgba(255, 255, 255, 0.6);
   }
   
+.register-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.register-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+.register-img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.register-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .register-layout {
+    flex-direction: column;
+        justify-content: center;
+     background: #000;
+  }
+  .register-left {
+    display: none;
+  }
+  .register-right {
+    flex: none;
+    width: 100%;
+  }
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+.field-error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
+
                                                     /* login css */
+.login-layout {
+  display: flex;
+  height: 100vh;
+}
 
-.login-container {
-    display: flex;
+.login-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.login-img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+
+@media (max-width: 768px) {
+  .login-layout {
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    }
-  
-  .login-box {
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    padding: 30px;
-    width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    color: white;
+     background: #000;
   }
-  
-  .login-box h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: orange;
+  .login-left {
+    display: none;
   }
-  
-  .login-box .form-control {
-    border: none;
-    color: #000;
-    transition: 0.3s;
+  .login-right {
+    flex: none;
+    width: 100%;
   }
-  
-  .login-box .form-control:focus {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
-  
-  .login-box .form-label {
-    font-weight: bold;
-  }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .login-box .btn-primary {
-    background: orange;
-    border: none;
-    font-weight: bold;
-    transition: 0.3s;
-  }
-  
-  .login-box .btn-primary:hover {
-    background: orangered;
-  }
+}
 
-  
-  
+.login-box {
+  border: 1px solid ;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 30px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: orange;
+}
+
+.login-box .form-control {
+  border: none;
+  color: #000;
+  transition: 0.3s;
+}
+
+.login-box .form-control:focus {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.login-box .form-label {
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-box .btn-primary {
+  background: orange;
+  border: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.login-box .btn-primary:hover {
+  background: orangered;
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+.field-error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
