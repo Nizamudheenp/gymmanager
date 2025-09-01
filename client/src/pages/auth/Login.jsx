@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser, clearError } from "../../redux/slices/AuthSlice";
 import "./auth.css";
 import { toast } from "react-toastify";
-import logoimg from "../../assets/gyfit-logo.jpg";
+import logoimg from "../../assets/gyfit-logo.png";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });

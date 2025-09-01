@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./auth.css";
 import { toast } from "react-toastify";
-import logoimg from "../../assets/gyfit-logo.jpg";
+import logoimg from "../../assets/gyfit-logo.png";
 
 function UserRegister() {
   const navigate = useNavigate();

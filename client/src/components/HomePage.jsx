@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import { motion } from "framer-motion";
 import "./Components.css";
-import logoimg from "../../src/assets/gyfit-logo.jpg";
+import logoimg from "../../src/assets/gyfit-logo.png";
 
 function HomePage() {
   const navigate = useNavigate();
