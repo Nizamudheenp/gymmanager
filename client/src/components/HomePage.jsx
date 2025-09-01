@@ -12,10 +12,10 @@ function HomePage() {
   const [showPopup, setShowPopup] = useState(false);
 
   const testimonials = [
-    { text: "This platform changed my fitness routine! Highly recommend it.", author: "Alex M." },
+    { text: "This platform changed my fitness routine! Highly recommend it.", author: "Aslam M." },
     { text: "Booking a trainer has never been easier. Love the UI!", author: "Sarah K." },
     { text: "I was able to lose 10kg in 3 months with the help of this system!", author: "Rajiv P." },
-    { text: "Clean, simple and powerful. It keeps me consistent every week.", author: "Meera D." },
+    { text: "Clean, simple and powerful. It keeps me consistent every week.", author: "Jasmiin D." },
   ];
 
   useEffect(() => {
@@ -120,7 +120,7 @@ function HomePage() {
       >
         <h2>Meet Our Expert Trainers</h2>
         <div className="trainers-container">
-          {["Emily Johnson", "David Lee", "Sophia Patel"].map((t, i) => (
+          {["Gopi krishnan", "Amal Johnson", "basith"].map((t, i) => (
             <motion.div
               key={i}
               className="trainer-card"
@@ -248,7 +248,7 @@ function HomePage() {
             transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()} 
           >
-            <h2>🚧 Coming Soon 🚧</h2>
+            <h2>Coming Soon</h2>
             <p>Our advanced planning system is on the way. Stay tuned!</p>
             <button className="close-btn" onClick={() => setShowPopup(false)}>Close</button>
           </motion.div>
