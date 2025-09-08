@@ -13,8 +13,6 @@ function TrainingDashboard() {
 
   return (
     <div className="container mt-4 training-section">
-      <h2 className="text-center">Training Section</h2>
-
       {/* Training Widgets */}
       {!selectedWidget && (
         <div className="row mt-4">
