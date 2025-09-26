@@ -22,7 +22,7 @@ function TrainingDashboard() {
                 backgroundImage: `url(${trainigbg_1})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}} >
-              <h4>📅 Book Training</h4>
+              <h4>Book Training</h4>
               <p>Find and book training sessions with trainers.</p>
             </div>
           </div>
@@ -33,7 +33,7 @@ function TrainingDashboard() {
                 backgroundImage: `url(${trainingbg_2})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}}>
-              <h4>📋 My Bookings</h4>
+              <h4>My Bookings</h4>
               <p>View and manage your booked training sessions.</p>
             </div>
           </div>
@@ -44,7 +44,7 @@ function TrainingDashboard() {
                 backgroundImage: `url(${trainigbg_3})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}}>
-              <h4>📋 My Workouts</h4>
+              <h4>My Workouts</h4>
               <p>Engage with your trainer assigned workouts.</p>
             </div>
           </div>

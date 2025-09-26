@@ -24,7 +24,7 @@ function NutritionLog() {
         const sortedMeals = mealsData.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setMeals(sortedMeals.slice(0, 5)); // show recent 5
+        setMeals(sortedMeals.slice(0, 5));
         setError("");
       } catch (error) {
         setError("Something went wrong while fetching meals.");
@@ -48,7 +48,7 @@ function NutritionLog() {
 
       const newMeal = response.data.nutrition.meals.slice(-1)[0];
       setMeals((prevMeals) => [newMeal, ...prevMeals].slice(0, 5));
-      toast.success("Meal logged successfully");
+      toast.success("Meal logged");
 
       setFoodName("");
       setPortionSize("");
@@ -95,7 +95,7 @@ function NutritionLog() {
   return (
     <div className="container mt-4">
       <Card className="p-4 shadow-sm bg-dark text-white">
-        <h2 className="text-center text-warning">Log Your Meals</h2>
+        <h2 style={{ color: "#ff8c00", textAlign: 'center' }}>Log Your Meals</h2>
 
         {/* Form */}
         <Form onSubmit={handleSubmit} className="mt-3">
@@ -107,6 +107,7 @@ function NutritionLog() {
               onChange={(e) => setFoodName(e.target.value)}
               placeholder="e.g., Chicken Breast"
               required
+              className="py-3"
             />
           </Form.Group>
 
@@ -118,6 +119,7 @@ function NutritionLog() {
               onChange={(e) => setPortionSize(e.target.value)}
               placeholder="e.g., 150"
               required
+              className="py-3"
             />
           </Form.Group>
 
@@ -125,8 +127,8 @@ function NutritionLog() {
 
           <Button
             type="submit"
-            variant="warning"
-            className="w-100"
+            style={{ backgroundColor: "#ff8c00" }}
+            className="w-100 text-white border-0 py-3"
             disabled={loading}
           >
             {loading ? <Spinner animation="border" size="sm" /> : "Log Meal"}
@@ -134,13 +136,13 @@ function NutritionLog() {
         </Form>
 
         {/* Display Meals */}
-        <h3 className="mt-4 text-warning">Meal History</h3>
+        <h3 className="mt-4" style={{ color: "#ff8c00" }}>Meal History</h3>
         {meals.length > 0 ? (
           <ul className="list-group mt-2">
             {meals.map((meal) => (
               <li
                 key={meal._id}
-                className="list-group-item d-flex justify-content-between align-items-start bg-secondary text-white flex-column flex-sm-row gap-2"
+                className="list-group-item d-flex justify-content-between align-items-center bg-secondary text-white flex-column flex-sm-row gap-2 py-3 px-4"
               >
                 <div>
                   <strong>{meal.foodName}</strong> — {meal.portionSize}g
@@ -153,7 +155,7 @@ function NutritionLog() {
                 </div>
                 <Button
                   variant="danger"
-                  size="sm"
+                  size="md"
                   onClick={() => handleDeleteMeal(meal._id)}
                   disabled={deleteLoading === meal._id}
                 >
