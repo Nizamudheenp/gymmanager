@@ -99,7 +99,6 @@ function Fitnessgoals() {
 
     return (
         <div className="container mt-4">
-            <h3 className="text-dark text-center">Fitness Goals</h3>
             {error && <div className="alert alert-danger">{error}</div>}
             {loading && (
                 <div className="text-center my-3">
@@ -109,18 +108,18 @@ function Fitnessgoals() {
                 </div>
             )}
 
-            <div className="card p-3 shadow-sm bg-dark text-light">
-                <h5 className="text-warning">Set New Goal</h5>
+            <div className="card p-3 shadow-sm bg-dark text-light mb-3">
+                <h5 style={{ color: "#ff8c00", marginBottom: "20px" }}>Set New Goal</h5>
                 <input
                     type="text"
-                    className="form-control mb-2 bg-secondary text-light border-0"
+                    className="form-control mb-2 bg-secondary py-3 text-light border-0"
                     placeholder="Goal Type"
                     value={goalType}
                     onChange={(e) => setGoalType(e.target.value)}
                 />
                 <input
                     type="number"
-                    className="form-control mb-2 bg-secondary text-light border-0"
+                    className="form-control mb-2 bg-secondary py-3 text-light border-0"
                     placeholder="Target Progress"
                     value={targetProgress}
                     onChange={(e) => setTargetProgress(e.target.value)}
@@ -128,14 +127,13 @@ function Fitnessgoals() {
                 <input
                     type="date"
                     min={new Date().toISOString().split("T")[0]}
-                    className="form-control mb-2 bg-secondary text-light border-0"
+                    className="form-control mb-2 bg-secondary py-3 text-light border-0"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                 />
-                <button className="btn btn-warning w-100" onClick={setGoal}>Set Goal</button>
+                <button style={{ backgroundColor: "#ff8c00" }} className="btn w-100 py-3" onClick={setGoal}>Set Goal</button>
             </div>
 
-            <h5 className="mt-4 text-dark">My Goals</h5>
 
             {goals.length === 0 ? (
                 <p className="text-secondary">No fitness goals set yet.</p>
@@ -147,13 +145,12 @@ function Fitnessgoals() {
                             progressPercentage >= 100 ? 'bg-success' :
                                 progressPercentage >= 50 ? 'bg-warning text-dark' :
                                     'bg-info text-dark';
-
                         return (
-                            <li key={goal._id} className="list-group-item bg-dark text-light border-secondary">
+                            <li key={goal._id} className="list-group-item bg-dark text-light border-secondary p-3">
                                 <Row className="align-items-center">
                                     <Col xs={12} md={8}>
-                                        <strong className="text-warning">{goal.goalType}</strong>{" "}
-                                        <span className={`badge ${goal.currentprogress >= goal.targetProgress ? "bg-success" : "bg-info text-dark"}`}>
+                                        <strong style={{ color: "#ff8c00"}}>{goal.goalType}</strong>{" "}
+                                        <span className={`badge ${goal.currentprogress >= goal.targetProgress ? "bg-success p-2 mb-2" : "bg-info text-dark p-2 mb-2"}`}>
                                             {goal.currentprogress >= goal.targetProgress ? "Completed" : "In Progress"}
                                         </span>
                                         <br />
@@ -162,14 +159,15 @@ function Fitnessgoals() {
                                     </Col>
                                     <Col xs={12} md={4} className="d-flex justify-content-md-end gap-2 mt-2 mt-md-0">
                                         <button
-                                            className="btn btn-warning btn-sm"
+                                            className="btn border"
+                                            style={{ color: "#ff8c00"}}
                                             onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
                                             disabled={goal.currentprogress >= goal.targetProgress}
                                         >
-                                            + Progress
+                                            + 
                                         </button>
                                         <button
-                                            className="btn btn-danger btn-sm"
+                                            className="btn btn-danger btn-md"
                                             onClick={() => deleteGoal(goal._id)}
                                         >
                                             Delete
@@ -178,7 +176,7 @@ function Fitnessgoals() {
                                 </Row>
 
                                 {/* Progress Bar */}
-                                <div className="progress mt-2" style={{ height: '25px' }}>
+                                <div className="progress mt-3 " style={{ height: '40px' }}>
                                     <div
                                         className={`progress-bar ${progressColor}`}
                                         role="progressbar"

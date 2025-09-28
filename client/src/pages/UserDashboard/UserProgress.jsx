@@ -11,7 +11,6 @@ function UserProgress() {
   const [error, setError] = useState("");
   const token = localStorage.getItem("token");
 
-  // Fetch progress history 
   useEffect(() => {
     const fetchProgress = async () => {
       try {
@@ -71,14 +70,13 @@ function UserProgress() {
   return (
     <div className="container mt-4">
       <Card className="p-4 shadow-sm bg-dark text-white">
-        <h2 className="text-center text-warning">Track Your Progress</h2>
-
-        {/* Form to Log Progress */}
+        <h2 style={{ color: "#ff8c00", textAlign:"center"}}>Track Your Progress</h2>
         <Form onSubmit={handleSubmit} className="mt-3">
           <Form.Group className="mb-3">
             <Form.Label>Weight (kg):</Form.Label>
             <Form.Control
               type="number"
+              className="py-3"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
               placeholder="Enter your weight"
@@ -90,6 +88,7 @@ function UserProgress() {
             <Form.Label>Body Fat %:</Form.Label>
             <Form.Control
               type="number"
+              className="py-3"
               value={bodyFat}
               onChange={(e) => setBodyFat(e.target.value)}
               placeholder="Enter body fat percentage"
@@ -101,29 +100,28 @@ function UserProgress() {
 
           <Button
             type="submit"
-            variant="warning"
-            className="w-100"
+            style={{ background: "#ff8c00", border:"0"}}
+            className="w-100 py-3"
             disabled={loading}
           >
             {loading ? <Spinner animation="border" size="sm" /> : "Log Progress"}
           </Button>
         </Form>
 
-        {/* Display Progress History */}
-        <h3 className="mt-4 text-warning">Progress History</h3>
+        <h3 style={{ color: "#ff8c00", marginTop:"20px", marginBottom:"20px"}}>Progress History</h3>
         {progress.length > 0 ? (
-          <ul className="list-group mt-2">
+          <ul className="list-group mt-1">
             {progress.map((entry) => (
               <li
                 key={entry._id}
-                className="list-group-item d-flex justify-content-between align-items-center bg-secondary text-white"
+                className="list-group-item d-flex justify-content-between align-items-center bg-secondary text-white p-3"
               >
                 <div>
                   <strong>{entry.weight} kg</strong> | Body Fat: {entry.bodyFat}% | BMI: {entry.bmi} | Muscle Mass: {entry.muscleMass} kg
                 </div>
                 <Button
                   variant="danger"
-                  size="sm"
+                  size="md"
                   onClick={() => handleDelete(entry._id)}
                   disabled={deleteLoading === entry._id}
                 >
