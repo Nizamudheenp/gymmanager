@@ -114,8 +114,8 @@ function Messages() {
     return (
         <Container fluid >
             <Row>
-                <Col md={4} className="border-end bg-light p-3 rounded-3 shadow-sm">
-                    <h5 className="text-center mb-3 fw-bold">Messages</h5>
+                <Col md={4} className="border-end bg-light p-4 rounded-3 shadow-sm">
+                    <h5 className="text-center m-3 fw-bold text-uppercase">gy-fit connections</h5>
                     {loading && <p className="text-muted">Loading contacts...</p>}
                     <ListGroup variant="flush">
                         {contacts.map((contact) => (
@@ -124,7 +124,7 @@ function Messages() {
                                 action
                                 onClick={() => handleSelectContact(contact)}
                                 className={`mb-2 rounded ${contact.unread ? "fw-bold bg-warning-subtle" : "bg-white"}`}
-                                style={{ cursor: "pointer", padding: "12px 16px", boxShadow: "0 0 6px rgba(0,0,0,0.05)" }}
+                                style={{ cursor: "pointer", padding: "20px 25px", boxShadow: "0 0 6px rgba(0,0,0,0.05)", color: "#ff8c00" }}
                             >
                                 {contact.username} ({role === "trainer" ? "User" : "Trainer"})
                             </ListGroup.Item>
@@ -132,14 +132,14 @@ function Messages() {
                     </ListGroup>
                 </Col>
 
-                <Col md={8} className="p-1">
+                <Col md={8} className="p-2">
                     {selectedContact ? (
-                        <Card className="shadow-sm border-0 rounded-4">
-                            <Card.Header className="bg-dark text-white rounded-top-4">
+                        <Card className="shadow-sm border-0 rounded-4 bg-dark">
+                            <Card.Header className="text-white rounded-top-4 p-3">
                                 <strong>Chat with {selectedContact.username}</strong>
                             </Card.Header>
                             <Card.Body>
-                                <div className="chat-messages mb-3 d-flex flex-column gap-2" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                                <div className="chat-messages mb-3 d-flex flex-column gap-1" style={{ maxHeight: "400px", overflowY: "auto" }}>
                                     {loading ? (
                                         <p className="text-muted">Loading messages...</p>
                                     ) : (
@@ -148,7 +148,7 @@ function Messages() {
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`p-2 px-3 rounded-3 ${isSender ? "align-self-end bg-primary text-white" : "align-self-start bg-secondary text-white"}`}
+                                                    className={`px-2 rounded-1 ${isSender ? "align-self-end bg-secondary text-white" : "align-self-start bg-light text-dark"}`}
                                                     style={{
                                                         maxWidth: "75%",
                                                         boxShadow: "0 0 6px rgba(0,0,0,0.1)",
@@ -161,7 +161,7 @@ function Messages() {
                                         })
                                     )}
                                 </div>
-                                <Form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
+                                <Form className="d-flex gap-3" onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
                                     <Form.Control
                                         type="text"
                                         value={newMessage}
@@ -170,7 +170,16 @@ function Messages() {
                                         className="mb-2"
                                     />
                                     <div className="text-end">
-                                        <Button type="submit" variant="warning" className="px-4">Send</Button>
+                                        <Button type="submit" style={{
+                                            background: "#ff8c00",
+                                            border: "none",
+                                            color: "white",
+                                            paddingRight: "25px",
+                                            paddingLeft:"25px",
+                                            cursor: "pointer",
+                                        }}>
+                                            ➤
+                                        </Button>
                                     </div>
                                 </Form>
                             </Card.Body>
@@ -183,7 +192,7 @@ function Messages() {
                 </Col>
 
             </Row>
-        </Container>
+        </Container >
     );
 }
 

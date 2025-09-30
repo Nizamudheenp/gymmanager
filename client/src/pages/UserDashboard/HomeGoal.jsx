@@ -26,7 +26,7 @@ function UserGoalsWidget() {
     return (
         <div className="card p-3 shadow-sm bg-dark text-light" 
             style={{ cursor: "pointer" }}>
-            <h5 className="text-warning">Complete Your Goals for Better Progress!</h5>
+            <h5 style={{ color: "#ff8c00"}}>Complete Your Goals for Better Progress!</h5>
             {goals.length === 0 ? (
                 <p className="text-secondary">No goals set yet. Start now!</p>
             ) : (

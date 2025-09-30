@@ -27,7 +27,6 @@ function HomePage() {
 
   return (
     <>
-      {/* Navbar */}
       <nav className="navbar-custom" id="homepage-navbar">
         <div className="nav-logo">
           <img src={logoimg} alt="GYMFIT" />

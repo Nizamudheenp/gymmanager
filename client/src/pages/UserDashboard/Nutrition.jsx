@@ -97,7 +97,6 @@ function NutritionLog() {
       <Card className="p-4 shadow-sm bg-dark text-white">
         <h2 style={{ color: "#ff8c00", textAlign: 'center' }}>Log Your Meals</h2>
 
-        {/* Form */}
         <Form onSubmit={handleSubmit} className="mt-3">
           <Form.Group className="mb-3">
             <Form.Label>Food Name</Form.Label>
@@ -135,7 +134,6 @@ function NutritionLog() {
           </Button>
         </Form>
 
-        {/* Display Meals */}
         <h3 className="mt-4" style={{ color: "#ff8c00" }}>Meal History</h3>
         {meals.length > 0 ? (
           <ul className="list-group mt-2">

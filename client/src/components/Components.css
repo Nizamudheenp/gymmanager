@@ -233,6 +233,12 @@
   color: white;
 }
 
+.features-section h2{
+  margin-bottom: 30px;
+}
+
+
+
 .features-container {
   display: flex;
   flex-wrap: wrap;
