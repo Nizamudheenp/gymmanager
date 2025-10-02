@@ -72,10 +72,8 @@ function ManageWorkouts() {
 
   return (
     <Container className="mt-4">
-      <h4 className="text-warning text-center mb-4">Manage Workouts</h4>
-
       <Card className="bg-dark text-light p-4 mb-4 shadow">
-        <Card.Title className="text-warning">Assign New Workout</Card.Title>
+        <Card.Title style={{ color: "#ff8c00" , marginBottom:"20px"}}>Assign New Workout</Card.Title>
         <Form>
           <Row>
             <Col md={4} className="mb-3">
@@ -103,13 +101,12 @@ function ManageWorkouts() {
               />
             </Col>
           </Row>
-          <Button variant="success" className="w-100" onClick={assignWorkout}>
+          <Button style={{ backgroundColor: "#ff8c00" ,border:"0"}} className="w-100 mt-3" onClick={assignWorkout}>
             Assign Workout
           </Button>
         </Form>
       </Card>
 
-      <h5 className="text-dark">Current Workouts</h5>
       {workouts.length === 0 ? (
         <p className="text-secondary">No workouts assigned yet.</p>
       ) : (
@@ -117,7 +114,7 @@ function ManageWorkouts() {
           {workouts.map((exercise) => (
             <ListGroup.Item
               key={exercise._id}
-              className="d-flex justify-content-between align-items-center bg-dark text-light border-warning"
+              className="d-flex justify-content-between align-items-center bg-dark text-light p-3"
             >
               {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
               <Button

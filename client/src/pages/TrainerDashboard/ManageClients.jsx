@@ -48,8 +48,6 @@ function ManageClients() {
 
   return (
     <Container className="mt-4">
-      <h4 className="text-dark mb-4 text-center">My Clients</h4>
-
       {loading && (
         <div className="text-center text-light">
           <Spinner animation="border" variant="warning" />
@@ -65,15 +63,14 @@ function ManageClients() {
 
       <Row>
         {confirmedClients.map((client) => (
-          <Col key={client._id} xs={12} md={6} lg={4} className="mb-4">
-            <Card className="bg-dark text-light border-warning shadow">
+          <Col key={client._id} xs={12} md={4} lg={3} className="mb-4">
+            <Card className="bg-dark text-light p-3 shadow">
               <Card.Body>
-                <Card.Title className="text-warning">{client.userId.username}</Card.Title>
+                <Card.Title style={{ color: "#ff8c00" }}>{client.userId.username}</Card.Title>
                 <Card.Text>{client.userId.email}</Card.Text>
                 <div className="d-flex justify-content-between mt-3 flex-wrap gap-2">
                   <Button
-                    variant="warning"
-                    size="sm"
+                    style={{ backgroundColor: "#ff8c00", border: "0", color: "black", padding: '3px 11px' }}
                     onClick={() =>
                       navigate(`/trainer-dashboard/manage-workouts/${client.userId._id}`)
                     }
@@ -81,8 +78,7 @@ function ManageClients() {
                     Workouts
                   </Button>
                   <Button
-                    variant="warning"
-                    size="sm"
+                    style={{ backgroundColor: "#ff8c00", border: "0", color: "black", padding: '3px 9px' }}
                     onClick={() =>
                       navigate(`/trainer-dashboard/manage-nutritions/${client.userId._id}`)
                     }
@@ -90,8 +86,7 @@ function ManageClients() {
                     Nutritions
                   </Button>
                   <Button
-                    variant="danger"
-                    size="sm"
+                    style={{ backgroundColor: "red", border: "0", color: "black", padding: '3px 16px' }}
                     onClick={() => removeClient(client.userId._id)}
                   >
                     Remove

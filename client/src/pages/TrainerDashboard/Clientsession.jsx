@@ -8,8 +8,6 @@ function ClientSession() {
 
   return (
     <div className="container mt-4 training-section">
-      <h2 className="text-center">Client Session</h2>
-
       {!selectedWidget && (
         <div className="row mt-4">
           <div className="col-md-6">

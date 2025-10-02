@@ -31,8 +31,7 @@ function MyReviews() {
     return (
     
         <Container className="mt-4">
-            <h3 className='text-dark text-center'>My Reviews</h3>
-            <p className='text-center text-dark'>⭐ Average Rating: {averageRating}/5</p>
+            <p className='text-center text-dark fw-bold fs-4 '>⭐ Average Rating : {averageRating}/5</p>
 
             {reviews.length === 0 ? (
                         <p className="text-white text-center">No reviews yet.</p>

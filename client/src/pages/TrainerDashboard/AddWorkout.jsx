@@ -50,14 +50,13 @@ function AddWorkout({ sessionId, refreshSessions }) {
 
     return (
         <>
-
             <style>
                 {`
                     .dark-input {
                         background-color: #343a40; 
                         color: #fff; 
-                        margin: 2px;
-                        border: 1px solid #ffc107; 
+                        margin: 3px;
+                        border: 1px solid  #ff8c00;
                     }
 
                     .dark-input::placeholder {
@@ -67,8 +66,8 @@ function AddWorkout({ sessionId, refreshSessions }) {
                 `}
             </style>
 
-            <Card className="bg-dark text-light border-warning shadow-lg p-3">
-                <h4 className="text-warning text-center">Workout Of The Day</h4>
+            <Card style={{ borderColor: "#ff8c00" }} className="bg-dark text-light shadow-lg p-4 mt-3">
+                <h4 style={{ color: "#ff8c00" , textAlign:"center" }}>Workout Of The Day</h4>
 
                 <Form className="mt-3">
                     <Form.Group>
@@ -80,7 +79,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
                             className="dark-input" />
                     </Form.Group>
 
-                    <div className="d-flex gap-2">
+                    <div className="d-flex">
                         <Form.Control
                             type="number"
                             placeholder="Sets"
@@ -104,22 +103,22 @@ function AddWorkout({ sessionId, refreshSessions }) {
                         />
                     </Form.Group>
 
-                    <Button variant="warning" className="mt-3 w-100" onClick={handleAddWorkout}>
+                    <Button style={{ backgroundColor: "#ff8c00", border:"0" }} className="mt-3 w-100" onClick={handleAddWorkout}>
                         Add Workout
                     </Button>
                 </Form>
 
-                {/* Show Added Workouts */}
+                {/* Added Workouts */}
                 {workouts.length > 0 && (
                     <>
-                        <h6 className="text-warning mt-3">Workouts Added</h6>
-                        <ListGroup className="mb-3">
+                        <h6 style={{ color: "#ff8c00", marginTop:"20px", marginBottom:"10px" }}>Workouts Added</h6>
+                        <ListGroup className="mb-1 m-1 p-2 border-0">
                             {workouts.map((w, index) => (
-                                <div key={index}>
-                                    <p>{w.exercise} - {w.sets} Sets x {w.reps} Reps</p>
+                                <div key={index} className="mb-3 d-flex items-center gap-3">
+                                    <p >{w.exercise} - {w.sets} Sets x {w.reps} Reps</p>
                                     {w.meetingLink && (
                                         <a href={w.meetingLink} target="_blank" rel="noopener noreferrer">
-                                            📅 Join Meeting
+                                            Join Meeting
                                         </a>
                                     )}
                                 </div>
@@ -129,7 +128,7 @@ function AddWorkout({ sessionId, refreshSessions }) {
                     </>
                 )}
 
-                <Button variant="warning" className="w-100 mt-2" onClick={handleSubmit}>
+                <Button style={{ backgroundColor: "#ff8c00" ,border:"0" , marginTop:"20px"}} className="w-100" onClick={handleSubmit}>
                     Submit Workouts
                 </Button>
             </Card>

@@ -120,12 +120,10 @@ function ManageSessions() {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-dark text-center">Manage Sessions</h2>
 
-      {/* Create Session Form */}
-      <Card className="mb-4 bg-dark text-light border-warning shadow-lg">
+      <Card className="mb-4 p-4 bg-dark text-light shadow-lg">
         <Card.Body>
-          <h5 className="text-warning">Create New Session</h5>
+          <h5 style={{ color: "#ff8c00" , marginBottom:"15px" }}>Create New Session</h5>
           <Form onSubmit={handleCreateSession}>
             <Form.Group className="mb-3">
               <Form.Label>Session Name</Form.Label>
@@ -152,7 +150,7 @@ function ManageSessions() {
               <Form.Control type="file" onChange={handleImageChange} required />
             </Form.Group>
 
-            <Button variant="warning" type="submit" className="w-100">
+            <Button style={{ backgroundColor: "#ff8c00" , border:"0" }} type="submit" className="w-100">
               Create Session
             </Button>
           </Form>
@@ -165,16 +163,16 @@ function ManageSessions() {
         <div className="row">
           {sessions.map((session) => (
             <div key={session._id} className="col-md-6 mb-3">
-              <Card className="bg-dark text-light border-warning shadow-lg">
+              <Card className="bg-dark text-light p-2 shadow-lg">
                 <Card.Body>
-                  <Card.Title className="text-warning">{session.sessionName}</Card.Title>
+                  <Card.Title style={{ color: "#ff8c00" , marginBottom:"13px"}}>{session.sessionName}</Card.Title>
                   <Card.Text>
-                    <strong>Workout Type:</strong> {session.workoutType} <br />
-                    <strong>Date:</strong> {new Date(session.date).toLocaleString()} <br />
-                    <strong>Participants:</strong> {session.bookings.filter(b => b.status === "approved").length}/{session.maxParticipants}
+                    <strong>Workout Type :</strong> {session.workoutType} <br />
+                    <strong>Date :</strong> {new Date(session.date).toLocaleString()} <br />
+                    <strong>Participants :</strong> {session.bookings.filter(b => b.status === "approved").length}/{session.maxParticipants}
                   </Card.Text>
 
-                  <h6 className="text-warning">Pending Requests</h6>
+                  <h6 style={{ color: "#ff8c00" }}>Pending Requests</h6>
                   <ListGroup className="m-1">
                     {session.bookings.map((booking) =>
                       booking.status === "pending" ? (
@@ -207,7 +205,7 @@ function ManageSessions() {
 
 
                   <AddWorkout sessionId={session._id} refreshSessions={fetchTrainerSessions} />
-                  <h6 className="mt-3 text-warning">Workouts:</h6>
+                  <h6 style={{ color: "#ff8c00", marginTop:"15px" }}>Workouts:</h6>
                   {session.workouts.length === 0 ? (
                     <p>No workouts added yet.</p>
                   ) : (

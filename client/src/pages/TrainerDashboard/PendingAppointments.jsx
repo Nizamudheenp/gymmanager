@@ -18,9 +18,13 @@ function PendingAppointments() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const count = response.data.sessions.reduce((total, session) => 
-        total + session.bookings.filter(booking => booking.status === "pending").length
-      , 0);
+      const count = response.data.sessions.reduce(
+        (total, session) =>
+          total +
+          session.bookings.filter((booking) => booking.status === "pending")
+            .length,
+        0
+      );
 
       setPendingCount(count);
     } catch (error) {
@@ -30,23 +34,41 @@ function PendingAppointments() {
     }
   };
 
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-4 text-warning" />;
+  if (loading)
+    return (
+      <div className="d-flex justify-content-center mt-4">
+        <Spinner animation="border" variant="warning" />
+      </div>
+    );
 
   return (
-    <div>
+    <div className="container mt-3">
       {pendingCount > 0 ? (
-        <Alert className="text-center"
-        style={{
-          backgroundColor: "transparent",
-          color: "white",
-          fontSize: "20px",
-          border: "1px solid orange" 
-        }}>
-           You have <strong>{pendingCount}</strong> new session booking requests.
+        <Alert
+          className="text-center fw-bold"
+          style={{
+            backgroundColor: "#1c1c1c",
+            color: "#f8f9fa",
+            fontSize: "18px",
+            border: "2px solid #ff8c00",
+            borderRadius: "8px",
+          }}
+        >
+          🟠 You have <span style={{ color: "#ff8c00" }}>{pendingCount}</span>{" "}
+          new session booking requests.
         </Alert>
       ) : (
-        <Alert variant="success" className="text-center">
-           No new booking requests.
+        <Alert
+          className="text-center fw-semibold"
+          style={{
+            backgroundColor: "#1c1c1c",
+            color: "#ff8c00",
+            fontSize: "18px",
+            border: "2px solid #ff8c00",
+            borderRadius: "8px",
+          }}
+        >
+          No new booking requests.
         </Alert>
       )}
     </div>
