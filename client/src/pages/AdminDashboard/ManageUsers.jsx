@@ -45,60 +45,65 @@ function ManageUsers() {
   if (error) return <p className="text-danger text-center">{error}</p>;
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Manage Users</h2>
+     <div className="container mt-5">
 
-      <div className="d-none d-md-block">
-        <div className="table-responsive">
-          <table className="table table-bordered text-white" style={{ backgroundColor: "#1e1e1e" }}>
-            <thead style={{ backgroundColor: "#333", color: "#f4a825" }}>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Fitness Data</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    Height: {user.fitnessData?.height}<br />
-                    Weight: {user.fitnessData?.weight}<br />
-                    Frequency: {user.fitnessData?.exerciseFrequency}
-                  </td>
-                  <td>
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteUser(user._id)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="d-md-none">
-        {users.map((user) => (
-          <div key={user._id} className="card mb-3 shadow" style={{ backgroundColor: "#2c2c2c", color: "#fff" }}>
+      {users.length === 0 ? (
+        <p className="text-center text-muted fst-italic">
+          No users found.
+        </p>
+      ) : (
+        users.map((user) => (
+          <div
+            key={user._id}
+            className="card mb-3 shadow-sm border-0 p-3"
+            style={{
+              backgroundColor: "#2c2c2c",
+              color: "#fff",
+              borderRadius: "10px",
+            }}
+          >
             <div className="card-body">
-              <h5 className="card-title" style={{ color: "#f4a825" }}>{user.username}</h5>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p>
-                <strong>Height:</strong> {user.fitnessData?.height}<br />
-                <strong>Weight:</strong> {user.fitnessData?.weight}<br />
-                <strong>Frequency:</strong> {user.fitnessData?.exerciseFrequency}
-              </p>
-              <button className="btn btn-danger btn-sm" onClick={() => deleteUser(user._id)}>
-                Delete
-              </button>
+              <div className="d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                  <h5 className="card-title mb-2" style={{ color: "#ff8c00" }}>
+                    {user.username}
+                  </h5>
+                  <p className="mb-1">
+                    <strong>Email:</strong> {user.email}
+                  </p>
+                  {user.fitnessData ? (
+                    <>
+                      <p className="mb-1">
+                        <strong>Height:</strong> {user.fitnessData.height}
+                      </p>
+                      <p className="mb-1">
+                        <strong>Weight:</strong> {user.fitnessData.weight}
+                      </p>
+                      <p className="mb-0">
+                        <strong>Exercice Frequency:</strong>{" "}
+                        {user.fitnessData.exerciseFrequency}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-muted fst-italic mb-0">
+                      No fitness data available.
+                    </p>
+                  )}
+                </div>
+
+                <div className="mt-3 mt-md-0">
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => deleteUser(user._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        ))}
-      </div>
+        ))
+      )}
     </div>
   );
 }

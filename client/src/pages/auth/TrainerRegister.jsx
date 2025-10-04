@@ -98,10 +98,9 @@ function TrainerRegister() {
       {/* Right form column */}
       <div className="register-right">
         <div className="trainer-register-box">
-          <h2>New Trainer Registration</h2>
+          <h2>Trainer Registration</h2>
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-row">
-              {/* Username */}
               <div className="mb-3 col">
                 <label className="form-label">Full Name</label>
                 <input
@@ -119,7 +118,6 @@ function TrainerRegister() {
                 )}
               </div>
 
-              {/* Email */}
               <div className="mb-3 col">
                 <label className="form-label">Email</label>
                 <input
@@ -139,7 +137,6 @@ function TrainerRegister() {
             </div>
 
             <div className="form-row">
-              {/* Password */}
               <div className="mb-3 col">
                 <label className="form-label">Password</label>
                 <input
@@ -157,7 +154,6 @@ function TrainerRegister() {
                 )}
               </div>
 
-              {/* Experience */}
               <div className="mb-3 col">
                 <label className="form-label">Years of Experience</label>
                 <input

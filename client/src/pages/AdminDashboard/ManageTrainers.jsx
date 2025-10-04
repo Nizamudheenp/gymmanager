@@ -62,80 +62,58 @@ function ManageTrainers() {
   if (error) return <p className="text-danger text-center">{error}</p>;
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Manage Trainers</h2>
+     <div className="container mt-5">
+      {trainers.map((trainer) => (
+        <div
+          key={trainer._id}
+          className="card mb-3 shadow-sm p-3"
+          style={{
+            backgroundColor: "#2c2c2c",
+            color: "#fff",
+          }}
+        >
+          <div className="card-body">
+            <div className="d-flex justify-content-between align-items-center flex-wrap">
+              <div>
+                <h5 className="card-title mb-3" style={{ color: "#ff8c00" }}>
+                  {trainer.username}
+                </h5>
+                <p className="mb-1">
+                  <strong>Email : </strong> {trainer.email}
+                </p>
+                <p className="mb-1">
+                  <strong>Specialization : </strong> {trainer.specialization}
+                </p>
+                <p className="mb-0">
+                  <strong>Status : </strong>{" "}
+                  {trainer.verified ? (
+                    <span className="badge bg-success">Approved</span>
+                  ) : (
+                    <span className="badge bg-warning text-dark">Pending</span>
+                  )}
+                </p>
+              </div>
 
-      <div className="d-none d-md-block">
-        <div className="table-responsive">
-          <table className="table table-bordered text-white" style={{ backgroundColor: "#1e1e1e" }}>
-            <thead style={{ backgroundColor: "#333", color: "#f4a825" }}>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Specialization</th>
-                <th>Status</th>
-                <th>Approve</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {trainers.map((trainer) => (
-                <tr key={trainer._id}>
-                  <td>{trainer.username}</td>
-                  <td>{trainer.email}</td>
-                  <td>{trainer.specialization}</td>
-                  <td>
-                    {trainer.verified ? (
-                      <span className="badge bg-success">Approved</span>
-                    ) : (
-                      <span className="badge bg-warning text-dark">Pending</span>
-                    )}
-                  </td>
-                  <td>
-                    {!trainer.verified && (
-                      <button className="btn btn-primary btn-sm" onClick={() => approveTrainer(trainer._id)}>
-                        Approve
-                      </button>
-                    )}
-                  </td>
-                  <td>
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteTrainer(trainer._id)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="d-md-none">
-        {trainers.map((trainer) => (
-          <div key={trainer._id} className="card mb-3 shadow" style={{ backgroundColor: "#2c2c2c", color: "#fff" }}>
-            <div className="card-body">
-              <h5 className="card-title" style={{ color: "#f4a825" }}>{trainer.username}</h5>
-              <p><strong>Email:</strong> {trainer.email}</p>
-              <p><strong>Specialization:</strong> {trainer.specialization}</p>
-              <p><strong>Status:</strong> {trainer.verified ? (
-                <span className="badge bg-success">Approved</span>
-              ) : (
-                <span className="badge bg-warning text-dark">Pending</span>
-              )}</p>
-              <div className="d-flex gap-2 flex-wrap">
+              <div className="d-flex gap-2 mt-3 mt-md-0">
                 {!trainer.verified && (
-                  <button className="btn btn-primary btn-sm" onClick={() => approveTrainer(trainer._id)}>
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => approveTrainer(trainer._id)}
+                  >
                     Approve
                   </button>
                 )}
-                <button className="btn btn-danger btn-sm" onClick={() => deleteTrainer(trainer._id)}>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteTrainer(trainer._id)}
+                >
                   Delete
                 </button>
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

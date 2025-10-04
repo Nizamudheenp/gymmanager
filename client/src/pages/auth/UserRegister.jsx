@@ -168,7 +168,6 @@ function UserRegister() {
             </div>
 
             <div className="form-row">
-              {/* Weight */}
               <div className="mb-3 col">
                 <label className="form-label">Weight (kg)</label>
                 <input

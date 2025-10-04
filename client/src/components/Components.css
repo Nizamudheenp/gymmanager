@@ -33,7 +33,7 @@
 }
 
 #homepage-navbar .nav-link:hover {
-  color: #f0a500 !important;
+  color: #ff8c00 !important;
   transform: scale(1.1);
 }
 
@@ -55,7 +55,7 @@
 }
 
 .homepage-mainview span {
-  color: #f0a500;
+  color: #ff8c00;
 }
 
 .homepage-mainview::before {
@@ -88,22 +88,6 @@
   max-width: 600px;
 }
 
-.get-started-btn {
-  background: #f0a500;
-  color: black;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.get-started-btn:hover {
-  background: #ffbe00;
-  transform: scale(1.1);
-}
 
 @media (max-width: 768px) {
   .homepage-mainview h1 {
@@ -671,7 +655,7 @@
 }
 
 .what-brings-you-here .user-btn {
-  background: #ff9800;
+  background: #ff8c00;
   color: black;
 }
 

@@ -72,7 +72,7 @@
   .user-register-box h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: orange; 
+    color: #ff8c00;
   }
   
   .user-register-box .form-control {
@@ -95,7 +95,7 @@
   }
   
   .user-register-box .btn-primary {
-    background: orange;
+    background: #ff8c00;
     border: none;
     font-weight: bold;
     transition: 0.3s;
@@ -128,7 +128,7 @@
   .trainer-register-box h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: orange;
+    color: #ff8c00;
   }
   
   .trainer-register-box .form-control {
@@ -153,7 +153,7 @@
   }
   
   .trainer-register-box .btn-primary {
-    background: orange;
+    background:#ff8c00;
     border: none;
     font-weight: bold;
     transition: 0.3s;
@@ -281,7 +281,7 @@
 .login-box h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: orange;
+  color: #ff8c00;
 }
 
 .login-box .form-control {
@@ -306,7 +306,7 @@
 }
 
 .login-box .btn-primary {
-  background: orange;
+  background:#ff8c00;
   border: none;
   font-weight: bold;
   transition: 0.3s;

@@ -65,26 +65,24 @@ function AdminManageSessions() {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-dark text-center">Manage Sessions</h2>
-
       {sessions.length === 0 ? (
         <p className="text-light text-center">No sessions available.</p>
       ) : (
         <div className="row">
           {sessions.map((session) => (
             <div key={session._id} className="col-md-6 mb-3">
-              <Card className="bg-dark text-light border-warning shadow-lg p-3">
+              <Card className="bg-dark text-light shadow-lg p-3">
                 <Card.Body>
-                  <Card.Title className="text-warning">{session.sessionName}</Card.Title>
+                  <Card.Title style={{ color: "#ff8c00" , marginBottom:"15px"}}>{session.sessionName}</Card.Title>
                   <Card.Text>
-                    <strong>Trainer:</strong> {session.trainerId?.username} <br />
-                    <strong>Workout Type:</strong> {session.workoutType} <br />
-                    <strong>Date:</strong> {new Date(session.date).toLocaleString()} <br />
-                    <strong>Participants:</strong> {session.bookings.filter(b => b.status === "approved").length}/{session.maxParticipants} <br />
-                    <strong>status:</strong> {session.status} 
+                    <strong>Trainer : </strong> {session.trainerId?.username} <br />
+                    <strong>Workout Type : </strong> {session.workoutType} <br />
+                    <strong>Date : </strong> {new Date(session.date).toLocaleString()} <br />
+                    <strong>Participants : </strong> {session.bookings.filter(b => b.status === "approved").length}/{session.maxParticipants} <br />
+                    <strong>status : </strong> {session.status} 
                   </Card.Text>
 
-                  <Button variant="light" className="m-2" onClick={() => handleViewBookedUsers(session._id)}>
+                  <Button variant="light" className="m-2 " onClick={() => handleViewBookedUsers(session._id)}>
                     View Booked Users
                   </Button>
                   <Button variant="danger" className="m-2" onClick={() => handleDeleteSession(session._id)}>
@@ -99,7 +97,7 @@ function AdminManageSessions() {
 
       {/* Booked Users Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton className="bg-warning text-dark">
+        <Modal.Header closeButton style={{ backgroundColor: "#ff8c00" }}>
           <Modal.Title>Booked Users</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bg-dark text-light">
