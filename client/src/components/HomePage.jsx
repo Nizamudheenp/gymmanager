@@ -21,7 +21,7 @@ function HomePage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
@@ -43,7 +43,8 @@ function HomePage() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1 className="fade-in">Welcome to <span>GYFIT</span> fitness tracker</h1>
+        <h1 className="fade-in">Level Up Your Fitness with
+          <br /> <span>GYFIT</span></h1>
         <p className="fade-in delay-1">Track your fitness, book trainers, and manage your progress.</p>
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -55,7 +56,7 @@ function HomePage() {
         </motion.button>
       </motion.div>
 
-      {/*  About Section */}
+      {/*  About */}
       <motion.section
         className="about-section"
         initial={{ opacity: 0, y: 50 }}
@@ -63,44 +64,48 @@ function HomePage() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <h2>Why Choose Our Fitness Management System?</h2>
-        <p>Designed for both beginners and pros, GYFIT simplifies every part of your fitness journey.</p>
+        <h2>Why Choose GYFIT?</h2>
+        <p>
+          GYFIT is designed to make fitness management effortless — whether you're
+          starting your journey or already an athlete, everything you need is in one place.
+        </p>
+
         <div className="aboutList">
           <ul className="about-benefits">
-            <li>✅ Easy-to-use dashboard with real-time updates</li>
-            <li>✅ Access expert trainers and book sessions online</li>
-            <li>✅ Comprehensive tracking for progress and nutrition</li>
-            <li>✅ Affordable plans with premium support</li>
+            <li>Easy-to-use dashboard with real-time updates</li>
+            <li>Access certified trainers and personalized plans</li>
+            <li>Track workouts, progress, and nutrition in one view</li>
+            <li>Flexible and affordable membership options</li>
           </ul>
         </div>
       </motion.section>
 
-      {/*  Features Section */}
+
+      {/*  Features */}
       <motion.section
         className="features-section"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration:1 }}
         viewport={{ once: true }}
       >
         <h2>Our Key Features</h2>
         <div className="features-container">
           {[
-            { title: "📊 Track Progress", desc: "Visualize growth with dynamic graphs, workout logs, and milestones" },
-            { title: "🏋️‍♂️ Personal Training", desc: "Certified trainers create personalized workout plans" },
-            { title: "🍎 Nutrition Management", desc: "Log meals, track macros, and maintain balance" },
-            { title: "💳 Secure Payments", desc: "Book sessions with secure online payments" },
-            { title: "📅 Smart Scheduling", desc: "Sync trainer sessions with your calendar easily" },
-            { title: "📱 Mobile Friendly", desc: "Access your dashboard on any device, anytime" },
+            { title: "Track Progress", desc: "Visualize growth with dynamic graphs, workout logs, and milestones" },
+            { title: " Personal Training", desc: "Certified trainers create personalized workout plans" },
+            { title: "Nutrition Management", desc: "Log meals, track macros, and maintain balance" },
+            { title: "Secure Payments", desc: "Book sessions with secure online payments" },
+            { title: "Smart Scheduling", desc: "Sync trainer sessions with your calendar easily" },
           ].map((f, i) => (
             <motion.div
               key={i}
-              className="feature-box glow"
-              whileHover={{ scale: 1.05 }}
-              initial={{ opacity: 0, y: 50 }}
+              className="feature-box"
+              whileHover={{ scale: 1.03 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
             >
               <h3>{f.title}</h3>
               <p>{f.desc}</p>
@@ -109,7 +114,7 @@ function HomePage() {
         </div>
       </motion.section>
 
-      {/*  NEW Trainer Spotlight */}
+      {/*  NEW Trainer */}
       <motion.section
         className="trainer-section"
         initial={{ opacity: 0 }}
@@ -123,10 +128,9 @@ function HomePage() {
             <motion.div
               key={i}
               className="trainer-card"
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 100 }}
             >
-              <div className="trainer-img"></div>
               <h3>{t}</h3>
               <p>Specialist in Strength, Cardio & Nutrition</p>
             </motion.div>
@@ -134,20 +138,20 @@ function HomePage() {
         </div>
       </motion.section>
 
-      {/*  NEW Pricing Plans */}
+      {/* Pricing Plans */}
       <motion.section className="pricing-section" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} viewport={{ once: true }}>
         <h2>Choose Your Plan</h2>
         <div className="pricing-container">
           {[
-            { plan: "Basic", price: "$9/mo", features: ["Workout Logs", "Basic Nutrition", "Community Support"] },
-            { plan: "Pro", price: "$29/mo", features: ["Everything in Basic", "Trainer Access", "Advanced Tracking"] },
-            { plan: "Elite", price: "$49/mo", features: ["Everything in Pro", "1-on-1 Sessions", "Priority Support"] },
+            { plan: "Basic", price: "₹999/m", features: ["Workout Logs", "Basic Nutrition", "Community Support"] },
+            { plan: "Pro", price: "₹1999/m", features: ["Everything in Basic", "Trainer Access", "Advanced Tracking"] },
+            { plan: "Elite", price: "₹399/m", features: ["Everything in Pro", "1-on-1 Sessions", "Priority Support"] },
           ].map((p, i) => (
-            <motion.div key={i} className="pricing-card" whileHover={{ scale: 1.08 }}>
+            <motion.div key={i} className="pricing-card" whileHover={{ scale: 1.01 }}>
               <h3>{p.plan}</h3>
               <h4>{p.price}</h4>
               <ul>
-                {p.features.map((f, idx) => <li key={idx}>✅ {f}</li>)}
+                {p.features.map((f, idx) => <li key={idx}>{f}</li>)}
               </ul>
               <button
                 className="get-started-btn"
@@ -160,23 +164,22 @@ function HomePage() {
         </div>
       </motion.section>
 
-      {/* How It Works Section */}
+      {/* How It Works */}
       <section className="how-section">
         <h2>How It Works</h2>
         <div className="steps-container">
-          <motion.div className="step-card" whileHover={{ scale: 1.05 }}>
+          <motion.div className="step-card" whileHover={{ scale: 1.01 }}>
             <span>1</span><h3>Sign Up</h3><p>Create your free account and set your fitness goals.</p>
           </motion.div>
-          <motion.div className="step-card" whileHover={{ scale: 1.05 }}>
+          <motion.div className="step-card" whileHover={{ scale: 1.01 }}>
             <span>2</span><h3>Choose Plan</h3><p>Select from affordable plans tailored to your needs.</p>
           </motion.div>
-          <motion.div className="step-card" whileHover={{ scale: 1.05 }}>
+          <motion.div className="step-card" whileHover={{ scale: 1.01 }}>
             <span>3</span><h3>Start Training</h3><p>Book trainers, follow plans, and track your journey.</p>
           </motion.div>
         </div>
       </section>
 
-      {/*  Testimonials */}
       <section className="testimonials-section">
         <h2>What Our Users Say</h2>
         <div className="testimonial-slider">
@@ -189,7 +192,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/*  NEW FAQ Section */}
+      {/* FAQ */}
       <motion.section className="faq-section" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }} viewport={{ once: true }}>
         <h2>Frequently Asked Questions</h2>
         <div className="faq-list">
@@ -198,7 +201,7 @@ function HomePage() {
             { q: "Do trainers provide diet plans?", a: "Yes, our trainers provide both workout and nutrition guidance." },
             { q: "Is there a mobile app?", a: "GYFIT is fully mobile-friendly and an app is coming soon!" },
           ].map((faq, i) => (
-            <motion.div key={i} className="faq-item" whileHover={{ scale: 1.02 }}>
+            <motion.div key={i} className="faq-item" whileHover={{ scale: 1.01 }}>
               <h4>{faq.q}</h4>
               <p>{faq.a}</p>
             </motion.div>
@@ -206,30 +209,42 @@ function HomePage() {
         </div>
       </motion.section>
 
-      {/*  CTA Section */}
       <section className="cta-section">
         <h2>Ready to Transform Your Life?</h2>
         <p>Join thousands of members who trust GYFIT for their fitness journey.</p>
         <motion.button
           whileHover={{ scale: 1.1 }}
-          className="get-started-btn glow"
+          className="get-started-btn"
           onClick={() => navigate("/what-brings-you-here")}
         >
           Join Now
         </motion.button>
       </section>
 
-      {/*  Footer */}
       <footer className="footer">
-        <div className="footer-content">
-          <p>&copy; {new Date().getFullYear()} Fitness Management System. All rights reserved.</p>
-          <nav>
-            <a href="/">Home</a> | <a href="/login">Login</a>
-          </nav>
+        <div className="footer-container">
+          <div className="footer-logo">
+            <img src={logoimg} alt="GYFIT Logo" />
+            <h3>GYFIT</h3>
+            <p>Empowering your fitness journey — track, train, and transform.</p>
+          </div>
+
+          <div className="footer-links">
+            <h4>Quick Links</h4>
+            <a href="/">Home</a>
+            <a href="/login">Login</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Plans</a>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} GYFIT. All rights reserved.</p>
         </div>
       </footer>
 
-      {/*  Popup Modal */}
+
+      {/* Modal */}
       {showPopup && (
         <motion.div
           className="popup-overlay"
@@ -245,7 +260,7 @@ function HomePage() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
           >
             <h2>Coming Soon</h2>
             <p>Our advanced planning system is on the way. Stay tuned!</p>

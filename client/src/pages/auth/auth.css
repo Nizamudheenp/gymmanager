@@ -2,6 +2,8 @@
 .register-layout {
   display: flex;
   height: 100vh;
+  background: #000;
+
 }
 
 .register-left {
@@ -9,13 +11,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
+  gap: 5px;
 }
-
-.register-img {
-  max-width: 80%;
-  max-height: 80%;
+.register-left p {
+  font-size: 28px;
+  color: #fff;
+}
+.register-left .register-img {
+  max-width: 7%;
+  max-height: 7%;
   border-radius: 10px;
+  margin-bottom: 19px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.6);
 }
 
@@ -25,7 +31,6 @@
   justify-content: center;
   align-items: center;
   background: #000;
-
 }
 
 .form-row {
@@ -115,8 +120,8 @@
 
   
   .trainer-register-box {
-      border: 1px solid ;
-      margin: 10px;
+    border: 1px solid ;
+    margin: 10px;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     padding: 30px;
@@ -167,25 +172,6 @@
     color: rgba(255, 255, 255, 0.6);
   }
   
-.register-layout {
-  display: flex;
-  height: 100vh;
-}
-
-.register-left {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #000;
-}
-
-.register-img {
-  max-width: 80%;
-  max-height: 80%;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-}
 
 .register-right {
   flex: 1;
@@ -202,7 +188,7 @@
 @media (max-width: 768px) {
   .register-layout {
     flex-direction: column;
-        justify-content: center;
+    justify-content: center;
      background: #000;
   }
   .register-left {
@@ -228,6 +214,7 @@
 .login-layout {
   display: flex;
   height: 100vh;
+  background: #000;
 }
 
 .login-left {
@@ -235,14 +222,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  gap: 5px;
 }
 
 .login-img {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 7%;
+  max-height: 7%;
   border-radius: 10px;
+  margin-bottom: 19px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.login-left p{
+  color: #fff;
+  font-size: 24px;
 }
 
 .login-right {

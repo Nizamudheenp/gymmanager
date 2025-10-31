@@ -92,6 +92,7 @@ function TrainerRegister() {
     <div className="register-layout">
       {/* Left image column */}
       <div className="register-left">
+        <p>Train smart. Track easy. Stay consistent</p>
         <img src={logoimg} alt="Register" className="register-img" />
       </div>
 

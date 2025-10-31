@@ -88,6 +88,7 @@ function UserRegister() {
   return (
     <div className="register-layout">
       <div className="register-left">
+        <p>Built for those who never quit</p>
         <img src={logoimg} alt="Register" className="register-img" />
       </div>
 

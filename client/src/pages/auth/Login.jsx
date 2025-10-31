@@ -69,12 +69,13 @@ function Login() {
 
   return (
     <div className="login-layout">
-{/* left column */}
+      {/* left column */}
       <div className="login-left">
+        <p>Your fitness. Your rhythm. Your GyFit</p>
         <img src={logoimg} alt="Login" className="login-img" />
       </div>
 
-{/* Right column */}
+      {/* Right column */}
       <div className="login-right">
         <div className="login-box m-3">
           <h2>Login</h2>
@@ -89,9 +90,8 @@ function Login() {
               <label className="form-label">Email</label>
               <input
                 type="email"
-                className={`form-control ${
-                  formErrors.email ? "input-error" : ""
-                }`}
+                className={`form-control ${formErrors.email ? "input-error" : ""
+                  }`}
                 placeholder="enter your email"
                 name="email"
                 value={formData.email}
@@ -106,9 +106,8 @@ function Login() {
               <label className="form-label">Password</label>
               <input
                 type="password"
-                className={`form-control ${
-                  formErrors.password ? "input-error" : ""
-                }`}
+                className={`form-control ${formErrors.password ? "input-error" : ""
+                  }`}
                 placeholder="enter your password"
                 name="password"
                 value={formData.password}
