@@ -1,67 +1,87 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import "./Components.css";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 
 function WhatBringsYouHere() {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [redirectPath, setRedirectPath] = useState("");
 
-  const handleClose = () => setShow(false);
-  const handleShow = (path) => {
-    setRedirectPath(path);
-    setShow(true);
-  };
-
+  const selectionCards = [
+    {
+      title: "I want to get fit",
+      description: "Track your workouts, set goals, and transform your lifestyle.",
+      path: "/register/user",
+      icon: "💪",
+      color: "#ff8c00"
+    },
+    {
+      title: "I am a Trainer",
+      description: "Manage your clients, sessions, and build your professional brand.",
+      path: "/register/trainer",
+      icon: "🏋️‍♂️",
+      color: "#ff8c00"
+    }
+  ];
 
   return (
-    <div className="what-brings-you-here">
-
-      <style>{`
-        .custom-modal .modal-content {
-          border-radius: 20px;
-          box-shadow: 0 0 25px rgba(255, 140, 0, 0.2);
-          border: none;
-        }
-      `}</style>
-
-
-      <div className="overlay">
-        <h2 className="heading">What Brings You Here?</h2>
-        <div className="buttons">
-          <button className="btn-option user-btn" onClick={() => handleShow("/register/user")}>
-            I need to care for my fitness
-          </button>
-
-          <button className="btn-option trainer-btn" onClick={() => handleShow("/register/trainer")}>
-            I am a Trainer
-          </button>
-        </div>
-      </div>
-
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        centered
-        dialogClassName="custom-modal"
+    <div className="selection-page-container">
+      <motion.div
+        className="back-to-home-btn"
+        initial={{ x: -20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        whileHover={{ x: -5 }}
+        onClick={() => navigate("/")}
       >
-        <Modal.Body className="text-center py-4">
-          <h4 style={{ fontWeight: "700", color: "#ff8c00" }}>Let's complete your registration!</h4>
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center pb-4">
-          <Button variant="outline-secondary" onClick={handleClose} className="px-4">
-            Close
-          </Button>
-          <Button variant="dark" style={{ backgroundColor: "#ff8c00", border: "none" }} onClick={() => navigate(redirectPath)} className="px-4">
-            OK
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <i className="fas fa-chevron-left"></i>
+        <span>Back to Home</span>
+      </motion.div>
 
+      <div className="selection-content">
+        <motion.div
+          className="selection-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1>What Brings You <span>Here?</span></h1>
+          <p>Choose your path and let's start your journey together.</p>
+        </motion.div>
+
+        <div className="selection-grid">
+          {selectionCards.map((card, index) => (
+            <motion.div
+              key={index}
+              className="selection-card"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2, duration: 0.6 }}
+              whileHover={{
+                scale: 1.03,
+                boxShadow: "0 20px 40px rgba(255, 140, 0, 0.15)",
+                borderColor: "rgba(255, 140, 0, 0.4)"
+              }}
+              onClick={() => navigate(card.path)}
+            >
+              <div className="card-icon">{card.icon}</div>
+              <h2>{card.title}</h2>
+              <p>{card.description}</p>
+              <div className="card-action">
+                <span>Select & Continue</span>
+                <i className="fas fa-arrow-right"></i>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="back-to-login"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <p>Already have an account? <span onClick={() => navigate("/login")}>Login</span></p>
+        </motion.div>
+      </div>
     </div>
   );
 }

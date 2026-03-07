@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 import "./auth.css";
 import { toast } from "react-toastify";
-import logoimg from "../../assets/gyfit-logo.png";
 
 function TrainerRegister() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -24,14 +25,16 @@ function TrainerRegister() {
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
+
+    if (formErrors[e.target.name]) {
+      setFormErrors({ ...formErrors, [e.target.name]: "" });
+    }
   };
 
   const validateForm = () => {
     const errors = {};
     if (!formData.username.trim()) {
-      errors.username = "Username is required.";
-    } else if (formData.username.trim().length < 3) {
-      errors.username = "Username must be at least 3 characters.";
+      errors.username = "Full name is required.";
     }
 
     if (!formData.email) {
@@ -42,14 +45,12 @@ function TrainerRegister() {
 
     if (!formData.password) {
       errors.password = "Password is required.";
-    } else if (formData.password.length < 3) {
-      errors.password = "Password must be at least 3 characters.";
+    } else if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters.";
     }
 
     if (!formData.experience) {
       errors.experience = "Experience is required.";
-    } else if (Number(formData.experience) <= 0) {
-      errors.experience = "Experience must be a positive number.";
     }
 
     if (!formData.specialization.trim()) {
@@ -57,7 +58,7 @@ function TrainerRegister() {
     }
 
     if (!formData.certifications) {
-      errors.certifications = "Certification file is required.";
+      errors.certifications = "Certification is required.";
     }
 
     setFormErrors(errors);
@@ -68,6 +69,7 @@ function TrainerRegister() {
     e.preventDefault();
     if (!validateForm()) return;
 
+    setLoading(true);
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
@@ -79,139 +81,143 @@ function TrainerRegister() {
         formDataToSend,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      toast.success(response.data.message);
+      toast.success("Trainer application submitted! Wait for admin approval.");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="register-layout">
-      {/* Left image column */}
-      <div className="register-left">
-        <p>Train smart. Track easy. Stay consistent</p>
-        <img src={logoimg} alt="Register" className="register-img" />
-      </div>
+      <div className="login-background-overlay"></div>
 
-      {/* Right form column */}
+      <motion.div
+        className="back-to-home-btn"
+        initial={{ x: -20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        whileHover={{ x: -5 }}
+        onClick={() => navigate("/")}
+      >
+        <i className="fas fa-chevron-left"></i>
+        <span>Back to Home</span>
+      </motion.div>
+
       <div className="register-right">
-        <div className="trainer-register-box">
-          <h2>Trainer Registration</h2>
-          <form onSubmit={handleSubmit} noValidate>
+        <motion.div
+          className="trainer-register-box"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="login-card-header">
+            <h2>Trainer <span>Registration</span></h2>
+            <p>Join our elite team of fitness experts</p>
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate className="login-form">
             <div className="form-row">
-              <div className="mb-3 col">
-                <label className="form-label">Full Name</label>
+              <div className="auth-form-group">
+                <label>Full Name</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    formErrors.username ? "input-error" : ""
-                  }`}
+                  className={formErrors.username ? "auth-input-error" : ""}
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  placeholder="Enter your name"
+                  placeholder="full name"
                 />
-                {formErrors.username && (
-                  <p className="field-error">{formErrors.username}</p>
-                )}
+                {formErrors.username && <span className="auth-field-error">{formErrors.username}</span>}
               </div>
 
-              <div className="mb-3 col">
-                <label className="form-label">Email</label>
+              <div className="auth-form-group">
+                <label>Email</label>
                 <input
                   type="email"
-                  className={`form-control ${
-                    formErrors.email ? "input-error" : ""
-                  }`}
+                  className={formErrors.email ? "auth-input-error" : ""}
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email"
+                  placeholder="example@mail.com"
                 />
-                {formErrors.email && (
-                  <p className="field-error">{formErrors.email}</p>
-                )}
+                {formErrors.email && <span className="auth-field-error">{formErrors.email}</span>}
               </div>
             </div>
 
             <div className="form-row">
-              <div className="mb-3 col">
-                <label className="form-label">Password</label>
+              <div className="auth-form-group">
+                <label>Password</label>
                 <input
                   type="password"
-                  className={`form-control ${
-                    formErrors.password ? "input-error" : ""
-                  }`}
+                  className={formErrors.password ? "auth-input-error" : ""}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter password"
+                  placeholder="your password"
                 />
-                {formErrors.password && (
-                  <p className="field-error">{formErrors.password}</p>
-                )}
+                {formErrors.password && <span className="auth-field-error">{formErrors.password}</span>}
               </div>
 
-              <div className="mb-3 col">
-                <label className="form-label">Years of Experience</label>
+              <div className="auth-form-group">
+                <label>Years of Experience</label>
                 <input
                   type="number"
-                  className={`form-control ${
-                    formErrors.experience ? "input-error" : ""
-                  }`}
+                  className={formErrors.experience ? "auth-input-error" : ""}
                   name="experience"
                   value={formData.experience}
                   onChange={handleChange}
-                  placeholder="Experience in years"
+                  placeholder="e.g. 5"
                 />
-                {formErrors.experience && (
-                  <p className="field-error">{formErrors.experience}</p>
-                )}
+                {formErrors.experience && <span className="auth-field-error">{formErrors.experience}</span>}
               </div>
             </div>
 
             <div className="form-row">
-              <div className="mb-3 col">
-                <label className="form-label">Specialization</label>
+              <div className="auth-form-group">
+                <label>Specialization</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    formErrors.specialization ? "input-error" : ""
-                  }`}
+                  className={formErrors.specialization ? "auth-input-error" : ""}
                   name="specialization"
                   value={formData.specialization}
                   onChange={handleChange}
-                  placeholder="Area of expertise"
+                  placeholder="e.g. Yoga, HIIT"
                 />
-                {formErrors.specialization && (
-                  <p className="field-error">{formErrors.specialization}</p>
-                )}
+                {formErrors.specialization && <span className="auth-field-error">{formErrors.specialization}</span>}
               </div>
 
-              <div className="mb-3 col">
-                <label className="form-label">Upload Certification</label>
+              <div className="auth-form-group">
+                <label>Upload Resume</label>
                 <input
                   type="file"
-                  className={`form-control ${
-                    formErrors.certifications ? "input-error" : ""
-                  }`}
+                  className={formErrors.certifications ? "auth-input-error" : ""}
                   name="certifications"
                   onChange={handleChange}
+                  accept=".pdf,.doc,.docx"
                 />
-                {formErrors.certifications && (
-                  <p className="field-error">{formErrors.certifications}</p>
-                )}
+                {formErrors.certifications && <span className="auth-field-error">{formErrors.certifications}</span>}
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
-              Register
-            </button>
+            <motion.button
+              type="submit"
+              className="auth-submit-btn"
+              disabled={loading}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {loading ? "Submitting Application..." : "Apply to Join"}
+            </motion.button>
+
+            <div className="auth-card-footer">
+              <p>Back to <span onClick={() => navigate("/login")}>Login</span></p>
+            </div>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
