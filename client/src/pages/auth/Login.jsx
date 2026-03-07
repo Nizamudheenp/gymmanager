@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { loginUser, clearError } from "../../redux/slices/AuthSlice";
 import "./auth.css";
 import { toast } from "react-toastify";
-import logoimg from "../../assets/gyfit-logo.png";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -35,12 +35,15 @@ function Login() {
         }
       }
       if (role === "admin") navigate("/admin-dashboard");
-      toast.success("Login Successful!");
+      toast.success("Welcome back to GYFIT!");
     }
   }, [role, token, verified, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formErrors[e.target.name]) {
+      setFormErrors({ ...formErrors, [e.target.name]: "" });
+    }
   };
 
   const validateForm = () => {
@@ -53,8 +56,6 @@ function Login() {
 
     if (!formData.password) {
       errors.password = "Password is required.";
-    } else if (formData.password.length < 3) {
-      errors.password = "Password must be at least 3 characters long.";
     }
 
     setFormErrors(errors);
@@ -68,81 +69,88 @@ function Login() {
   };
 
   return (
-    <div className="login-layout">
-      {/* left column */}
-      <div className="login-left">
-        <p>Your fitness. Your rhythm. Your GyFit</p>
-        <img src={logoimg} alt="Login" className="login-img" />
-      </div>
+    <div className="login-page-container">
+      <div className="login-background-overlay"></div>
 
-      {/* Right column */}
-      <div className="login-right">
-        <div className="login-box m-3">
-          <h2>Login</h2>
+      <motion.div
+        className="back-to-home-btn"
+        initial={{ x: -20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        whileHover={{ x: -5 }}
+        onClick={() => navigate("/")}
+      >
+        <i className="fas fa-chevron-left"></i>
+        <span>Back to Home</span>
+      </motion.div>
 
-          {error?.message && <p className="error-message">{error.message}</p>}
-          {unverifiedError && (
-            <p className="error-message">{unverifiedError}</p>
-          )}
+      <main className="login-main-content">
+        <motion.div
+          className="login-glass-card"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <div className="login-card-header">
+            <h2>Welcome <span>Back</span></h2>
+            <p>Continue your transformation journey</p>
+          </div>
 
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="mb-3">
-              <label className="form-label">Email</label>
+          <form onSubmit={handleSubmit} noValidate className="login-form">
+            <AnimatePresence mode='wait'>
+              {(error?.message || unverifiedError) && (
+                <motion.div
+                  className="auth-error-box"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <p>{error?.message || unverifiedError}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="auth-form-group">
+              <label>Email Address</label>
               <input
                 type="email"
-                className={`form-control ${formErrors.email ? "input-error" : ""
-                  }`}
-                placeholder="enter your email"
+                className={formErrors.email ? "auth-input-error" : ""}
+                placeholder="example@mail.com"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
               />
-              {formErrors.email && (
-                <p className="field-error">{formErrors.email}</p>
-              )}
+              {formErrors.email && <span className="auth-field-error">{formErrors.email}</span>}
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">Password</label>
+            <div className="auth-form-group">
+              <label>Password</label>
               <input
                 type="password"
-                className={`form-control ${formErrors.password ? "input-error" : ""
-                  }`}
-                placeholder="enter your password"
+                className={formErrors.password ? "auth-input-error" : ""}
+                placeholder="your password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
               />
-              {formErrors.password && (
-                <p className="field-error">{formErrors.password}</p>
-              )}
+              {formErrors.password && <span className="auth-field-error">{formErrors.password}</span>}
             </div>
 
-            <button
+            <motion.button
               type="submit"
-              className="btn btn-primary w-100"
+              className="auth-submit-btn"
               disabled={loading}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {loading ? "Logging in..." : "Login"}
-            </button>
+              {loading ? "Authenticating..." : "Login to Profile"}
+            </motion.button>
 
-            <p className="mt-3 text-center">
-              Don't have an account?
-              <span
-                style={{
-                  color: "#007bff",
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                  marginLeft: "5px",
-                }}
-                onClick={() => navigate("/what-brings-you-here")}
-              >
-                Register
-              </span>
-            </p>
+            <div className="auth-card-footer">
+              <p>Don't have an account? <span onClick={() => navigate("/what-brings-you-here")}>Get Started</span></p>
+            </div>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </main>
     </div>
   );
 }

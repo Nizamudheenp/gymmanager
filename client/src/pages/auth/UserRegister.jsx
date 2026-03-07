@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import "./auth.css";
 import { toast } from "react-toastify";
-import logoimg from "../../assets/gyfit-logo.png";
 
 function UserRegister() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -26,14 +27,16 @@ function UserRegister() {
     } else {
       setFormData({ ...formData, [name]: value });
     }
+
+    if (formErrors[name] || formErrors["height"] || formErrors["weight"] || formErrors["exerciseFrequency"]) {
+      setFormErrors({ ...formErrors, [name]: "" });
+    }
   };
 
   const validateForm = () => {
     const errors = {};
     if (!formData.username.trim()) {
       errors.username = "Username is required.";
-    } else if (formData.username.trim().length < 3) {
-      errors.username = "Username must be at least 3 characters.";
     }
 
     if (!formData.email) {
@@ -44,24 +47,20 @@ function UserRegister() {
 
     if (!formData.password) {
       errors.password = "Password is required.";
-    } else if (formData.password.length < 3) {
-      errors.password = "Password must be at least 3 characters.";
+    } else if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters.";
     }
 
     if (!formData.fitnessData.height) {
       errors.height = "Height is required.";
-    } else if (Number(formData.fitnessData.height) <= 0) {
-      errors.height = "Height must be a positive number.";
     }
 
     if (!formData.fitnessData.weight) {
       errors.weight = "Weight is required.";
-    } else if (Number(formData.fitnessData.weight) <= 0) {
-      errors.weight = "Weight must be a positive number.";
     }
 
     if (!formData.fitnessData.exerciseFrequency) {
-      errors.exerciseFrequency = "Select exercise frequency.";
+      errors.exerciseFrequency = "Select frequency.";
     }
 
     setFormErrors(errors);
@@ -71,128 +70,126 @@ function UserRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+
+    setLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/auth/userRegister`,
         formData
       );
-      toast.success(response.data.message);
+      toast.success("Account created! Welcome to GYFIT.");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="register-layout">
-      <div className="register-left">
-        <p>Built for those who never quit</p>
-        <img src={logoimg} alt="Register" className="register-img" />
-      </div>
+      <div className="login-background-overlay"></div>
+
+      <motion.div
+        className="back-to-home-btn"
+        initial={{ x: -20, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        whileHover={{ x: -5 }}
+        onClick={() => navigate("/")}
+      >
+        <i className="fas fa-chevron-left"></i>
+        <span>Back to Home</span>
+      </motion.div>
 
       <div className="register-right">
-        <div className="user-register-box">
-          <h2>New User Registration</h2>
-          <form onSubmit={handleSubmit} noValidate>
+        <motion.div
+          className="user-register-box"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="login-card-header">
+            <h2>User <span>Registration</span></h2>
+            <p>Start your transformation today</p>
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate className="login-form">
             <div className="form-row">
-              <div className="mb-3 col">
-                <label className="form-label">Username</label>
+              <div className="auth-form-group">
+                <label>Username</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    formErrors.username ? "input-error" : ""
-                  }`}
+                  className={formErrors.username ? "auth-input-error" : ""}
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  placeholder="Enter your name"
+                  placeholder="your name"
                 />
-                {formErrors.username && (
-                  <p className="field-error">{formErrors.username}</p>
-                )}
+                {formErrors.username && <span className="auth-field-error">{formErrors.username}</span>}
               </div>
 
-              <div className="mb-3 col">
-                <label className="form-label">Email</label>
+              <div className="auth-form-group">
+                <label>Email</label>
                 <input
                   type="email"
-                  className={`form-control ${
-                    formErrors.email ? "input-error" : ""
-                  }`}
+                  className={formErrors.email ? "auth-input-error" : ""}
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email"
+                  placeholder="example@mail.com"
                 />
-                {formErrors.email && (
-                  <p className="field-error">{formErrors.email}</p>
-                )}
+                {formErrors.email && <span className="auth-field-error">{formErrors.email}</span>}
               </div>
             </div>
 
             <div className="form-row">
-              <div className="mb-3 col">
-                <label className="form-label">Password</label>
+              <div className="auth-form-group">
+                <label>Password</label>
                 <input
                   type="password"
-                  className={`form-control ${
-                    formErrors.password ? "input-error" : ""
-                  }`}
+                  className={formErrors.password ? "auth-input-error" : ""}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter password"
+                  placeholder="your password"
                 />
-                {formErrors.password && (
-                  <p className="field-error">{formErrors.password}</p>
-                )}
+                {formErrors.password && <span className="auth-field-error">{formErrors.password}</span>}
               </div>
 
-              <div className="mb-3 col">
-                <label className="form-label">Height (cm)</label>
+              <div className="auth-form-group">
+                <label>Height (cm)</label>
                 <input
                   type="number"
-                  className={`form-control ${
-                    formErrors.height ? "input-error" : ""
-                  }`}
+                  className={formErrors.height ? "auth-input-error" : ""}
                   name="height"
                   value={formData.fitnessData.height}
                   onChange={handleChange}
-                  placeholder="Height in cm"
+                  placeholder="e.g. 175"
                 />
-                {formErrors.height && (
-                  <p className="field-error">{formErrors.height}</p>
-                )}
+                {formErrors.height && <span className="auth-field-error">{formErrors.height}</span>}
               </div>
             </div>
 
             <div className="form-row">
-              <div className="mb-3 col">
-                <label className="form-label">Weight (kg)</label>
+              <div className="auth-form-group">
+                <label>Weight (kg)</label>
                 <input
                   type="number"
-                  className={`form-control ${
-                    formErrors.weight ? "input-error" : ""
-                  }`}
+                  className={formErrors.weight ? "auth-input-error" : ""}
                   name="weight"
                   value={formData.fitnessData.weight}
                   onChange={handleChange}
-                  placeholder="Weight in kg"
+                  placeholder="e.g. 70"
                 />
-                {formErrors.weight && (
-                  <p className="field-error">{formErrors.weight}</p>
-                )}
+                {formErrors.weight && <span className="auth-field-error">{formErrors.weight}</span>}
               </div>
 
-              {/* Exercise Frequency */}
-              <div className="mb-3 col">
-                <label className="form-label">Exercise Frequency</label>
+              <div className="auth-form-group">
+                <label>Exercise Frequency</label>
                 <select
-                  className={`form-control ${
-                    formErrors.exerciseFrequency ? "input-error" : ""
-                  } bg-dark text-light`}
+                  className={formErrors.exerciseFrequency ? "auth-input-error" : ""}
                   name="exerciseFrequency"
                   value={formData.fitnessData.exerciseFrequency}
                   onChange={handleChange}
@@ -204,16 +201,26 @@ function UserRegister() {
                   <option value="Daily">Daily</option>
                 </select>
                 {formErrors.exerciseFrequency && (
-                  <p className="field-error">{formErrors.exerciseFrequency}</p>
+                  <span className="auth-field-error">{formErrors.exerciseFrequency}</span>
                 )}
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
-              Register
-            </button>
+            <motion.button
+              type="submit"
+              className="auth-submit-btn"
+              disabled={loading}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {loading ? "Creating Account..." : "Complete Registration"}
+            </motion.button>
+
+            <div className="auth-card-footer">
+              <p>Back to <span onClick={() => navigate("/login")}>Login</span></p>
+            </div>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

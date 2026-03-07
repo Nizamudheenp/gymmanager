@@ -34,6 +34,9 @@ import AdminManageSessions from "./pages/AdminDashboard/ManageSessions";
 import ManageFeedbacks from "./pages/AdminDashboard/ManageFeedbacks";
 import AdminPayment from "./pages/AdminDashboard/AdminPaymentsGraph";
 import SessionManager from "./components/SessionManager";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
+import PrivacyPolicy from "./components/PrivacyPolicy";
 
 const App = () => {
 
@@ -48,6 +51,9 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register/user" element={<UserRegister />} />
           <Route path="/register/trainer" element={<TrainerRegister />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
 
           <Route
