@@ -1,62 +1,149 @@
-.trainer-dashboard .dashboard-container,
-.user-dashboard .dashboard-container , .admin-dashboard .dashboard-container {
+/* Base Dashboard Layout */
+.trainer-dashboard, .user-dashboard, .admin-dashboard {
+  background: #0a0a0a;
+  min-height: 100vh;
+  color: #fff;
+}
+
+.dashboard-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
+.full-width-section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+/* Header Section */
+.dashboard-header {
+  padding: 50px 30px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-header h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #fff 30%, #ff8c00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 15px;
+}
+
+.dashboard-header p {
+  font-size: 1.1rem;
+  opacity: 0.6;
+  line-height: 1.6;
+}
+
+/* Glassmorphism Widget Card */
 .dashboard-widget {
-  background: #222;
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: left;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 8px rgba(255, 165, 0, 0.3);
-  min-height: 350px;
+  min-height: 250px;
+  position: relative;
   overflow: hidden;
 }
 
 .dashboard-widget:hover {
-  background: #333;
-  transform: scale(1.03);
+  transform: translateY(-8px);
+  background: rgba(255, 140, 0, 0.05);
+  border-color: rgba(255, 140, 0, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-.dashboard-widget img {
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
+.widget-icon {
+  font-size: 2.22rem;
+  color: #ff8c00;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
 }
 
+.dashboard-widget:hover .widget-icon {
+  transform: scale(1.1);
+}
+
+.dashboard-widget h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.dashboard-widget:hover h4 {
+  color: #ff8c00;
+}
+
+.dashboard-widget p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.widget-content {
+  width: 100%;
+  margin: 15px 0;
+}
+
+.widget-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  color: #ff8c00;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.dashboard-widget:hover .widget-footer {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .trainer-dashboard .dashboard-container,
-  .user-dashboard .dashboard-container {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  .dashboard-header {
+    padding: 30px 20px 10px;
+    text-align: center;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-container {
+    padding: 20px;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
-@media (max-width: 500px) {
-  .trainer-dashboard .dashboard-container,
-  .user-dashboard .dashboard-container {
-    grid-template-columns: 1fr;
-    padding: 10px;
-  }
-
-  .dashboard-widget {
-    min-height: 150px;
-    padding: 15px;
-  }
-
-  .dashboard-widget h4 {
-    font-size: 16px;
-  }
+/* Performance Optimizations */
+.dashboard-widget {
+  will-change: transform, background-color, border-color;
+  contain: content;
 }

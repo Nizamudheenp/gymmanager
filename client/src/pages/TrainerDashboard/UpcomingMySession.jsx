@@ -32,33 +32,29 @@ function UpcomingSessionWidget() {
     }
   };
 
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-4 text-warning" />;
+  if (loading) return <div className="text-center p-4"><Spinner animation="border" className="text-warning" /></div>;
 
   return (
-    <Card  style={{
-      backgroundColor: "transparent",
-      color: "white",
-      lineHeight: "22px",
-      fontSize: "17px",
-      border: "1px solid orange" 
-    }}>
-      <Card.Body >
-        <Card.Title className="text-warning">Next Assigned Session</Card.Title>
-        {nextSession ? (
-          <>
-            <Card.Text>
-              <strong> {nextSession.sessionName}</strong> <br />
-              <strong> Workout Type:</strong> {nextSession.workoutType} <br />
-              <strong> Date:</strong> {new Date(nextSession.date).toLocaleString()}
-            </Card.Text>
-          </>
-        ) : (
-          <Alert variant="success" className="text-center">
-             No upcoming sessions.
-          </Alert>
-        )}
-      </Card.Body>
-    </Card>
+    <div className="w-100">
+      {nextSession ? (
+        <div style={{ lineHeight: "1.6", fontSize: "1rem", color: "rgba(255, 255, 255, 0.8)" }}>
+          <div className="mb-2" style={{ color: "#ff8c00", fontWeight: "700" }}>Next Assigned Session</div>
+          <div style={{ background: "rgba(255, 255, 255, 0.05)", borderRadius: "10px", padding: "15px" }}>
+            <div style={{ color: "#fff", fontWeight: "600", marginBottom: "5px" }}>{nextSession.sessionName}</div>
+            <div style={{ fontSize: "0.9rem" }}>
+              <span style={{ opacity: 0.6 }}>Workout Type:</span> {nextSession.workoutType}
+            </div>
+            <div style={{ fontSize: "0.9rem" }}>
+              <span style={{ opacity: 0.6 }}>Date:</span> {new Date(nextSession.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="text-center p-4" style={{ background: "rgba(255, 255, 255, 0.03)", borderRadius: "10px", border: "1px dashed rgba(255, 255, 255, 0.1)" }}>
+          <p className="mb-0" style={{ opacity: 0.6, fontSize: "0.9rem" }}>No upcoming sessions at the moment.</p>
+        </div>
+      )}
+    </div>
   );
 }
 

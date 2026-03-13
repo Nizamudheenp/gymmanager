@@ -42,34 +42,40 @@ function PendingAppointments() {
     );
 
   return (
-    <div className="container mt-3">
+    <div className="w-100">
       {pendingCount > 0 ? (
-        <Alert
-          className="text-center fw-bold"
+        <div 
           style={{
-            backgroundColor: "#1c1c1c",
-            color: "#f8f9fa",
-            fontSize: "18px",
-            border: "2px solid #ff8c00",
-            borderRadius: "8px",
+            background: "rgba(255, 140, 0, 0.1)",
+            color: "#fff",
+            padding: "20px",
+            borderRadius: "15px",
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "10px"
           }}
         >
-          🟠 You have <span style={{ color: "#ff8c00" }}>{pendingCount}</span>{" "}
-          new session booking requests.
-        </Alert>
+          <div style={{ fontSize: "2rem" }}>🔔</div>
+          <div style={{ fontSize: "1.1rem", fontWeight: "600" }}>
+            You have <span style={{ color: "#ff8c00", fontSize: "1.3rem" }}>{pendingCount}</span> pending requests
+          </div>
+          <p style={{ opacity: 0.7, fontSize: "0.9rem", marginBottom: 0 }}>Review and approve them in your session manager.</p>
+        </div>
       ) : (
-        <Alert
-          className="text-center fw-semibold"
+        <div 
           style={{
-            backgroundColor: "#1c1c1c",
-            color: "#ff8c00",
-            fontSize: "18px",
-            border: "2px solid #ff8c00",
-            borderRadius: "8px",
+            background: "rgba(255, 255, 255, 0.03)",
+            color: "rgba(255, 255, 255, 0.5)",
+            padding: "20px",
+            borderRadius: "15px",
+            textAlign: "center",
+            border: "1px dashed rgba(255, 255, 255, 0.1)"
           }}
         >
-          No new booking requests.
-        </Alert>
+          <p className="mb-0">No new booking requests at this time.</p>
+        </div>
       )}
     </div>
   );
