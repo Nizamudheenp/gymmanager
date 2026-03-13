@@ -29,30 +29,50 @@ function HomeReviewWidget() {
     }
   };
 
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-4 text-warning" />;
+  const renderStars = (rating) => {
+    return (
+      <div className="d-flex" style={{ color: "#ff8c00", gap: "2px" }}>
+        {[...Array(5)].map((_, i) => (
+          <FaStar key={i} style={{ opacity: i < Math.floor(rating) ? 1 : 0.2 }} />
+        ))}
+      </div>
+    );
+  };
+
+  if (loading) return <div className="text-center p-4"><Spinner animation="border" className="text-warning" /></div>;
 
   return (
-    <Card className="bg-dark text-white shadow-lg p-4">
-      <h4 className="text-warning text-center">
-        Trainer Reviews <FaStar className="text-warning" />
-      </h4>
-      <p className="text-center text-light">
-        ⭐ Average Rating: {averageRating.toFixed(1)}/5
-      </p>
+    <div className="w-100">
+      <div className="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <div style={{ color: "#fff", fontWeight: "700", fontSize: "1.1rem" }}>Average Rating</div>
+          <div style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.85rem" }}>Based on your performance</div>
+        </div>
+        <div className="text-end">
+          <div style={{ fontSize: "1.2rem", color: "#fff", fontWeight: "700" }}>{averageRating.toFixed(1)} / 5</div>
+          {renderStars(averageRating)}
+        </div>
+      </div>
 
       {latestReview ? (
-        <Card className="bg-secondary text-white p-2">
-          <Card.Body>
-            <Card.Title>
-              <strong>{latestReview.userId?.username || "User"}</strong> ⭐ {latestReview.rating}/5
-            </Card.Title>
-            <Card.Text>"{latestReview.comment}"</Card.Text>
-          </Card.Body>
-        </Card>
+        <div style={{ background: "rgba(255, 140, 0, 0.03)", borderRadius: "12px", padding: "18px", borderLeft: "4px solid #ff8c00" }}>
+          <div className="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <div style={{ color: "#fff", fontWeight: "600", fontSize: "0.95rem" }}>{latestReview.userId?.username || "Guest User"}</div>
+              <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.4)" }}>Latest feedback</div>
+            </div>
+            {renderStars(latestReview.rating)}
+          </div>
+          <p className="mb-0" style={{ fontStyle: "italic", fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.8)", lineHeight: "1.6" }}>
+            "{latestReview.comment}"
+          </p>
+        </div>
       ) : (
-        <p className="text-white text-center">No reviews yet.</p>
+        <div className="text-center p-4" style={{ background: "rgba(255, 255, 255, 0.03)", borderRadius: "12px", border: "1px dashed rgba(255, 255, 255, 0.1)" }}>
+          <p className="mb-0" style={{ opacity: 0.5, fontSize: "0.85rem" }}>No client reviews yet.</p>
+        </div>
       )}
-    </Card>
+    </div>
   );
 }
 

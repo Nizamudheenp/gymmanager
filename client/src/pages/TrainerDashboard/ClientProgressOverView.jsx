@@ -74,23 +74,36 @@ function ClientProgressOverview() {
   }, [token]);
 
   return (
-    <div className="container mt-4">
-      <div className="card p-3 shadow-sm"
+    <div className="w-100" style={{ textAlign: "left" }}>
+      <div 
         style={{
-          backgroundColor: "transparent",
-          color: "white",
-          fontSize: "17px",
-          border: "1px solid orange"
-        }}>
-        <p><strong>Total Clients:</strong> {clients.length}</p>
-        <p><strong>Total Workouts Assigned:</strong> {totalWorkouts}</p>
-        <p><strong>Avg. Sets per Workout:</strong> {averageSets}</p>
-        <p><strong>Avg. Reps per Workout:</strong> {averageReps}</p>
-        <p><strong>Total Meals Logged:</strong> {totalMeals}</p>
-        <p><strong>Avg. Calories per Meal:</strong> {averageCalories} kcal</p>
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: "25px",
+          width: "100%"
+        }}
+      >
+        <div style={{ padding: "20px", borderLeft: "4px solid #ff8c00", background: "rgba(255, 140, 0, 0.05)", borderRadius: "0 12px 12px 0" }}>
+          <div style={{ fontSize: "0.85rem", opacity: 0.6, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>Total Active Clients</div>
+          <div style={{ fontSize: "2rem", fontWeight: "800", color: "#fff" }}>{clients.length}</div>
+        </div>
+        
+        <div style={{ padding: "20px", borderLeft: "4px solid rgba(255, 255, 255, 0.1)", background: "rgba(255, 255, 255, 0.02)", borderRadius: "0 12px 12px 0" }}>
+          <div style={{ fontSize: "0.85rem", opacity: 0.6, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>Workouts Assigned</div>
+          <div style={{ fontSize: "2rem", fontWeight: "800", color: "#fff" }}>{totalWorkouts}</div>
+        </div>
+
+        <div style={{ padding: "20px", borderLeft: "4px solid rgba(255, 255, 255, 0.1)", background: "rgba(255, 255, 255, 0.02)", borderRadius: "0 12px 12px 0" }}>
+          <div style={{ fontSize: "0.85rem", opacity: 0.6, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>Training Volume (Reps)</div>
+          <div style={{ fontSize: "2rem", fontWeight: "800", color: "#fff" }}>{averageReps} <span style={{ fontSize: "0.9rem", fontWeight: "400", opacity: 0.4 }}>avg</span></div>
+        </div>
+
+        <div style={{ padding: "20px", borderLeft: "4px solid rgba(255, 255, 255, 0.1)", background: "rgba(255, 255, 255, 0.02)", borderRadius: "0 12px 12px 0" }}>
+          <div style={{ fontSize: "0.85rem", opacity: 0.6, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>Dietary Adherence</div>
+          <div style={{ fontSize: "2rem", fontWeight: "800", color: "#fff" }}>{totalMeals} <span style={{ fontSize: "0.9rem", fontWeight: "400", opacity: 0.4 }}>logs</span></div>
+        </div>
       </div>
     </div>
-
   );
 }
 

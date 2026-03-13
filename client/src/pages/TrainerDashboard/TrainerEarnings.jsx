@@ -23,21 +23,29 @@ function TrainerEarnings() {
   }, [token]);
 
   return (
-    <div className="card p-3 bg-transparent text-white border border-warning">
-      <h4>Total Earnings: ${totalEarnings.toFixed(2)}</h4>
-      <hr />
-      <h6>Recent Transactions</h6>
-      <ul className="list-group bg-transparent">
-        {transactions.length === 0 ? (
-          <p>No transactions found.</p>
-        ) : (
-          transactions.map((tx) => (
-            <li key={tx.appointmentId} className="list-group-item bg-transparent text-white border-light">
-              {tx.amount} USD - {new Date(tx.date).toLocaleDateString()}
-            </li>
-          ))
-        )}
-      </ul>
+    <div className="w-100" style={{ textAlign: "left" }}>
+      <div className="mb-3">
+        <div style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.9rem" }}>Total Revenue</div>
+        <div style={{ color: "#fff", fontSize: "1.8rem", fontWeight: "700" }}>${totalEarnings.toFixed(2)}</div>
+      </div>
+      
+      <div style={{ background: "rgba(255, 255, 255, 0.05)", borderRadius: "10px", padding: "15px" }}>
+        <h6 style={{ color: "rgba(255, 255, 255, 0.9)", fontSize: "0.9rem", fontWeight: "600", marginBottom: "12px", borderBottom: "1px solid rgba(255, 255, 255, 0.1)", paddingBottom: "8px" }}>
+          Recent Transactions
+        </h6>
+        <div className="d-flex flex-column gap-2">
+          {transactions.length === 0 ? (
+            <p className="mb-0" style={{ opacity: 0.5, fontSize: "0.85rem" }}>No transactions found.</p>
+          ) : (
+            transactions.map((tx) => (
+              <div key={tx.appointmentId} className="d-flex justify-content-between align-items-center" style={{ fontSize: "0.85rem" }}>
+                <span style={{ color: "rgba(255, 255, 255, 0.8)" }}>{new Date(tx.date).toLocaleDateString()}</span>
+                <span style={{ color: "#28a745", fontWeight: "600" }}>+ ${tx.amount}</span>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 }

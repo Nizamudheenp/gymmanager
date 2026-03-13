@@ -1,12 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { 
+  FaMoneyBillWave, 
+  FaUsers, 
+  FaCalendarCheck, 
+  FaStar, 
+  FaClock,
+  FaArrowRight
+} from "react-icons/fa";
 import "../UserDashboard/DashboardStyles.css";
-
-import earningsbg from "../../assets/anastase-maragos-9dzWZQWZMdE-unsplash.jpg"
-import sessionsbg from "../../assets/240_F_538576949_2MaY4QZFTP4ChIuNBlbM97xzecLwS2Un.jpg"
-import clientsbg from "../../assets/istockphoto-1369217533-612x612.webp"
-import feedbackbg from "../../assets/240_F_269967154_79LtfDL0RXbErnMLucstEAF64B7e9i86.jpg"
-import actionsbg from "../../assets/premium_photo-1661604462106-25b406913827.avif"
 import PendingAppointments from "./PendingAppointments";
 import UpcomingSessionWidget from "./UpcomingMySession";
 import ClientProgressOverview from "./ClientProgressOverView";
@@ -16,59 +19,129 @@ import HomeReviewWidget from "./HomeMyReviews";
 function TrainerHome() {
   const navigate = useNavigate();
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const dashboardItems = [
+    {
+      id: "earnings",
+      title: "Earnings Overview",
+      icon: <FaMoneyBillWave />,
+      component: <TrainerEarnings />,
+      path: "/trainer-dashboard/myreviews",
+      description: "Manage your professional revenue and earnings."
+    },
+    {
+      id: "sessions",
+      title: "Upcoming Sessions",
+      icon: <FaCalendarCheck />,
+      component: <UpcomingSessionWidget />,
+      path: "/trainer-dashboard/manage-sessions",
+      description: "Stay updated with your training schedule."
+    },
+    {
+      id: "clients",
+      title: "Client Progress",
+      icon: <FaUsers />,
+      component: <ClientProgressOverview />,
+      path: "/trainer-dashboard/manage-clients",
+      description: "Monitor client performance and transformation."
+    },
+    {
+      id: "feedback",
+      title: "Feedback & Reviews",
+      icon: <FaStar />,
+      component: <HomeReviewWidget />,
+      path: "/trainer-dashboard/myreviews",
+      description: "Review your latest ratings and feedback."
+    },
+    {
+      id: "bookings",
+      title: "Session Bookings",
+      icon: <FaClock />,
+      component: <PendingAppointments />,
+      path: "/trainer-dashboard/manage-sessions",
+      description: "Manage and approve upcoming training requests."
+    }
+  ];
+
   return (
     <div className="trainer-dashboard">
-    <div className="dashboard-container">
-      {/* Earnings Overview Widget */}
-      <div className="dashboard-widget" style={{ 
-        backgroundImage: `url(${earningsbg})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center' 
-      }} > 
-        <h4>Earnings Overview</h4>
-        <TrainerEarnings />
-      </div>
+      <motion.div 
+        className="dashboard-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1>Trainer Dashboard</h1>
+        <p>Professional management for professional trainers.</p>
+      </motion.div>
 
-      {/* Upcoming Sessions Widget */}
-      <div className="dashboard-widget" style={{ 
-        backgroundImage: `url(${sessionsbg})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center' 
-      }} onClick={() => navigate("/trainer-dashboard/manage-sessions")}> 
-        <h4>Upcoming Sessions</h4>
-        <UpcomingSessionWidget />
-      </div>
+      <motion.div 
+        className="dashboard-container"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {dashboardItems.filter(item => item.id !== "clients").map((item) => (
+          <motion.div 
+            key={item.id}
+            className="dashboard-widget"
+            variants={itemVariants}
+            onClick={() => navigate(item.path)}
+          >
+            <div className="widget-icon">{item.icon}</div>
+            <h4>{item.title}</h4>
+            <p>{item.description}</p>
+            {item.component && <div style={{ width: '100%', marginBottom: '15px' }}>{item.component}</div>}
+            <div className="widget-footer">
+              Manage <FaArrowRight style={{ marginLeft: '10px' }} />
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
 
-      {/* Client Progress Widget */}
-      <div className="dashboard-widget" style={{ 
-        backgroundImage: `url(${clientsbg})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center' 
-      }} onClick={() => navigate("/trainer-dashboard/manage-clients")}> 
-        <h4>Client Progress</h4>
-        <ClientProgressOverview />
-      </div>
-
-      {/* Feedback & Reviews Widget */}
-      <div className="dashboard-widget" style={{ 
-        backgroundImage: `url(${feedbackbg})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center' 
-      }} onClick={() => navigate("/trainer-dashboard/feedback")}> 
-        <h4>Feedback & Reviews</h4>
-        <HomeReviewWidget />
-      </div>
-
-      {/* Quick Actions Widget */}
-      <div className="dashboard-widget" style={{ 
-        backgroundImage: `url(${actionsbg})`, 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center' 
-      }} onClick={() => navigate("/trainer-dashboard/manage-sessions")}> 
-        <h4>session bookings</h4>
-        <PendingAppointments />
-      </div>
-    </div>
+      {/* Full Width Section for Client Progress */}
+      <motion.div 
+        className="full-width-section"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        <div className="dashboard-widget" style={{ cursor: 'default', minHeight: 'auto' }} onClick={(e) => e.stopPropagation()}>
+          <div className="d-flex align-items-center mb-4">
+            <div className="widget-icon mb-0 mr-3" style={{ fontSize: '1.8rem' }}><FaUsers /></div>
+            <h4 className="mb-0">Analytics & Client Progress</h4>
+          </div>
+          <ClientProgressOverview />
+          <div 
+            className="widget-footer opacity-100 mt-4" 
+            style={{ opacity: 1, transform: 'none', cursor: 'pointer' }}
+            onClick={() => navigate("/trainer-dashboard/manage-clients")}
+          >
+            View Detailed Client Management <FaArrowRight style={{ marginLeft: '10px' }} />
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
