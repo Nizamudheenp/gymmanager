@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ListGroup, Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import io from "socket.io-client";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
+import { FaPaperPlane, FaArrowLeft } from "react-icons/fa";
+import "./Messages.css";
 const socket = io(import.meta.env.VITE_BACKEND_URL, {
     transports: ["websocket", "polling"]
 })
@@ -19,6 +20,21 @@ function Messages() {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const messagesEndRef = useRef(null);
+    const isInitialLoad = useRef(true);
+
+    const scrollToBottom = (behavior = "smooth") => {
+        messagesEndRef.current?.scrollIntoView({ behavior });
+    };
+
+    useEffect(() => {
+        if (isInitialLoad.current) {
+            scrollToBottom("auto");
+            if (messages.length > 0) isInitialLoad.current = false;
+        } else {
+            scrollToBottom("smooth");
+        }
+    }, [messages]);
 
     useEffect(() => {
         if (userId) {
@@ -52,6 +68,7 @@ function Messages() {
         try {
             setLoading(true);
             setMessages([]);
+            isInitialLoad.current = true; // Set to true when loading new chat 
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/${receiverId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -112,82 +129,74 @@ function Messages() {
     }, [selectedContact]);
 
     return (
-        <Container fluid >
-            <Row>
-                <Col md={4} className="border-end bg-light p-4 rounded-3 shadow-sm">
-                    <h5 className="text-center m-3 fw-bold text-uppercase">gy-fit connections</h5>
-                    {loading && <p className="text-muted">Loading contacts...</p>}
-                    <ListGroup variant="flush">
+        <Container fluid className="messaging-container">
+            <Row className="messaging-row">
+                <Col md={4} className={`contact-list-card ${selectedContact ? "hide-on-mobile" : ""}`}>
+                    <h5 className="text-center m-3 fw-bold text-uppercase gy-fit-title">gy-fit connections</h5>
+                    {loading && <p className="text-muted text-center">Loading contacts...</p>}
+                    <ListGroup variant="flush" className="contact-list-container">
                         {contacts.map((contact) => (
                             <ListGroup.Item
                                 key={contact._id}
                                 action
                                 onClick={() => handleSelectContact(contact)}
-                                className={`mb-2 rounded ${contact.unread ? "fw-bold bg-warning-subtle" : "bg-white"}`}
-                                style={{ cursor: "pointer", padding: "20px 25px", boxShadow: "0 0 6px rgba(0,0,0,0.05)", color: "#ff8c00" }}
+                                className={`contact-item ${contact.unread ? "unread-contact" : ""} ${selectedContact && selectedContact._id === contact._id ? "active-contact" : ""}`}
                             >
-                                {contact.username} ({role === "trainer" ? "User" : "Trainer"})
+                                {contact.username}
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
                 </Col>
 
-                <Col md={8} className="p-2">
+                <Col md={8} className={`chat-window-card ${!selectedContact ? "hide-on-mobile" : ""}`}>
                     {selectedContact ? (
-                        <Card className="shadow-sm border-0 rounded-4 bg-dark">
-                            <Card.Header className="text-white rounded-top-4 p-3">
-                                <strong>Chat with {selectedContact.username}</strong>
-                            </Card.Header>
-                            <Card.Body>
-                                <div className="chat-messages mb-3 d-flex flex-column gap-1" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                        <>
+                            <div className="chat-header">
+                                <button className="mobile-back-btn" onClick={() => setSelectedContact(null)}>
+                                    <FaArrowLeft />
+                                </button>
+                                Chat with {selectedContact.username}
+                            </div>
+                            <div className="chat-body-container">
+                                <div className="chat-messages">
                                     {loading ? (
-                                        <p className="text-muted">Loading messages...</p>
+                                        <p className="text-muted text-center mt-3">Loading messages...</p>
                                     ) : (
                                         messages.map((msg, index) => {
                                             const isSender = msg.senderId === userId;
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`px-2 rounded-1 ${isSender ? "align-self-end bg-secondary text-white" : "align-self-start bg-light text-dark"}`}
-                                                    style={{
-                                                        maxWidth: "75%",
-                                                        boxShadow: "0 0 6px rgba(0,0,0,0.1)",
-                                                        wordBreak: "break-word",
-                                                    }}
+                                                    className={`message-bubble ${isSender ? "message-sender" : "message-receiver"}`}
                                                 >
                                                     {msg.message}
                                                 </div>
                                             );
                                         })
                                     )}
+                                    <div ref={messagesEndRef} />
                                 </div>
-                                <Form className="d-flex gap-3" onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
-                                    <Form.Control
-                                        type="text"
-                                        value={newMessage}
-                                        onChange={(e) => setNewMessage(e.target.value)}
-                                        placeholder="Type your message..."
-                                        className="mb-2"
-                                    />
-                                    <div className="text-end">
-                                        <Button type="submit" style={{
-                                            background: "#ff8c00",
-                                            border: "none",
-                                            color: "white",
-                                            paddingRight: "25px",
-                                            paddingLeft:"25px",
-                                            cursor: "pointer",
-                                        }}>
-                                            ➤
+                                <div className="chat-input-area">
+                                    <Form className="d-flex align-items-center gap-3" onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}>
+                                        <Form.Control
+                                            type="text"
+                                            value={newMessage}
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            placeholder="Type your message..."
+                                            className="chat-input m-0"
+                                        />
+                                        <Button type="submit" className="chat-send-btn p-0">
+                                            <FaPaperPlane size={16} />
                                         </Button>
-                                    </div>
-                                </Form>
-                            </Card.Body>
-                        </Card>
+                                    </Form>
+                                </div>
+                            </div>
+                        </>
                     ) : (
-                        <Card className="text-center shadow-sm p-5">
-                            <p className="text-muted">Select a contact to start chatting</p>
-                        </Card>
+                        <div className="chat-empty-state">
+                            <FaPaperPlane size={40} style={{ opacity: 0.2, marginBottom: "15px" }} />
+                            <p>Select a contact to start chatting</p>
+                        </div>
                     )}
                 </Col>
 
