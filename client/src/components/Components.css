@@ -1047,13 +1047,17 @@
 .sidebar {
   width: 0;
   height: 100%;
-  background: #222;
+  background: rgba(10, 10, 10, 0.85); /* Deep dark background */
+  backdrop-filter: blur(15px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid rgba(255, 140, 0, 0.2); /* Subtle neon right border */
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5); /* Deep shadow */
   color: white;
   position: fixed;
   left: 0;
   top: 0;
   overflow: hidden;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   flex-direction: column;
   padding-top: 60px;
@@ -1065,21 +1069,26 @@
 }
 
 .toggle-btn {
-  background: #ff8c00;
-  border: none;
-  color: white;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 140, 0, 0.5); /* Neon orange border */
+  color: #ff8c00;
   font-size: 1.8rem;
   cursor: pointer;
   padding: 10px;
   position: fixed;
-  left: 10px;
+  left: 15px;
   top: 15px;
-  transition: transform 0.3s ease;
+  border-radius: 12px;
+  transition: all 0.3s ease;
   z-index: 1100;
+  box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
 }
 
 .toggle-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  background: rgba(255, 140, 0, 0.1); /* Glow hover background */
+  box-shadow: 0 6px 15px rgba(255, 140, 0, 0.4);
 }
 
 .sidebar .nav {
@@ -1095,23 +1104,45 @@
   justify-content: flex-start;
   width: 100%;
   padding: 15px 15px;
-  margin: 3px;
-  transition: background 0.3s ease;
+  margin: 3px 0;
+  border-left: 3px solid transparent; /* Prepare for hover border highlight */
+  transition: all 0.3s ease;
+  border-radius: 0 10px 10px 0;
 }
 
 .sidebar-nav-item a {
   text-decoration: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   width: 100%;
+  transition: color 0.3s ease;
+}
+
+.sidebar-nav-item a svg {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
 }
 
 .sidebar-nav-item:hover,
 .sidebar-nav-item.active {
-  background: #ff8c00;
-  border-radius: 5px;
+  background: rgba(255, 140, 0, 0.15); /* Light glowing orange background */
+  border-left: 3px solid #ff8c00; /* Neon orange line indicator */
+}
+
+.sidebar-nav-item:hover a,
+.sidebar-nav-item.active a {
+  color: #ff8c00; /* Bright orange text */
+  text-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+}
+
+.sidebar-nav-item:hover a svg,
+.sidebar-nav-item.active a svg {
+  color: #ff8c00; /* Highlighted icons */
+  filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.6));
+  transform: scale(1.1);
 }
 
 .main-content {
@@ -1128,16 +1159,26 @@
 
 #sidebar-logoutbtn {
   width: 85%;
-  padding: 10px;
+  padding: 12px;
   position: absolute;
-  bottom: 5px;
-  margin: 15px;
-  font-size: 14px;
-  transition: background 0.3s ease;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #d9534f, #c9302c);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 15px rgba(217, 83, 79, 0.3);
+  transition: all 0.3s ease;
 }
 
 #sidebar-logoutbtn:hover {
-  background: #d9534f;
+  background: linear-gradient(135deg, #c9302c, #a02622);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 83, 79, 0.5);
 }
 
 /* About Page Styles */
