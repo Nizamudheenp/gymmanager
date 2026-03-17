@@ -78,6 +78,7 @@ function TrainerReviews() {
             min="1"
             max="5"
             className="form-control"
+            placeholder="Enter rating (1-5)"
             value={rating}
             onChange={(e) => setRating(e.target.value)}
             required
@@ -88,6 +89,7 @@ function TrainerReviews() {
           <textarea
             className="form-control"
             rows="3"
+            placeholder="Share your experience with this trainer..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             required
