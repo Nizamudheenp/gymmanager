@@ -17,35 +17,41 @@ function TrainingDashboard() {
       {!selectedWidget && (
         <div className="row mt-4">
           <div className="col-12 col-md-6 col-lg-4 mb-4">
-            <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("book")} 
+            <div className="card p-3 shadow-sm training-card position-relative overflow-hidden" onClick={() => setSelectedWidget("book")} 
               style={{ 
-                backgroundImage: `url(${trainigbg_1})`, 
+                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url(${trainigbg_1})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}} >
-              <h4>Book Training</h4>
-              <p>Find and book training sessions with trainers.</p>
+              <div className="card-content position-relative z-1 text-center w-100">
+                <h4 className="text-uppercase fw-bold text-white mb-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>Book Training</h4>
+                <p className="text-light opacity-75 mb-0">Find and book training sessions with trainers.</p>
+              </div>
             </div>
           </div>
 
           <div className="col-12 col-md-6 col-lg-4 mb-4">
-            <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("bookings")}
+            <div className="card p-3 shadow-sm training-card position-relative overflow-hidden" onClick={() => setSelectedWidget("bookings")}
               style={{ 
-                backgroundImage: `url(${trainingbg_2})`, 
+                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url(${trainingbg_2})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}}>
-              <h4>My Bookings</h4>
-              <p>View and manage your booked training sessions.</p>
+              <div className="card-content position-relative z-1 text-center w-100">
+                <h4 className="text-uppercase fw-bold text-white mb-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>My Bookings</h4>
+                <p className="text-light opacity-75 mb-0">View and manage your booked training sessions.</p>
+              </div>
             </div>
           </div>
 
           <div className="col-12 col-md-6 col-lg-4 mb-4">
-            <div className="card p-3 shadow-sm training-card" onClick={() => setSelectedWidget("workouts")}
+            <div className="card p-3 shadow-sm training-card position-relative overflow-hidden" onClick={() => setSelectedWidget("workouts")}
               style={{ 
-                backgroundImage: `url(${trainigbg_3})`, 
+                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url(${trainigbg_3})`, 
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'}}>
-              <h4>My Workouts</h4>
-              <p>Engage with your trainer assigned workouts.</p>
+              <div className="card-content position-relative z-1 text-center w-100">
+                <h4 className="text-uppercase fw-bold text-white mb-2" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>My Workouts</h4>
+                <p className="text-light opacity-75 mb-0">Engage with your trainer assigned workouts.</p>
+              </div>
             </div>
           </div>
         </div>

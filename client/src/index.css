@@ -10,3 +10,16 @@ html {
     scroll-behavior: smooth;
     background-color: #0b0b0b;
 }
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+    opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder { /* Edge 12-18 */
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.6); /* Make the date picker icon visible on dark background */
+}
