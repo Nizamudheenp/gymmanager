@@ -237,7 +237,7 @@ function Fitnessgoals() {
                           </div>
 
                           <div className="text-secondary small d-flex flex-column gap-1">
-                            <span><i className="bi bi-calendar-check me-1"></i> Target: {new Date(goal.endDate).toLocaleDateString()}</span>
+                            <span><i className="fa-solid fa-calendar-check me-1"></i> Target: {new Date(goal.endDate).toLocaleDateString()}</span>
                             <span>
                               Progress: <span className="fw-bold text-white">{goal.currentprogress} / {goal.targetProgress}</span>
                             </span>
@@ -248,34 +248,51 @@ function Fitnessgoals() {
                           <div className="d-flex align-items-center gap-2">
                             {!isCompleted && (
                               <button
-                                className="btn btn-sm text-dark fw-bold shadow-sm"
+                                className="btn btn-sm d-flex align-items-center justify-content-center shadow-sm border-0"
                                 style={{
-                                  background: "#ff8c00",
+                                  background: "rgba(255, 140, 0, 0.1)",
+                                  color: "#ff8c00",
                                   borderRadius: "8px",
-                                  padding: "8px 12px",
-                                  fontSize: "0.85rem",
-                                  whiteSpace: "nowrap"
+                                  width: "38px",
+                                  height: "38px",
+                                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                                 }}
                                 onClick={() => updateProgress(goal._id, goal.currentprogress + 1)}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.background = "rgba(255, 140, 0, 0.25)";
+                                  e.currentTarget.style.transform = "scale(1.05)";
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.background = "rgba(255, 140, 0, 0.1)";
+                                  e.currentTarget.style.transform = "scale(1)";
+                                }}
+                                title="Update progress"
                               >
-                                <i className="bi bi-plus-lg me-1"></i> Update
+                                <i className="fa-solid fa-plus font-weight-bold"></i>
                               </button>
                             )}
                             <button
-                              className="btn btn-sm d-flex align-items-center justify-content-center fw-bold shadow-sm"
+                              className="btn btn-sm d-flex align-items-center justify-content-center shadow-sm border-0"
                               onClick={() => deleteGoal(goal._id)}
+                              onMouseOver={(e) => {
+                                e.currentTarget.style.background = "rgba(220, 53, 69, 0.25)";
+                                e.currentTarget.style.transform = "scale(1.05)";
+                              }}
+                              onMouseOut={(e) => {
+                                e.currentTarget.style.background = "rgba(220, 53, 69, 0.1)";
+                                e.currentTarget.style.transform = "scale(1)";
+                              }}
                               title="Delete goal"
                               style={{
+                                background: "rgba(220, 53, 69, 0.1)",
+                                color: "#dc3545",
                                 borderRadius: "8px",
-                                padding: "8px 12px",
-                                background: "#dc3545",
-                                color: "white",
-                                border: "none",
-                                fontSize: "0.85rem",
-                                whiteSpace: "nowrap"
+                                width: "38px",
+                                height: "38px",
+                                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                               }}
                             >
-                              <i className="bi bi-trash me-1"></i> Delete
+                              <i className="fa-solid fa-trash-can"></i>
                             </button>
                           </div>
                         </Col>
