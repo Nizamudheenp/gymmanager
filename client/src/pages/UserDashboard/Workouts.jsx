@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function UserWorkouts() {
+  const navigate = useNavigate();
   const [workouts, setWorkouts] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -39,10 +41,10 @@ function UserWorkouts() {
   }
   return (
     <div className="container mt-4">
-      <h2 className="text-white mb-4 fw-bold" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)"}}>
+      <h2 className="text-white mb-4 fw-bold" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
         <i className="bi bi-activity text-warning me-2 opacity-75"></i>My Workouts
       </h2>
-      
+
       {workouts.length === 0 ? (
         <div className="text-center p-5 rounded-4" style={{ background: "rgba(25, 25, 25, 0.4)", border: "1px dashed rgba(255,140,0,0.2)" }}>
           <i className="bi bi-clipboard-x opacity-50" style={{ fontSize: "3rem", color: "#ff8c00" }}></i>
@@ -52,8 +54,8 @@ function UserWorkouts() {
         <div className="row g-4 mt-1">
           {workouts.map((workout) => (
             <div key={workout._id} className="col-12 col-lg-6">
-              <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden" 
-                style={{ 
+              <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden"
+                style={{
                   background: "rgba(20, 20, 20, 0.8)",
                   backdropFilter: "blur(10px)",
                   borderRadius: "16px",
@@ -62,26 +64,26 @@ function UserWorkouts() {
                 }}
               >
                 {/* Status Indicator Bar */}
-                <div 
-                  className="position-absolute top-0 start-0 w-100" 
-                  style={{ 
-                    height: "3px", 
+                <div
+                  className="position-absolute top-0 start-0 w-100"
+                  style={{
+                    height: "3px",
                     background: workout.status === "completed" ? "#ff8c00" : "rgba(255, 140, 0, 0.3)"
                   }}
                 />
-                
+
                 <div className="card-body p-4 d-flex flex-column">
                   <div className="d-flex justify-content-between align-items-start mb-4">
                     <div>
                       <h5 className="text-white fw-bold mb-1">Assigned by {workout.trainerId.username}</h5>
-                      <div className="d-inline-flex align-items-center mt-2 px-3 py-1 rounded-pill" 
-                        style={{ 
+                      <div className="d-inline-flex align-items-center mt-2 px-3 py-1 rounded-pill"
+                        style={{
                           background: "rgba(255, 255, 255, 0.05)",
                           border: "1px solid rgba(255, 255, 255, 0.1)",
                         }}
                       >
-                        <span style={{ 
-                          width: "6px", height: "6px", borderRadius: "50%", 
+                        <span style={{
+                          width: "6px", height: "6px", borderRadius: "50%",
                           background: workout.status === "completed" ? "#ff8c00" : "rgba(255, 140, 0, 0.4)",
                           marginRight: "8px"
                         }} />
@@ -90,9 +92,9 @@ function UserWorkouts() {
                         </span>
                       </div>
                     </div>
-                    <div className="rounded p-2 bg-dark border border-secondary border-opacity-25 text-center" style={{ minWidth: "60px"}}>
+                    <div className="rounded p-2 bg-dark border border-secondary border-opacity-25 text-center" style={{ minWidth: "60px" }}>
                       <div className="text-white fw-bold fs-5">{workout.exercises.length}</div>
-                      <div className="text-secondary" style={{ fontSize: "0.7rem", textTransform: "uppercase"}}>Exercises</div>
+                      <div className="text-secondary" style={{ fontSize: "0.7rem", textTransform: "uppercase" }}>Exercises</div>
                     </div>
                   </div>
 
@@ -131,9 +133,9 @@ function UserWorkouts() {
                       Mark as Completed
                     </button>
                   ) : (
-                    <div className="text-center mt-auto py-3 rounded-3" 
-                      style={{ 
-                        background: "rgba(255, 255, 255, 0.02)", 
+                    <div className="text-center mt-auto py-3 rounded-3"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.02)",
                         border: "1px dashed rgba(255, 140, 0, 0.3)"
                       }}>
                       <span className="text-white fw-bold" style={{ letterSpacing: "0.5px" }}>

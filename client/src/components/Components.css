@@ -1085,6 +1085,16 @@
   box-shadow: 0 4px 10px rgba(255, 140, 0, 0.2);
 }
 
+@media (max-width: 768px) {
+  .toggle-btn {
+    font-size: 1.2rem;
+    padding: 8px;
+    left: 10px;
+    top: 10px;
+    border-radius: 8px;
+  }
+}
+
 .toggle-btn:hover {
   transform: scale(1.05);
   background: rgba(255, 140, 0, 0.1); /* Glow hover background */

@@ -21,6 +21,10 @@ import TrainingDashboard from "./pages/UserDashboard/Training";
 import ClientSession from "./pages/TrainerDashboard/Clientsession";
 import ManageWorkouts from "./pages/TrainerDashboard/ManageWorkouts";
 import ClientNutrition from "./pages/TrainerDashboard/ClientNutrition";
+import UserWorkouts from "./pages/UserDashboard/Workouts";
+import BookTraining from "./pages/UserDashboard/BookTraining";
+import MyBookings from "./pages/UserDashboard/MyBookings";
+import TrainingMenu from "./pages/UserDashboard/TrainingMenu";
 import Fitnessgoals from "./pages/UserDashboard/Fitnessgoals";
 import UserProgress from "./pages/UserDashboard/UserProgress";
 import Sessions from "./pages/UserDashboard/Sessions";
@@ -64,7 +68,12 @@ const App = () => {
               </ProtectedRoute>
             }>
             <Route index element={<UserHome />} />
-            <Route path="training" element={<TrainingDashboard />} />
+            <Route path="training" element={<TrainingDashboard />}>
+              <Route index element={<TrainingMenu />} />
+              <Route path="book" element={<BookTraining />} />
+              <Route path="bookings" element={<MyBookings />} />
+              <Route path="workouts" element={<UserWorkouts />} />
+            </Route>
             <Route path="nutritions" element={<NutritionLog />} />
             <Route path="goals" element={<Fitnessgoals />} />
             <Route path="progress" element={<UserProgress />} />

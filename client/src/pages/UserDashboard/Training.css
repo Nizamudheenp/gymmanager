@@ -50,6 +50,7 @@
 @media (max-width: 768px) {
   .training-section .training-card {
     height: auto; 
+    min-height: 250px;
   }
 }
 

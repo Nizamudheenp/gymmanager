@@ -55,21 +55,21 @@ function SessionDetails() {
     );
 
   return (
-    <Container className="mt-4 mb-5">
+    <Container className="mt-5 mb-5">
       <div className="row justify-content-center">
         <div className="col-12 col-lg-9">
           <Card className="border-0 shadow-lg position-relative overflow-hidden mb-4"
-            style={{ 
+            style={{
               background: "rgba(25, 25, 25, 0.6)",
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(255, 255, 255, 0.05)",
               borderRadius: "16px",
             }}
           >
-            <div className="position-absolute top-0 start-0 w-100" 
-              style={{ height: "3px", background: "#ff8c00" }}
+            <div className="position-absolute top-0 start-0 w-100"
+              style={{ height: "3px", background: "rgba(255, 140, 0, 0.3)" }}
             />
-            
+
             <Card.Body className="p-4 p-md-5">
               <div className="text-center mb-5">
                 <Badge pill className="bg-warning text-dark px-3 py-2 mb-3 fw-bold text-uppercase" style={{ fontSize: "0.7rem", letterSpacing: "1px" }}>
@@ -89,8 +89,8 @@ function SessionDetails() {
                 </h4>
                 <Button
                   className="fw-bold border-0 shadow-sm"
-                  style={{ 
-                    background: "rgba(255, 140, 0, 0.1)", 
+                  style={{
+                    background: "rgba(255, 140, 0, 0.1)",
                     color: "#ff8c00",
                     borderRadius: "8px",
                     padding: "10px 20px"
@@ -107,9 +107,9 @@ function SessionDetails() {
                 <div className="row g-3">
                   {session.workouts.map((workout) => (
                     <div key={workout._id} className="col-12">
-                      <Card className="border-0" 
-                        style={{ 
-                          background: "rgba(255, 255, 255, 0.03)", 
+                      <Card className="border-0"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.03)",
                           border: "1px solid rgba(255, 255, 255, 0.05)",
                           borderRadius: "12px"
                         }}
@@ -123,7 +123,7 @@ function SessionDetails() {
                                 <span><strong className="text-white">{workout.reps}</strong> Reps</span>
                               </div>
                             </div>
-                            
+
                             <div className="d-flex flex-column flex-sm-row gap-2" style={{ minWidth: "200px" }}>
                               {workout.meetingLink && (
                                 <a
@@ -131,7 +131,7 @@ function SessionDetails() {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="btn btn-sm d-flex align-items-center justify-content-center fw-bold"
-                                  style={{ background: "#ff8c00", color: "#000", borderRadius: "8px", padding: "8px 16px" }}
+                                  style={{ background: "rgba(14, 30, 102, 0.1)", color: "#f7f7f9ff", border: "1px solid rgba(14, 30, 102, 0.3)", borderRadius: "8px", padding: "8px 16px" }}
                                 >
                                   <i className="fa-solid fa-video me-2"></i>Meet
                                 </a>
@@ -139,13 +139,13 @@ function SessionDetails() {
                               <Button
                                 variant={completedWorkouts.includes(workout._id) ? "success" : "outline-warning"}
                                 className="btn-sm fw-bold border-0"
-                                style={{ 
-                                  borderRadius: "8px", 
+                                style={{
+                                  borderRadius: "8px",
                                   padding: "8px 16px",
                                   background: completedWorkouts.includes(workout._id) ? "rgba(40, 167, 69, 0.2)" : "rgba(255, 140, 0, 0.05)",
                                   color: completedWorkouts.includes(workout._id) ? "#28a745" : "#ff8c00"
                                 }}
-                                disabled={completedWorkouts.includes(workout._id)} 
+                                disabled={completedWorkouts.includes(workout._id)}
                                 onClick={() => handleMarkAsDone(workout._id)}
                               >
                                 {completedWorkouts.includes(workout._id) ? (
