@@ -66,11 +66,11 @@ function TrainerReviews() {
   };
 
   return (
-    <div className="container mt-4 mb-5">
+    <div className="container mt-5 mb-5">
       <div className="row justify-content-center">
         <div className="col-12 col-lg-9">
           <div className="card shadow-lg border-0 position-relative overflow-hidden mb-5"
-            style={{ 
+            style={{
               background: "rgba(25, 25, 25, 0.6)",
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -78,7 +78,7 @@ function TrainerReviews() {
             }}
           >
             <div className="position-absolute top-0 start-0 w-100" style={{ height: "3px", background: "#ff8c00" }} />
-            
+
             <div className="card-body p-4 p-md-5">
               <div className="text-center mb-5">
                 <h2 className="text-white fw-bold mb-1">Trainer Reviews</h2>
@@ -124,12 +124,12 @@ function TrainerReviews() {
                     ></textarea>
                   </div>
                 </div>
-                <button 
-                  type="submit" 
-                  className="btn w-100 fw-bold mt-4 py-3 shadow-lg border-0" 
+                <button
+                  type="submit"
+                  className="btn w-100 fw-bold mt-4 py-3 shadow-lg border-0"
                   disabled={loading}
-                  style={{ 
-                    background: "linear-gradient(135deg, #ff8c00 0%, #ff5e00 100%)", 
+                  style={{
+                    background: "linear-gradient(135deg, #ff8c00 0%, #ff5e00 100%)",
                     color: "#000",
                     borderRadius: "12px",
                     transition: "all 0.3s ease"

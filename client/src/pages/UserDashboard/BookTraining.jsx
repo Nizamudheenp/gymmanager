@@ -103,9 +103,9 @@ function BookTraining() {
         <Row className="mt-3 g-4">
           {trainers.map((trainer) => (
             <Col key={trainer._id} xs={12} sm={12} md={6} lg={4} className="d-flex">
-              <Card className="text-light shadow w-100 d-flex flex-column justify-content-between border-0 position-relative overflow-hidden" 
-                style={{ 
-                  minHeight: "350px", 
+              <Card className="text-light shadow w-100 d-flex flex-column justify-content-between border-0 position-relative overflow-hidden"
+                style={{
+                  minHeight: "350px",
                   background: "rgba(25, 25, 25, 0.6)",
                   backdropFilter: "blur(10px)",
                   border: "1px solid rgba(255, 255, 255, 0.05)",
@@ -116,30 +116,47 @@ function BookTraining() {
                 onMouseOver={(e) => { e.currentTarget.style.transform = "translateY(-5px)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)"; e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.15)"; }}
                 onMouseOut={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.border = "1px solid rgba(255, 255, 255, 0.05)"; }}
               >
-                <div 
-                  className="position-absolute w-100 h-50 top-0 start-0 z-0" 
-                  style={{ 
+                <div
+                  className="position-absolute w-100 h-50 top-0 start-0 z-0"
+                  style={{
                     background: "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(25,25,25,0) 100%)",
                     pointerEvents: "none"
-                  }} 
+                  }}
                 />
-                
+
                 <Card.Body className="d-flex flex-column justify-content-center align-items-center gap-3 position-relative z-1 text-center p-4">
-                  <div className="rounded-circle d-flex align-items-center justify-content-center mb-2" 
-                    style={{ width: "80px", height: "80px", background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.1)"}}>
-                    <i className="bi bi-person-fill" style={{ fontSize: "40px", color: "#ffffff", opacity: 0.8 }}></i>
+                  <div className="rounded-circle d-flex align-items-center justify-content-center mb-2"
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      background: "rgba(255, 140, 0, 0.1)",
+                      border: "1px solid rgba(255, 140, 0, 0.2)",
+                      boxShadow: "0 0 20px rgba(255, 140, 0, 0.1)"
+                    }}>
+                    <span style={{ fontSize: "32px", color: "#ff8c00", fontWeight: "bold", textTransform: "uppercase" }}>
+                      {trainer.username.charAt(0)}
+                    </span>
                   </div>
-                  
+
                   <div>
                     <h5 className="fw-bold mb-1 text-white">{trainer.username}</h5>
-                    <Card.Text 
+                    <Card.Text
                       style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "14px", letterSpacing: "1px", textTransform: "uppercase", fontWeight: "600" }}
-                      className="mb-0"
+                      className="mb-1"
                     >
                       {trainer.specialization}
                     </Card.Text>
+                    <div className="d-flex align-items-center justify-content-center gap-1">
+                      <i className="bi bi-star-fill text-warning" style={{ fontSize: "14px" }}></i>
+                      <span className="text-light fw-bold" style={{ fontSize: "14px" }}>
+                        {trainer.averageRating || "0"}/5
+                        <span className="ms-1 fw-normal opacity-75" style={{ fontSize: "12px" }}>
+                          ({trainer.reviews?.length || 0} reviews)
+                        </span>
+                      </span>
+                    </div>
                   </div>
-                  
+
                   <div className="w-100 mt-2 px-3">
                     <div className="d-flex justify-content-between text-secondary" style={{ fontSize: "14px" }}>
                       <span>Session Rate</span>
@@ -148,12 +165,12 @@ function BookTraining() {
                     <hr className="border-secondary opacity-25 my-2" />
                   </div>
                 </Card.Body>
-                
+
                 <div className="p-3 position-relative z-1">
-                  <Button 
-                    variant="outline-warning" 
-                    className="w-100 fw-bold rounded-pill" 
-                    style={{ 
+                  <Button
+                    variant="outline-warning"
+                    className="w-100 fw-bold rounded-pill"
+                    style={{
                       padding: "12px",
                       borderColor: "#ff8c00",
                       color: "#ff8c00",

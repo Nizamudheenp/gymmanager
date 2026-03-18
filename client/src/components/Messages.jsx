@@ -129,7 +129,7 @@ function Messages() {
     }, [selectedContact]);
 
     return (
-        <Container fluid className="messaging-container">
+        <Container fluid className="messaging-container mt-5">
             <Row className="messaging-row">
                 <Col md={4} className={`contact-list-card ${selectedContact ? "hide-on-mobile" : ""}`}>
                     <h5 className="text-center m-3 fw-bold text-uppercase gy-fit-title">gy-fit connections</h5>

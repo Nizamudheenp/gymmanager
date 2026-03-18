@@ -98,7 +98,7 @@ function Fitnessgoals() {
   }
 
   return (
-    <div className="container mt-4 mb-5">
+    <div className="container mt-5 mb-5">
       <div className="row justify-content-center">
         <div className="col-12 col-lg-8">
 
