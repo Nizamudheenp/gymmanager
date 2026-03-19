@@ -30,12 +30,11 @@ function Sidebar({ isOpen, toggleSidebar }) {
     ],
     admin: [
       { path: "/admin-dashboard", label: "Home", icon: <FaHome /> },
-      { path: "/admin-dashboard/manage-trainers", label: "manage trainers", icon: <FaUsers /> },
-      { path: "/admin-dashboard/manage-users", label: "manage users", icon: <FaUsers /> },
-      { path: "/admin-dashboard/admin-manage-sessions", label: "manage sessions", icon: <FaCalendarCheck /> },
-      { path: "/admin-dashboard/manage-payments", label: "manage payments", icon: <FaCalendarCheck /> },
-      { path: "/admin-dashboard/manage-feedbacks", label: "manage feedbacks", icon: <FaCalendarCheck /> },
-      
+      { path: "/admin-dashboard/manage-trainers", label: "Manage Trainers", icon: <FaUsers /> },
+      { path: "/admin-dashboard/manage-users", label: "Manage Users", icon: <FaUsers /> },
+      { path: "/admin-dashboard/admin-manage-sessions", label: "Manage Sessions", icon: <FaCalendarCheck /> },
+      { path: "/admin-dashboard/manage-payments", label: "Manage Payments", icon: <FaChartLine /> },
+      { path: "/admin-dashboard/manage-feedbacks", label: "Manage Feedbacks", icon: <FaCommentDots /> },
     ]
   };
 

@@ -15,6 +15,11 @@
   box-sizing: border-box;
 }
 
+.dashboard-wrapper {
+  padding: 0;
+  max-width: 100%;
+}
+
 .full-width-section {
   width: 100%;
   max-width: 1400px;
@@ -136,9 +141,21 @@
   }
 
   .dashboard-container {
-    padding: 20px;
+    padding: 15px;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 15px;
+  }
+
+  .management-card:hover {
+    transform: none; /* Disable shift on mobile to prevent overflow */
+  }
+
+  .admin-dashboard {
+    padding: 15px !important;
+  }
+
+  .revenue-chart-container {
+    height: 250px !important;
   }
 }
 
@@ -146,4 +163,83 @@
 .dashboard-widget {
   will-change: transform, background-color, border-color;
   contain: content;
+}
+
+/* Admin Specific & Utility Styles */
+.neon-glow {
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
+}
+
+.neon-glow-blue {
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
+}
+
+.neon-glow-purple {
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Management Page Styles */
+.search-container {
+  max-width: 500px;
+  margin-bottom: 30px;
+}
+
+.search-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px 20px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #ff8c00;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+  outline: none;
+}
+
+.management-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.management-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: white;
 }
