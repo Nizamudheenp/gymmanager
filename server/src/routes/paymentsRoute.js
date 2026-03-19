@@ -22,7 +22,7 @@ router.post("/create-payment-intent", async (req, res) => {
             amount,
             currency: "usd",
             automatic_payment_methods: { enabled: true },
-            metadata: { appointmentId } 
+            metadata: { appointmentId }
         });
 
         await PaymentDB.create({
@@ -94,8 +94,8 @@ router.get("/get-client-secret/:appointmentId", async (req, res) => {
 // Fetch Trainer Earnings
 router.get("/trainer-earnings", trainerAuth, async (req, res) => {
     try {
-        const trainerId = req.trainer.id; 
-        
+        const trainerId = req.trainer.id;
+
         const payments = await PaymentDB.find({ trainerId, status: "completed" });
 
         const totalEarnings = payments.reduce((sum, payment) => sum + payment.amount, 0);
@@ -120,7 +120,7 @@ router.get("/admin-payment-report", adminAuth, async (req, res) => {
         const payments = await PaymentDB.find({ status: "completed" });
 
         const dailyReport = payments.reduce((acc, payment) => {
-            const date = new Date(payment.createdAt).toISOString().split("T")[0]; 
+            const date = new Date(payment.createdAt).toISOString().split("T")[0];
             acc[date] = (acc[date] || 0) + payment.amount;
             return acc;
         }, {});

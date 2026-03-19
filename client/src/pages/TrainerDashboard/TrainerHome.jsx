@@ -47,7 +47,7 @@ function TrainerHome() {
       title: "Earnings Overview",
       icon: <FaMoneyBillWave />,
       component: <TrainerEarnings />,
-      path: "/trainer-dashboard/myreviews",
+      path: "",
       description: "Manage your professional revenue and earnings."
     },
     {
