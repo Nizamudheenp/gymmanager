@@ -369,3 +369,30 @@ exports.myReviews = async (req, res) => {
     }
 };
 
+
+exports.updateSessionStatus = async (req, res) => {
+    try {
+        const { sessionId } = req.params;
+        const { status } = req.body;
+        const trainerId = req.trainer.id;
+
+        const session = await SessionDB.findById(sessionId);
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (session.trainerId.toString() !== trainerId) {
+            return res.status(403).json({ message: "Unauthorized to update this session" });
+        }
+
+        if (!["available", "completed"].includes(status)) {
+            return res.status(400).json({ message: "Invalid status value" });
+        }
+
+        session.status = status;
+        await session.save();
+
+        res.status(200).json({ message: `Session marked as ${status}`, session });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update session status", error: error.message });
+    }
+};
