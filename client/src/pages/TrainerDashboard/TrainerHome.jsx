@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { 
-  FaMoneyBillWave, 
-  FaUsers, 
-  FaCalendarCheck, 
-  FaStar, 
+import {
+  FaMoneyBillWave,
+  FaUsers,
+  FaCalendarCheck,
+  FaStar,
   FaClock,
   FaArrowRight
 } from "react-icons/fa";
@@ -47,7 +47,7 @@ function TrainerHome() {
       title: "Earnings Overview",
       icon: <FaMoneyBillWave />,
       component: <TrainerEarnings />,
-      path: "/trainer-dashboard/myreviews",
+      path: "",
       description: "Manage your professional revenue and earnings."
     },
     {
@@ -86,7 +86,7 @@ function TrainerHome() {
 
   return (
     <div className="trainer-dashboard">
-      <motion.div 
+      <motion.div
         className="dashboard-header"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -96,14 +96,14 @@ function TrainerHome() {
         <p>Professional management for professional trainers.</p>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="dashboard-container"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {dashboardItems.filter(item => item.id !== "clients").map((item) => (
-          <motion.div 
+          <motion.div
             key={item.id}
             className="dashboard-widget"
             variants={itemVariants}
@@ -121,20 +121,18 @@ function TrainerHome() {
       </motion.div>
 
       {/* Full Width Section for Client Progress */}
-      <motion.div 
+      <motion.div
         className="full-width-section"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
         <div className="dashboard-widget" style={{ cursor: 'default', minHeight: 'auto' }} onClick={(e) => e.stopPropagation()}>
-          <div className="d-flex align-items-center mb-4">
-            <div className="widget-icon mb-0 mr-3" style={{ fontSize: '1.8rem' }}><FaUsers /></div>
-            <h4 className="mb-0">Analytics & Client Progress</h4>
-          </div>
+          <div className="widget-icon"><FaUsers /></div>
+          <h4>Analytics & Client Progress</h4>
           <ClientProgressOverview />
-          <div 
-            className="widget-footer opacity-100 mt-4" 
+          <div
+            className="widget-footer opacity-100 mt-4"
             style={{ opacity: 1, transform: 'none', cursor: 'pointer' }}
             onClick={() => navigate("/trainer-dashboard/manage-clients")}
           >

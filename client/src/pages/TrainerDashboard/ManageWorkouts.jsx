@@ -9,7 +9,9 @@ import {
   Button,
   Form,
   ListGroup,
+  Badge,
 } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 function ManageWorkouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -71,62 +73,96 @@ function ManageWorkouts() {
   };
 
   return (
-    <Container className="mt-4">
-      <Card className="bg-dark text-light p-4 mb-4 shadow">
-        <Card.Title style={{ color: "#ff8c00" , marginBottom:"20px"}}>Assign New Workout</Card.Title>
+    <Container className="px-0 pt-2">
+      <Card className="glass-card border-0 p-4 mb-4 shadow-lg">
+        <h4 className="text-white fw-bold mb-4 d-flex align-items-center gap-2">
+            <i className="fas fa-plus-circle text-warning"></i> Assign New Exercise
+        </h4>
         <Form>
           <Row>
-            <Col md={4} className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Exercise"
-                value={exercise}
-                onChange={(e) => setExercise(e.target.value)}
-              />
+            <Col md={6} className="mb-3">
+              <Form.Label className="text-white-50 small">Exercise Name</Form.Label>
+              <div className="position-relative">
+                <i className="fas fa-running position-absolute" style={{ left: '15px', top: '15px', color: '#ff8c00', zIndex: 1 }}></i>
+                <Form.Control
+                  type="text"
+                  placeholder="e.g. Bench Press"
+                  value={exercise}
+                  onChange={(e) => setExercise(e.target.value)}
+                  className="glass-form-control ps-5"
+                />
+              </div>
             </Col>
-            <Col md={4} className="mb-3">
-              <Form.Control
-                type="number"
-                placeholder="Sets"
-                value={sets}
-                onChange={(e) => setSets(e.target.value)}
-              />
+            <Col md={3} className="mb-3">
+              <Form.Label className="text-white-50 small">Sets</Form.Label>
+              <div className="position-relative">
+                <i className="fas fa-layer-group position-absolute" style={{ left: '15px', top: '15px', color: '#ff8c00', zIndex: 1 }}></i>
+                <Form.Control
+                  type="number"
+                  placeholder="0"
+                  value={sets}
+                  onChange={(e) => setSets(e.target.value)}
+                  className="glass-form-control ps-5"
+                />
+              </div>
             </Col>
-            <Col md={4} className="mb-3">
-              <Form.Control
-                type="number"
-                placeholder="Reps"
-                value={reps}
-                onChange={(e) => setReps(e.target.value)}
-              />
+            <Col md={3} className="mb-3">
+              <Form.Label className="text-white-50 small">Reps</Form.Label>
+              <div className="position-relative">
+                <i className="fas fa-redo position-absolute" style={{ left: '15px', top: '15px', color: '#ff8c00', zIndex: 1 }}></i>
+                <Form.Control
+                  type="number"
+                  placeholder="0"
+                  value={reps}
+                  onChange={(e) => setReps(e.target.value)}
+                  className="glass-form-control ps-5"
+                />
+              </div>
             </Col>
           </Row>
-          <Button style={{ backgroundColor: "#ff8c00" ,border:"0"}} className="w-100 mt-3" onClick={assignWorkout}>
+          <Button className="btn-orange-glow w-100 mt-2" onClick={assignWorkout}>
             Assign Workout
           </Button>
         </Form>
       </Card>
 
+      <div className="d-flex justify-content-between align-items-center mb-3">
+          <h5 className="text-white fw-bold mb-0">Current Workout Plan</h5>
+          <Badge bg="warning" text="dark" className="px-3">{workouts.length} Exercises</Badge>
+      </div>
+
       {workouts.length === 0 ? (
-        <p className="text-secondary">No workouts assigned yet.</p>
+        <div className="glass-card p-5 text-center">
+            <p className="text-white-50 mb-0 italic">No workouts assigned yet.</p>
+        </div>
       ) : (
-        <ListGroup>
+        <div className="row">
           {workouts.map((exercise) => (
-            <ListGroup.Item
-              key={exercise._id}
-              className="d-flex justify-content-between align-items-center bg-dark text-light p-3"
-            >
-              {exercise.name} - {exercise.sets} sets x {exercise.reps} reps
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => deleteWorkout(exercise._id)}
-              >
-                Delete
-              </Button>
-            </ListGroup.Item>
+            <div key={exercise._id} className="col-12 mb-2">
+                <Card className="glass-card bg-dark-50 border-0 p-3">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center gap-3">
+                            <div className="bg-warning-subtle p-2 rounded text-warning">
+                                <i className="fas fa-dumbbell"></i>
+                            </div>
+                            <div>
+                                <h6 className="text-white fw-bold mb-1">{exercise.name}</h6>
+                                <span className="text-warning small fw-bold">{exercise.sets} Sets × {exercise.reps} Reps</span>
+                            </div>
+                        </div>
+                        <Button
+                            variant="outline-danger"
+                            size="sm"
+                            style={{ borderRadius: '8px' }}
+                            onClick={() => deleteWorkout(exercise._id)}
+                        >
+                            <i className="fas fa-trash-alt"></i>
+                        </Button>
+                    </div>
+                </Card>
+            </div>
           ))}
-        </ListGroup>
+        </div>
       )}
     </Container>
   );

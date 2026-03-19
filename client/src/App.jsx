@@ -15,6 +15,8 @@ import ManageTrainers from "./pages/AdminDashboard/ManageTrainers";
 import ManageUsers from "./pages/AdminDashboard/ManageUsers";
 import TrainerHome from "./pages/TrainerDashboard/TrainerHome";
 import ManageSessions from "./pages/TrainerDashboard/ManageSessions";
+import Appointments from "./pages/TrainerDashboard/Appointments";
+import ManageClients from "./pages/TrainerDashboard/ManageClients";
 import UserHome from "./pages/UserDashboard/UserHome";
 import NutritionLog from "./pages/UserDashboard/Nutrition";
 import TrainingDashboard from "./pages/UserDashboard/Training";
@@ -95,7 +97,10 @@ const App = () => {
             }>
             <Route index element={<TrainerHome />} />
             <Route path="manage-sessions" element={<ManageSessions />} />
-            <Route path="manage-clients" element={<ClientSession />} />
+            <Route path="manage-clients" element={<ClientSession />}>
+              <Route path="appointments" element={<Appointments />} />
+              <Route path="clients" element={<ManageClients />} />
+            </Route>
             <Route path="manage-workouts/:userId" element={<ManageWorkouts />} />
             <Route path="manage-nutritions/:userId" element={<ClientNutrition />} />
             <Route path="messages" element={<Messages />} />
