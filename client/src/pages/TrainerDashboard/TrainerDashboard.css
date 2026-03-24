@@ -1,0 +1,197 @@
+/* Trainer Dashboard Premium CSS */
+
+.trainer-dashboard-container {
+  padding: 20px;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%) !important;
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* Glassmorphism Card */
+.glass-card,
+.card {
+  background: rgba(15, 15, 15, 0.8) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 140, 0, 0.4);
+  box-shadow: 0 12px 40px 0 rgba(255, 140, 0, 0.15);
+}
+
+.card-title-orange {
+  color: #ff8c00;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+/* Glassmorphism Form */
+.glass-form-control {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  padding: 12px 15px !important;
+  transition: all 0.3s ease !important;
+}
+
+.glass-form-control:focus {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: #ff8c00 !important;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.3) !important;
+  outline: none;
+}
+
+.glass-form-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+/* Action Buttons */
+.btn-orange-glow {
+  background: #ff8c00 !important;
+  color: #000 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-orange-glow:hover {
+  background: #ff8c00 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4) !important;
+}
+
+.btn-secondary-glass {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-secondary-glass:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Session Items */
+.session-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.session-icon {
+  color: #ff8c00;
+  width: 20px;
+  text-align: center;
+}
+
+/* Requests List */
+.requests-container {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.request-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.request-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Workouts List */
+.workouts-section {
+  margin-top: 25px;
+}
+
+.workout-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workout-item p {
+  color: #fff !important;
+  margin-bottom: 2px !important;
+}
+
+.workout-item small {
+  color: #ff8c00 !important;
+  opacity: 0.9;
+}
+
+.workout-item:last-child {
+  border-bottom: none;
+}
+
+/* Image Preview */
+.image-preview-container {
+  width: 100%;
+  height: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border: 2px dashed rgba(255, 140, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image-text {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+/* Override main content background */
+.main-content {
+  background-color: #0b0b0b !important;
+}
+
+/* Fix icon hover shift on large screens */
+.dashboard-widget .widget-icon {
+  display: inline-block !important;
+  transform-origin: left center !important;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .trainer-dashboard-container {
+    padding: 10px;
+  }
+}

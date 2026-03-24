@@ -6,6 +6,11 @@ const http = require('http')
 const { Server } = require('socket.io')
 const cors = require('cors')
 
+const helmet = require('helmet')
+const rateLimit = require('express-rate-limit')
+const mongoSanitize = require('express-mongo-sanitize')
+const hpp = require('hpp')
+const compression = require('compression')
 const authRoute = require('./src/routes/authRoute')
 const adminRoute = require('./src/routes/adminRoute')
 const userRoute = require('./src/routes/userRoute')
@@ -24,6 +29,18 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true
 }))
+
+app.use(helmet())
+app.use(mongoSanitize())
+app.use(hpp())
+app.use(compression())
+
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 300, 
+    message: 'Too many requests from this IP, please try again later.'
+})
+app.use('/api', apiLimiter)
 
 app.use('/api/auth', authRoute)
 app.use('/api/user', userRoute)

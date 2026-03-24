@@ -43,35 +43,81 @@ function HomeReviewWidget() {
 
   return (
     <div className="w-100">
-      <div className="d-flex align-items-center justify-content-between mb-4">
+      <div className="d-flex align-items-center justify-content-between mb-4 px-1">
         <div>
-          <div style={{ color: "#fff", fontWeight: "700", fontSize: "1.1rem" }}>Average Rating</div>
-          <div style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.85rem" }}>Based on your performance</div>
+          <h6 className="text-white fw-bold mb-0">Trainer Rating</h6>
+          <small className="text-white-50">Client performance index</small>
         </div>
         <div className="text-end">
-          <div style={{ fontSize: "1.2rem", color: "#fff", fontWeight: "700" }}>{averageRating.toFixed(1)} / 5</div>
+          <div className="text-white fw-bold fs-5 mb-1" style={{ textShadow: '0 0 10px rgba(255,140,0,0.3)' }}>
+            {averageRating.toFixed(1)} <span className="text-white-50 fs-6">/ 5</span>
+          </div>
           {renderStars(averageRating)}
         </div>
       </div>
 
       {latestReview ? (
-        <div style={{ background: "rgba(255, 140, 0, 0.03)", borderRadius: "12px", padding: "18px", borderLeft: "4px solid #ff8c00" }}>
-          <div className="d-flex justify-content-between align-items-start mb-2">
-            <div>
-              <div style={{ color: "#fff", fontWeight: "600", fontSize: "0.95rem" }}>{latestReview.userId?.username || "Guest User"}</div>
-              <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.4)" }}>Latest feedback</div>
+        <div className="latest-review-mini-card">
+          <div className="d-flex justify-content-between align-items-start mb-3">
+            <div className="d-flex align-items-center gap-2">
+                <div className="mini-avatar">
+                    {latestReview.userId?.username?.charAt(0).toUpperCase() || "C"}
+                </div>
+                <div>
+                    <div className="text-white fw-bold small">{latestReview.userId?.username || "Guest User"}</div>
+                    <div className="text-warning-subtle" style={{ fontSize: '0.65rem', fontWeight: '800' }}>LATEST FEEDBACK</div>
+                </div>
             </div>
             {renderStars(latestReview.rating)}
           </div>
-          <p className="mb-0" style={{ fontStyle: "italic", fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.8)", lineHeight: "1.6" }}>
+          <p className="mb-0 review-text-mini">
             "{latestReview.comment}"
           </p>
         </div>
       ) : (
-        <div className="text-center p-4" style={{ background: "rgba(255, 255, 255, 0.03)", borderRadius: "12px", border: "1px dashed rgba(255, 255, 255, 0.1)" }}>
-          <p className="mb-0" style={{ opacity: 0.5, fontSize: "0.85rem" }}>No client reviews yet.</p>
+        <div className="text-center p-4 glass-card border-dashed">
+          <p className="mb-0 text-white-50 small">No feedback records found.</p>
         </div>
       )}
+
+      <style>{`
+        .latest-review-mini-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #ff8c00;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .latest-review-mini-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
+        }
+        .mini-avatar {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff8c00;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .review-text-mini {
+            font-style: italic;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .border-dashed { border-style: dashed !important; border-color: rgba(255,255,255,0.1) !important; }
+      `}</style>
     </div>
   );
 }
