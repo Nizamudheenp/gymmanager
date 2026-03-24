@@ -147,7 +147,7 @@ function ManageSessions() {
   if (loading) return <Spinner animation="border" className="d-block mx-auto mt-4 text-warning" />;
 
   return (
-    <div className="trainer-dashboard-container">
+    <div className="trainer-dashboard-container mt-5">
       <div className="container">
         <h2 className="text-center mb-5" style={{ fontWeight: '800', textTransform: 'uppercase', letterSpacing: '2px' }}>
           Session <span style={{ color: '#ff8c00' }}>Management</span>

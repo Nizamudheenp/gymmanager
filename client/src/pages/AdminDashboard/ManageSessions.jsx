@@ -63,20 +63,20 @@ function AdminManageSessions() {
     }
   };
 
-  const filteredSessions = sessions.filter(session => 
+  const filteredSessions = sessions.filter(session =>
     session.sessionName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     session.trainerId?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     session.workoutType?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) {
-     return (
-        <div className="d-flex justify-content-center align-items-center" style={{ height: "60vh" }}>
-          <div className="spinner-border text-warning" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "60vh" }}>
+        <div className="spinner-border text-warning" role="status">
+          <span className="visually-hidden">Loading...</span>
         </div>
-      );
+      </div>
+    );
   }
 
   return (
@@ -88,10 +88,10 @@ function AdminManageSessions() {
         </div>
         <div className="search-container position-relative">
           <FaSearch className="position-absolute top-50 start-3 translate-middle-y text-white-50" style={{ left: '15px' }} />
-          <input 
-            type="text" 
-            className="search-input ps-5" 
-            placeholder="Search sessions..." 
+          <input
+            type="text"
+            className="search-input ps-5"
+            placeholder="Search sessions..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -106,7 +106,7 @@ function AdminManageSessions() {
             </motion.div>
           ) : (
             filteredSessions.map((session, idx) => (
-              <motion.div 
+              <motion.div
                 key={session._id}
                 layout
                 initial={{ opacity: 0, y: 20 }}
@@ -117,17 +117,17 @@ function AdminManageSessions() {
               >
                 <div className="management-card h-100 overflow-hidden">
                   <div className="position-relative" style={{ height: '160px' }}>
-                    <img 
-                      src={session.image || "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop"} 
+                    <img
+                      src={session.image || "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop"}
                       alt={session.sessionName}
                       className="w-100 h-100 object-fit-cover opacity-75"
                     />
                     <div className="position-absolute top-0 end-0 p-3">
-                        {session.status === "available" ? (
-                          <span className="badge rounded-pill bg-success bg-opacity-25 text-success border border-success border-opacity-25 backdrop-blur px-3 py-1"><FaCheckCircle className="me-1" /> Available</span>
-                        ) : (
-                          <span className="badge rounded-pill bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 backdrop-blur px-3 py-1"><FaExclamationCircle className="me-1" /> {session.status}</span>
-                        )}
+                      {session.status === "available" ? (
+                        <span className="badge rounded-pill bg-success bg-opacity-25 text-success border border-success border-opacity-25 backdrop-blur px-3 py-1"><FaCheckCircle className="me-1" /> Available</span>
+                      ) : (
+                        <span className="badge rounded-pill bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 backdrop-blur px-3 py-1"><FaExclamationCircle className="me-1" /> {session.status}</span>
+                      )}
                     </div>
                   </div>
                   <div className="p-4">
@@ -154,14 +154,14 @@ function AdminManageSessions() {
                     </div>
 
                     <div className="d-flex gap-2 pt-3 border-top border-white-10 mt-auto">
-                      <button 
-                        className="btn btn-sm btn-outline-primary border-0 d-flex align-items-center gap-2" 
+                      <button
+                        className="btn btn-sm btn-outline-primary border-0 d-flex align-items-center gap-2"
                         onClick={() => handleViewBookedUsers(session._id)}
                       >
                         <FaEye /> Bookings
                       </button>
-                      <button 
-                        className="btn btn-sm btn-outline-danger border-0 d-flex align-items-center gap-2 ms-auto" 
+                      <button
+                        className="btn btn-sm btn-outline-danger border-0 d-flex align-items-center gap-2 ms-auto"
                         onClick={() => handleDeleteSession(session._id)}
                       >
                         <FaTrash /> Delete

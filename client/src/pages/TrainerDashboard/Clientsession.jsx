@@ -21,13 +21,13 @@ function ClientSession() {
   ];
 
   return (
-    <div className="trainer-dashboard-container p-0">
+    <div className="trainer-dashboard-container p-0 mt-5">
       <div className="dashboard-header-modern mb-4 p-4 pb-0 bg-dark-deep border-bottom border-white-10">
         <div className="d-flex justify-content-between align-items-end flex-wrap gap-3">
-            <div>
-                <h2 className="text-white fw-bold mb-1">Client Control Center</h2>
-                <p className="text-white-50 small mb-4">Monitor leads and manage active training relationships.</p>
-            </div>
+          <div>
+            <h2 className="text-white fw-bold mb-1">Client Control Center</h2>
+            <p className="text-white-50 small mb-4">Monitor leads and manage active training relationships.</p>
+          </div>
         </div>
 
         <nav className="d-flex gap-4">
@@ -35,15 +35,15 @@ function ClientSession() {
             <NavLink
               key={tab.id}
               to={tab.path}
-              className={({ isActive }) => 
+              className={({ isActive }) =>
                 `nav-tab-item pb-3 text-decoration-none d-flex align-items-center gap-2 ${isActive ? 'active' : ''}`
               }
             >
               {tab.icon}
               <span>{tab.label}</span>
               {location.pathname.includes(tab.path) && (
-                <motion.div 
-                  layoutId="activeTab" 
+                <motion.div
+                  layoutId="activeTab"
                   className="active-tab-indicator"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
