@@ -52,8 +52,8 @@ function MyReviews() {
     );
 
     return (
-        <Container className="pt-2">
-            <motion.div 
+        <Container className="pt-2 mt-5">
+            <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="glass-card p-4 mb-5 border-white-10 text-start position-relative overflow-hidden shadow-lg"
@@ -131,7 +131,7 @@ function MyReviews() {
                             </motion.div>
                         ))}
                     </AnimatePresence>
-                </div> 
+                </div>
             )}
 
             <style>{`

@@ -132,7 +132,7 @@ function Messages() {
         <Container fluid className="messaging-container mt-5">
             <Row className="messaging-row">
                 <Col md={4} className={`contact-list-card ${selectedContact ? "hide-on-mobile" : ""}`}>
-                    <h5 className="text-center m-3 fw-bold text-uppercase gy-fit-title">gy-fit connections</h5>
+                    <h5 className="text-center m-3 fw-bold text-uppercase gy-fit-title" style={{ background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>gy-fit connections</h5>
                     {loading && <p className="text-muted text-center">Loading contacts...</p>}
                     <ListGroup variant="flush" className="contact-list-container">
                         {contacts.map((contact) => (

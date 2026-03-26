@@ -41,7 +41,7 @@ function UserWorkouts() {
   }
   return (
     <div className="container mt-4">
-      <h2 className="text-white mb-4 fw-bold" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}>
+      <h2 className="text-white mb-4 fw-bold" style={{ display: "inline-block", textShadow: "0 2px 4px rgba(0,0,0,0.5)", background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
         <i className="bi bi-activity text-warning me-2 opacity-75"></i>My Workouts
       </h2>
 

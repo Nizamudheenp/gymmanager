@@ -84,7 +84,7 @@ function AdminPayment() {
   return (
     <div className="container py-5">
       <div className="dashboard-header mb-5 p-0">
-        <h2 className="text-white mb-2"><FaWallet className="text-warning me-2" /> Financial Overview</h2>
+        <h2 className="text-white mb-2" style={{ display: "inline-block", background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}><FaWallet className="text-warning me-2" /> Financial Overview</h2>
         <p className="text-white-50">Detailed breakdown of daily revenue and transaction trends.</p>
       </div>
 

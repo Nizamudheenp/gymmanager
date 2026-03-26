@@ -71,7 +71,7 @@ function ManageFeedbacks() {
   return (
     <div className="container py-5">
       <div className="dashboard-header mb-5 p-0">
-        <h2 className="text-white mb-2">Feedback Management</h2>
+        <h2 className="text-white mb-2" style={{ display: "inline-block", background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Feedback Management</h2>
         <p className="text-white-50">Monitor and maintain overall service quality.</p>
       </div>
 
@@ -154,9 +154,6 @@ function ManageFeedbacks() {
                     </div>
                     <span className="text-white text-sm">{feedback.username}</span>
                   </div>
-                  <small className="text-white-50 d-flex align-items-center gap-1">
-                    <FaCalendarAlt /> {new Date(feedback.createdAt).toLocaleDateString()}
-                  </small>
                 </div>
               </div>
             </motion.div>
