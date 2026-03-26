@@ -92,7 +92,7 @@ function TrainerHome() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1>Trainer Dashboard</h1>
+        <h1 style={{ display: "inline-block", background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Trainer Dashboard</h1>
         <p>Professional management for professional trainers.</p>
       </motion.div>
 

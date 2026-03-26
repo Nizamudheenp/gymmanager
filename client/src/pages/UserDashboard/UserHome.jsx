@@ -80,7 +80,7 @@ function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1>User Dashboard</h1>
+        <h1 style={{ display: "inline-block", background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>User Dashboard</h1>
         <p>Your journey to fitness starts here. Track your progress and stay consistent.</p>
       </motion.div>
 

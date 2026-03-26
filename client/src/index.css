@@ -13,13 +13,24 @@ html {
 
 ::placeholder {
     color: rgba(255, 255, 255, 0.4) !important;
-    opacity: 1; /* Firefox */
+    opacity: 1;
+    /* Firefox */
 }
 
-::-ms-input-placeholder { /* Edge 12-18 */
+::-ms-input-placeholder {
+    /* Edge 12-18 */
     color: rgba(255, 255, 255, 0.4) !important;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.6); /* Make the date picker icon visible on dark background */
+    filter: invert(0.6);
+    /* Make the date picker icon visible on dark background */
+}
+
+h1,
+h2 {
+    background: linear-gradient(135deg, #fff 30%, #ff8c00 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
 }

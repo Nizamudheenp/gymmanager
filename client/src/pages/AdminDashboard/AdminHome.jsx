@@ -165,8 +165,8 @@ function AdminHome() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <span className="text-uppercase tracking-wider text-sm text-white-50">System Management</span>
-        <h1 className="mt-2 text-white">Admin Dashboard</h1>
+        <div className="text-uppercase tracking-wider text-sm text-white-50 mb-1">System Management</div>
+        <h1 className="mt-2 text-white" style={{ display: "inline-block", background: "linear-gradient(135deg, #fff 30%, #ff8c00 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Admin Dashboard</h1>
         <p className="lead text-white-50">Real-time overview of your fitness ecosystem.</p>
       </motion.div>
 
